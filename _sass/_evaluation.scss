@@ -1,0 +1,88 @@
+
+   
+.evaluation {
+  background-image: url('../images/evaluations-sprite.png');
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+}
+
+
+
+/* Generate classes for each note out of 20 */  
+$i: 0;                       
+
+@for $i from 0 through 20 {
+
+  .note-#{$i}-20 {
+    @extend .evaluation;
+    $x : floor($i % 7) * -100px;
+    $y : floor($i / 7) * -100px;
+    background-position: $x $y;
+  }
+
+}
+
+
+
+/* Generate classes for each note out of 5 */  
+$i: 0;                       
+
+@for $i from 0 through 5 {
+
+  .note-#{$i}-5 {
+    @extend .evaluation;
+    $x : (floor($i % 7) * -100px);
+    $y : (floor($i / 7) * -100px) - 300px;
+    background-position: $x $y;
+  }
+
+}
+
+
+
+/* Generate classes for each roti */  
+$i: 0;                       
+
+@for $i from 1 through 5 {
+
+  .roti-#{$i} {
+    @extend .evaluation;
+    $x : (floor(($i - 1) % 7) * -100px);
+    $y : (floor(($i - 1) / 7) * -100px) - 400px;
+    background-position: $x $y;
+  }
+
+}
+
+
+
+/* Generate classes for each time */  
+$i: 0;                       
+
+$times : 1 2 3 5 7 8 10 12 15 20 25 30 35 50;
+@each $i in $times {   
+
+  .time-#{$i} {
+    @extend .evaluation;
+    $index-time : index($times, $i);
+    $x : (floor(($index-time - 1) % 7) * -100px);
+    $y : (floor(($index-time - 1) / 7) * -100px) - 500px;
+    background-position: $x $y;
+  }
+
+}
+
+$previous-i : 1; // The previous time having a dedicated image
+@for $i from 1 to 50 {
+  @if index($times, $i) {
+    $previous-i : $i;
+  } @else {
+  
+    .time-#{$i} {
+      @extend .time-#{$previous-i};
+    }
+    
+  }
+  
+}

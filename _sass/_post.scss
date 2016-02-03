@@ -1,0 +1,840 @@
+           
+#blog-content {
+  background-color: white;
+  padding: 0;
+  
+  
+  @media (min-width: $screen-small-min) {      
+    background-color: #E8E8E8;
+    padding: 40px 0;
+  }
+  
+}
+
+
+/* We hide undesirable widgets added by Blogger */
+#Header1, #Attribution1 {
+  display: none;
+}
+  
+  
+         
+/* Post */
+
+// Hide the preview when we are on the post page
+body#item .post-preview {  
+  display: none;
+}
+
+
+article.post {
+
+  background-color: white;
+  margin: 0 auto;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  
+          
+  /* We display an icon and add space around posts */  
+  @media (min-width: $screen-small-min) {       
+    border-top: 15px solid $color-base;
+    
+    &:before {
+      /* Inspired from http://newbloggerthemes.com/sorbet-blogger-template/demo/ */
+    
+      background-color: $color-base;
+      
+      display: block;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      
+      text-align: center;
+      line-height: 100px; /* to center vertically the icon */
+      vertical-align: text-center;
+      margin: 0 auto;
+      margin-top: -70px;
+    }
+    &.post-read:before {
+      content: url('../images/read-icon.png');
+    }
+    &.post-watch:before {
+      content: url('../images/watch-icon.png');
+    }
+    &.post-tell:before {
+      content: url('../images/tell-icon.png');
+    }
+    &.post-inspect:before {
+      content: url('../images/inspect-icon.png');
+    }
+    
+  }
+  
+  @media (max-width: $screen-xsmall-max) {
+    padding: 25px 15px;
+    margin: 0;
+    width: 100%;
+  }
+  @media (min-width: $screen-small-min) and (max-width: $screen-small-max) { 
+    padding: 30px;
+    width: 600px;
+  }
+  @media (min-width: $screen-medium-min) and (max-width: $screen-medium-max) {  
+    padding: 30px;
+    width: 900px;
+  }
+  @media (min-width: $screen-large-min) { 
+    padding: 30px;
+    width: 1150px;
+  }
+  
+
+  
+  
+  h1 {
+    font-weight: 100;
+    font-style: italic;
+    color: rgb(65,133,244);
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    color: gray;
+    font-weight: 300;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 45px;
+    
+    // Add a line above to separate the title of the author
+    padding-top: 10px;
+    border-top: 1px dotted silver;
+    text-align: right;
+  }
+  
+  
+  h3 {
+  	margin-top: 45px;
+  	margin-bottom: 25px;
+  }
+  
+  h4 {
+  	margin-top: 35px;
+  	margin-bottom: 20px;
+  }
+  
+  h5 {
+  	margin-top: 30px;
+  	margin-bottom: 20px;
+  }
+  
+  h6 {
+	  margin-top: 25px;
+	  margin-bottom: 15px;
+  }
+    
+  .illustration {
+    text-align: center;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+    
+    .caption {
+      font-size: 90%;
+      font-style: italic;
+      display: block;
+      margin-top: 10px;
+    }
+  }
+  
+  
+  dl.references dd {
+    margin-left: 60px;
+  }
+  
+  ul.spaced li {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  
+  table.comparison thead th {
+  	text-align: center;
+  }
+  table.comparison td {
+  	text-align: center;
+  	border-bottom: 1px solid white;
+  	border-right: 1px solid white;
+  }
+         
+  p em.strong {
+  	font-style: normal;
+  	font-weight: bold;
+  }
+  p.info {
+  	padding: 20px 25px;
+  }
+  p.info .question {
+  	display: block;
+  	margin-bottom: 20px;
+  	font-weight: bold;
+  }
+
+  
+  .like, .dislike {
+  	position: relative;
+  }
+  .like .glyphicon, .dislike .glyphicon {
+  	position: absolute;
+  	right: 25px;
+  	color: black;
+  	font-size: 30px;
+  	text-align: center;
+  	line-height: 50px;
+  	vertical-align: middle;
+  	
+  	display: block;
+  	background-color: rgba(0,0,0,0.2);
+  	color: white;
+  	width: 50px;
+  	height: 50px;
+  	border-radius: 50%;	
+  }
+  .like .glyphicon {
+  	top: 25px;
+  }
+  .dislike .glyphicon {
+  	top: 25px;
+  }
+  
+  
+  .post-content {
+    max-width: 750px;
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  $preview-width : 150px;
+  
+  .preview {    
+    float: left;
+    width: $preview-width;
+    margin-right: 40px;
+    
+    
+    img {
+      display: block;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    
+    
+    @media (max-width: $screen-xsmall-max) { 
+      display: block;
+      margin: 0 auto;
+    }
+          
+  }
+    
+    
+  .headline {
+    font-family: $font-manuscript;
+    color: $color-gray;
+    font-size: 22px;
+    min-height: 70px;
+    
+    
+    /* Display an apostroph at the right */
+    background: url(../images/apostrophe.png) no-repeat right top;
+    padding-right: 90px;
+
+    margin-left: $preview-width;       
+    margin-bottom: 25px;
+    
+    
+    @media (max-width: $screen-xsmall-max) {
+      background: none;
+      padding: 0;
+      font-size: 18px;
+    }  
+    
+  }
+  
+      
+  &.post-read .evaluations  {
+    position: relative;
+    width: 200px;            
+    height: 150px;
+    margin: 0 auto 45px;
+    
+    /* We will 1px to add space between the evaluations */
+    
+    span:nth-child(1) {
+      position: absolute;
+      left: -1px;
+    }
+    
+    
+    span:nth-child(2) {
+      position: absolute;
+      top: 51px;
+      left: 50px;
+    }
+    
+    
+    span:nth-child(3) {
+      position: absolute;
+      right: -1px;
+    }
+    
+  }
+  
+  
+  &.post-watch .evaluations  {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    margin: 0 auto 45px;
+    
+    /* We will 1px to add space between the evaluations */
+    
+    span:nth-child(1) {
+      position: absolute;
+      left: -1px;
+    }
+          
+    span:nth-child(2) {
+      position: absolute;
+      right: -1px;
+    }
+    
+  }
+  
+  
+  
+  section {
+  
+  
+    h4 {
+      color: $color-gray;
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 30px;
+      margin-left: 0;
+      
+      .line {
+        background: $color-gray; 
+        width: 75px;
+      }
+    }
+    
+  }  
+  
+}
+
+article.post-read, article.post-watch, article.post-tell, article.post-inspect {
+  @extend article.post;
+}
+
+article.post-read, article.post-watch {       
+  .informations {
+    float: left;
+    width: 250px;
+    
+    
+    > label {
+      font-size: 10px;
+      color: #888888;
+      display: block;
+    }
+    
+    
+    > span {
+      font-size: 16px;
+      color: black;
+      display: block;
+      margin-top: -8px;
+      margin-bottom: 20px;
+    }
+    
+  }
+
+  .comment {
+    margin-left: 275px;
+    margin-right: 325px;
+    
+    p {
+      margin-bottom: 25px;
+      font-size: 16px;
+      line-height: 26px;
+      font-weight: 300;
+    }
+    
+    p.me {
+      font-family: $font-manuscript;
+      font-size: 140%;
+      color: $color-base;
+      text-align: right;
+    }
+    
+    
+  }
+
+
+  .post-labels {
+    float: right;
+    width: 300px;
+    
+    
+    ul {
+      padding-left: 0;
+      
+      li {
+        overflow: hidden;
+        width: 125px;
+        height: 125px;
+        
+        .label-icon {
+          top: 25px;
+        }
+        
+        .label-text {
+          font-weight: 400;
+          bottom: 25px;
+        }
+        
+      }
+      
+    }
+          
+  }
+  
+  
+      
+  @media (max-width: $screen-small-max) {
+  
+    .preview { 
+      float: none; 
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 45px;
+    } 
+    
+    .headline {
+      margin-left: 0;
+      margin-right: 0;
+      min-height: 0;
+    }
+  
+    .informations, .post-labels {
+      display: none;
+    }
+    .comment {
+      margin-left: 0;
+      margin-right: 0;
+    }      
+  }
+  @media (min-width: $screen-medium-min) and (max-width: $screen-medium-max) {  
+    .informations {
+      display: none;
+    } 
+    .comment {
+      margin-left: 0;
+    } 
+  }
+  @media (min-width: $screen-large-min) { 
+    // Nothing to do, already correct
+  }
+  
+  
+}
+
+
+
+.post-content blockquote {
+  color: gray;
+  font-size: 110%;
+}
+
+.post-content p.intro {
+  font-size: 120%;
+}
+  
+.post-content > p {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  line-height: 1.6em;
+}
+  
+.post-inspect h4 {
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+  
+  
+.licence, .congratulations, .experiment, .tip, .remember {
+  position: relative;
+  padding: 20px 100px 20px 20px;
+  min-height: 100px;    
+  margin-top: 35px;
+  margin-bottom: 35px;  
+}
+.licence         { background-color: #024F79; color: white !important; }
+.experiment      { background-color: #024F79; color: white !important; }
+.congratulations { background-color: #77B3D5; color: white !important; }
+.tip             { background-color: #F6B92B; color: black !important; }
+.remember        { background-color: #8DD8F8; color: black !important; }
+
+.licence::after, .congratulations::after, .experiment::after, .tip::after, .remember::after {
+  content: '';
+  background-image: url(http://imlovinit-assets.appspot.com/images/icons-list-posts.png);
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  bottom: 0px;
+  right: 0;   
+}
+.licence::after         { background-position: 0 -400px; }
+.experiment::after      { background-position: -100px -400px; }      
+.congratulations::after { background-position: -200px -400px; }                                             
+.tip::after             { background-position: -300px -400px; }
+.remember::after        { background-position: 0 -500px; }
+
+.licence p {
+  z-index: 10;
+  line-height: 1.6em;
+}
+
+.experiment .title, .tip .title, .remember .title, .congratulations .title {
+  font-family: 'Lobster', cursive;
+  font-size: 150%;
+  margin-bottom: 25px;
+}
+
+.licence .title, .experiment .title, .tip .title, .congratulations .title {
+  color: white;
+  text-shadow: 1px 1px black;
+  border-bottom: 1px solid white;
+}
+
+.remember .title {
+  color: black;
+  text-shadow: 1px 1px white;
+  border-bottom: 1px solid black;
+}
+
+.licence li, .experiment li, .tip li, .remember li, .congratulations li {
+  margin-top: 30px !important;
+  margin-bottom: 30px !important;
+}
+
+.licence a, .experiment a, .tip a, .remember a, .congratulations a {
+  text-decoration: underline;
+  color: inherit;
+}
+
+.licence :not(pre) code, .experiment :not(pre) code, .tip :not(pre) code, .remember :not(pre) code, .congratulations :not(pre) code {
+   text-shadow: none !important;     
+}
+.licence :not(pre) code, .experiment :not(pre) code, .remember :not(pre) code, .congratulations :not(pre) code {
+   background-color: rgba(255,255,255,0.8);
+}
+.remember :not(pre) code, .tip :not(pre) code {
+   background-color: rgba(0,0,0,0.7);
+}
+.licence code         { color: #024F79 !important; }
+.experiment code      { color: #024F79 !important; }
+.congratulations code { color: #77B3D5 !important; }
+.tip code             { color: #F6B92B !important; }
+.remember code        { color: #8DD8F8 !important; }
+
+
+.source-explanations {
+  margin: 25px 0 40px;
+}
+.source-explanations dt {
+  float: left;
+  color: rgb(245, 242, 240);
+  font: bold 65%/1.5 sans-serif;
+  padding: 2px 6px;
+  background-color: rgba(153, 122, 102, 0.6); 
+  border-radius: 999px;
+}
+.source-explanations dd {
+  margin-left: 35px;
+  margin-bottom: 15px;
+}
+
+
+
+
+
+
+/* Labels */
+
+#labels {
+  padding: 35px;
+  background: $color-base;
+  text-align: center;
+  
+  
+  h2 {
+    color: white;  
+    margin-bottom: 35px;
+    text-align: left;
+    
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    
+    .more {
+      margin-left: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: rgba(0,0,0,0.2);
+      border-radius: 50%;
+      text-align: center;
+      vertical-align: middle;
+      padding-top: 18px;
+      text-shadow: -1px 1px 1px black;
+      color: white;
+      z-index: 99; // to pass over the label sunshine effect
+      
+      &.unexpanded {
+        -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+                transform: rotate(0deg);
+        text-shadow: -1px 1px 1px black;                  
+        transition: all 1s;
+      }
+             
+      &.expanded {
+        -webkit-transform: rotate(-180deg); /* Chrome, Safari, Opera */
+                transform: rotate(-180deg);
+        text-shadow: 1px -1px 1px black;                  
+        transition: all 1s;
+      }
+      
+    }
+  }
+  
+  
+  .labels {
+    margin-top: 80px;
+    padding-left: 0;
+  }
+  
+  
+  .label-count {
+    display: inline-block;
+    color: $color-base;
+    font-weight: bold;
+    text-shadow: none;
+  }
+  
+  
+  @media (max-width: $screen-xsmall-max) {
+    padding: 10px;
+    
+    h2 {
+      font-size: 24px;
+      
+      
+      .line {
+        width: 40px;
+      }
+      
+      .more {
+        display: none;
+        width: 50px;
+        height: 50px;
+        padding-top: 12px;
+      }
+      
+    }
+    
+    
+    .labels {
+      margin-top: 35px;
+      display: none;
+       
+       
+      li {
+        width: 125px;
+        height: 125px;
+        
+        
+        .label-icon {
+          top: 25px;
+        }
+        
+        
+        .label-text {
+          font-weight: 400;
+          bottom: 25px;
+        }
+        
+        
+        .sunshine {
+          background: url(../images/sunshine.png);
+          left: -28px;
+          top: -40px;
+          width: 205px;
+          height: 207px;
+        }
+        
+      }
+      
+    }
+    
+  }
+  
+}
+  
+
+
+/* Footer */
+
+body > footer {
+  background: white;
+  text-align: center;
+  padding: 35px 0;
+  
+  
+  img {
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  
+  .quick-search {
+    margin: 25px auto 0;
+    width: 250px;
+  }
+   
+}
+  
+
+
+
+
+
+
+/* Inspired by http://davidwalsh.name/css-flip */
+
+/* entire container, keeps perspective */
+.flip-container {
+  -webkit-perspective: 1000px;
+     -moz-perspective: 1000px;
+	        perspective: 1000px;
+  display: inline-block;
+}
+	/* flip the pane when hovered */
+	.flip-container:hover .flipper, .flip-container.hover .flipper {
+		        transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+       -moz-transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+	width: 200px;
+	height: 260px;
+}
+
+.front > img {
+  width: 100%;
+  height: 100%;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: all 0.6s ease;    
+	        transform-style: preserve-3d;
+     -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+	position: relative;
+}
+
+.front {
+
+}
+.back {
+  background: $color-base;
+  
+
+  a {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+  
+  span {
+    position: absolute;
+    font-size: 18px;
+    font-weight: 300;
+    color: white;
+    text-align: center;
+    top: 30px;
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+    display: block;
+    text-decoration: none !important;
+  }
+  
+  div {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    margin-left: -50px;
+  }
+  
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	        backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+          transform-style: preserve-3d;
+     -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+	position: absolute;
+  transition: all 0.6s ease;    
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	        transform: rotateY(0deg);
+  -webkit-transform: rotateY(0deg);
+     -moz-transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	        transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+     -moz-transform: rotateY(180deg);
+}
+
+
+/* TODO Create flat icon for advantage and inconvenient */
+#post-syntaxhightlighter {
+
+  .info {
+    padding: 25px;
+    min-height: 100px;
+  }
+}

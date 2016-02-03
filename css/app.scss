@@ -1,0 +1,42 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+/* 
+ * (Extract from the Bootstrap Documentation: http://getbootstrap.com/css/)
+ *  
+ * Extra small devices (phones, less than 768px) 
+ * No media query since this is the default in Bootstrap
+ * 
+ * Small devices (tablets, 768px and up)
+ * @media (min-width: @screen-sm-min) { ... }
+ * 
+ * Medium devices (desktops, 992px and up)
+ * @media (min-width: @screen-md-min) { ... }
+ * 
+ * Large devices (large desktops, 1200px and up) 
+ * @media (min-width: @screen-lg-min) { ... }
+ *  
+ */
+ 
+$screen-xsmall-max:   767px;
+$screen-small-min:    $screen-xsmall-max + 1;
+$screen-small-max:    991px;              
+$screen-medium-min:   $screen-small-max + 1;
+$screen-medium-max:   1199px;
+$screen-large-min:    $screen-medium-max + 1; 
+
+@import 'loader';
+@import 'layout';
+@import 'presentation';
+@import 'label';
+@import 'evaluation';
+@import 'list';
+@import 'post';
+@import 'buttons';
+
+@import 'syntax-highlighting';
+
+@import 'easter-egg';
+

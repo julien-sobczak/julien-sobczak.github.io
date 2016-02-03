@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body id="index">
+
+    <!-- Custom loader -->
+    <div id="loader-wrapper">
+      <div id="loader"></div>
+    </div>
+
+    {% include header.html %}
+
+    <div>
+        {{ content }}
+    </div>
+
+    {% include footer.html %}
+
+    <script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <!--<script src="scripts/app.min.js"></script> Replaced by: -->
+    <script src="js/lib/AnimOnScroll.js"></script>
+    <script src="js/lib/easteregg.js"></script>
+    <script src="js/presentation.js"></script>
+    <script src="js/loader.js"></script>
+    <script src="js/list.js"></script>
+    <script src="js/post.js"></script>
+
+
+    <!--<script src="scripts/recent-posts.js"></script> Required only with Blogger -->
+
+
+    <div id="water" class="easter-egg-party"></div>
+    <div id="easter-egg" class="easter-egg-party">
+      <img id="spongebob" class="easter-egg-party" src="images/easter-egg/spongebob.png" width="20%">
+    </div>
+  </body>
+</html>

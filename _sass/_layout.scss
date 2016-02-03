@@ -1,242 +1,241 @@
-/**
- * Site header
- */
-.site-header {
-    border-top: 5px solid $grey-color-dark;
-    border-bottom: 1px solid $grey-color-light;
-    min-height: 56px;
+/* Common */
 
-    // Positioning context for the mobile navigation icon
-    position: relative;
-}
+// Fonts
+$font-base:        'Roboto', sans-serif;
+$font-manuscript:  'Indie Flower', cursive; 
+$font-basic:       'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-.site-title {
-    font-size: 26px;
-    font-weight: 300;
-    line-height: 56px;
-    letter-spacing: -1px;
-    margin-bottom: 0;
-    float: left;
+// Colors
+$color-base: rgba(65, 133, 244, 1);
+$color-gray: rgba(76, 76, 76, 1); 
+$gradient-base: linear-gradient(lighten($color-base, 10%) 0%, $color-base 30%, darken($color-base, 10%) 80%);
+$gradient-gray: linear-gradient(rgba(38, 38, 38, 1) 0%, rgba(51, 51, 51, 1) 25%, rgba(41, 41, 41, 1) 75%, rgba(25, 25, 25, 1) 100%);
 
-    &,
-    &:visited {
-        color: $grey-color-dark;
-    }
-}
 
-.site-nav {
-    float: right;
-    line-height: 56px;
-
-    .menu-icon {
-        display: none;
-    }
-
-    .page-link {
-        color: $text-color;
-        line-height: $base-line-height;
-
-        // Gaps between nav items, but not on the last one
-        &:not(:last-child) {
-            margin-right: 20px;
-        }
-    }
-
-    @include media-query($on-palm) {
-        position: absolute;
-        top: 9px;
-        right: $spacing-unit / 2;
-        background-color: $background-color;
-        border: 1px solid $grey-color-light;
-        border-radius: 5px;
-        text-align: right;
-
-        .menu-icon {
-            display: block;
-            float: right;
-            width: 36px;
-            height: 26px;
-            line-height: 0;
-            padding-top: 10px;
-            text-align: center;
-
-            > svg {
-                width: 18px;
-                height: 15px;
-
-                path {
-                    fill: $grey-color-dark;
-                }
-            }
-        }
-
-        .trigger {
-            clear: both;
-            display: none;
-        }
-
-        &:hover .trigger {
-            display: block;
-            padding-bottom: 5px;
-        }
-
-        .page-link {
-            display: block;
-            padding: 5px 10px;
-
-            &:not(:last-child) {
-                margin-right: 0;
-            }
-            margin-left: 20px;
-        }
-    }
+@mixin manuscript {
+  font-family: $font-manuscript;
 }
 
 
 
-/**
- * Site footer
- */
-.site-footer {
-    border-top: 1px solid $grey-color-light;
-    padding: $spacing-unit 0;
-}
 
-.footer-heading {
-    font-size: 18px;
-    margin-bottom: $spacing-unit / 2;
-}
-
-.contact-list,
-.social-media-list {
-    list-style: none;
-    margin-left: 0;
-}
-
-.footer-col-wrapper {
-    font-size: 15px;
-    color: $grey-color;
-    margin-left: -$spacing-unit / 2;
-    @extend %clearfix;
-}
-
-.footer-col {
-    float: left;
-    margin-bottom: $spacing-unit / 2;
-    padding-left: $spacing-unit / 2;
-}
-
-.footer-col-1 {
-    width: -webkit-calc(35% - (#{$spacing-unit} / 2));
-    width:         calc(35% - (#{$spacing-unit} / 2));
-}
-
-.footer-col-2 {
-    width: -webkit-calc(20% - (#{$spacing-unit} / 2));
-    width:         calc(20% - (#{$spacing-unit} / 2));
-}
-
-.footer-col-3 {
-    width: -webkit-calc(45% - (#{$spacing-unit} / 2));
-    width:         calc(45% - (#{$spacing-unit} / 2));
-}
-
-@include media-query($on-laptop) {
-    .footer-col-1,
-    .footer-col-2 {
-        width: -webkit-calc(50% - (#{$spacing-unit} / 2));
-        width:         calc(50% - (#{$spacing-unit} / 2));
-    }
-
-    .footer-col-3 {
-        width: -webkit-calc(100% - (#{$spacing-unit} / 2));
-        width:         calc(100% - (#{$spacing-unit} / 2));
-    }
-}
-
-@include media-query($on-palm) {
-    .footer-col {
-        float: none;
-        width: -webkit-calc(100% - (#{$spacing-unit} / 2));
-        width:         calc(100% - (#{$spacing-unit} / 2));
-    }
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    //overflow-x: hidden; 
 }
 
 
-
-/**
- * Page content
- */
-.page-content {
-    padding: $spacing-unit 0;
+body {
+  font-family: $font-base;
 }
 
-.page-heading {
-    font-size: 20px;
+
+h2 {
+  font-weight: 200;
+  
+  em {
+    font-weight: 700;
+    font-style: normal;
+  }
 }
 
-.post-list {
-    margin-left: 0;
-    list-style: none;
 
-    > li {
-        margin-bottom: $spacing-unit;
-    }
+.line {
+  height: 4px;
+  width: 100px;
+  background-color: #fff;
+  display: inline-block;
+  margin-right: 25px;
+  vertical-align: baseline;
 }
 
-.post-meta {
-    font-size: $small-font-size;
-    color: $grey-color;
+
+.logos-strip {
+  background-image: url(../images/logos-strip.png);
+  display: block;
+  width: 100%;
+  height: 50px;
+  border: 0; margin: 0;
 }
 
-.post-link {
+
+@mixin icon-part {
+  display: inline-block;
+  background: url(../images/icons-sprite.png) no-repeat;
+  width: 45px;
+  height: 35px;
+}
+
+@mixin icon-read-white    { @include icon-part; background-position:   0      0;   }
+@mixin icon-read-black    { @include icon-part; background-position: -45px    0;   }
+@mixin icon-watch-white   { @include icon-part; background-position:   0    -35px; }
+@mixin icon-watch-black   { @include icon-part; background-position: -45px  -35px; }
+@mixin icon-tell-white    { @include icon-part; background-position:   0    -70px; }
+@mixin icon-tell-black    { @include icon-part; background-position: -45px  -70px; }
+@mixin icon-inspect-white { @include icon-part; background-position:   0   -105px; }
+@mixin icon-inspect-black { @include icon-part; background-position: -45px -105px; }
+
+
+
+/* Template */
+
+#main-header {
+  background: $gradient-base;
+  height: 200px;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.25);
+  
+  @media (max-width: $screen-xsmall-max) {
+    // We will display the logo in the menu instead
+  	display: none; 
+  }
+  
+   
+  #logo-main {
     display: block;
-    font-size: 24px;
+    margin: 0 auto;
+    margin-top: 35px;
+  }
+  
+  
+  #me-name {
+    @include manuscript;
+    font-size: 175%;
+    color: white;
+    
+    /* We want to display the name below the logo to the right */
+    display: block;
+    width: 496px; /* Same width as logo */
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: right;
+  }
+  
 }
 
 
-
-/**
- * Posts
- */
-.post-header {
-    margin-bottom: $spacing-unit;
-}
-
-.post-title {
-    font-size: 42px;
-    letter-spacing: -1px;
-    line-height: 1;
-
-    @include media-query($on-laptop) {
-        font-size: 36px;
+#main-menu {
+  margin-bottom: 0;
+	background: $color-gray !important;
+	border: none;
+	border-radius: 0;
+  
+  
+  .navbar-header { 
+  	background: $color-base;
+  	
+  	
+  	@media (max-width: $screen-xsmall-max) {
+  		/* We increase the size of navbar to add space around logo and lower the menu expand button */
+      height: 60px;
+      
+      
+      .navbar-toggle {
+        margin-top: 13px;
+      }
     }
-}
+  	
+  	
+    .icon-bar {
+    	background-color: white !important;
+    }
+  
+    
+    /* We override the background expand menu color */
+    .navbar-toggle:hover, .navbar-toggle:focus {
+      background-color: rgba(0,0,0,0.3);
+      transition: background-color 0.5s;
+    }
+      
+    
+    a#brand {
+    	color: white;
+    	display: none;
+    	
+    	
+    	@media (max-width: 767px) {
+     		display: block;
+    	}
+    }
+  } 
+ 
+  
+  .navbar-collapse {
+  
+    .navbar-nav a {
+      font-family: $font-manuscript;
+      color: white;
+      font-size: 16px;
+      background-color: transparent;
+      background-position: 10px center;
+      background-repeat: no-repeat;
+      color: rgba(255,255,255,0.6);
+      transition: all 2s;
+      
+      em {
+        font-family: $font-base;
+        font-style: normal;
+        font-weight: 700;
+        margin-right: 2px;
+        color: white;
+      }
+      
+      &:hover {
+        background-color: rgba(0,0,0,0.8);
+        transition: all 0.7s;
+      }
 
-.post-content {
-    margin-bottom: $spacing-unit;
-
-    h2 {
-        font-size: 32px;
-
-        @include media-query($on-laptop) {
-            font-size: 28px;
-        }
     }
 
-    h3 {
-        font-size: 26px;
 
-        @include media-query($on-laptop) {
-            font-size: 22px;
-        }
+  
+    #read-menu-link {
+    	background-image: url(../images/read-icon.png);
+    	padding-left: 55px;
     }
-
-    h4 {
+    #watch-menu-link {
+    	background-image: url(../images/watch-icon.png);
+    	padding-left: 65px;
+    }
+    #tell-menu-link {
+    	background-image: url(../images/tell-icon.png);
+    	padding-left: 85px;
+    }
+    #inspect-menu-link {
+    	background-image: url(../images/inspect-icon.png);
+    	padding-left: 55px;
+    }
+    
+    form {
+      border: none;
+    }
+    
+  
+    @media (max-width: $screen-xsmall-max) {
+  	
+    
+      /* We hide category images and simplify fonts */
+      .navbar-nav li {
+        padding: 15px 5px;
+      }
+      .navbar-nav li a {
+        background-image: none !important;
+        padding: 0;
+        padding-left: 35px !important;
         font-size: 20px;
-
-        @include media-query($on-laptop) {
-            font-size: 18px;
-        }
+      }
     }
+  
+  }
 }
+
+
+
+
+
+
+
+           

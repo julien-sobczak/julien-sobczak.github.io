@@ -1,0 +1,604 @@
+
+$color-background-read:     orangered;
+$color-background-watch:    dodgerblue;
+$color-background-tell:     #39c051;
+$color-background-inspect:  #ffda3f;
+  
+  
+  
+#presentation {
+
+  /* All 3D transparent Cubes all around the element. */
+  @mixin background-pattern-cubes($color, $mode) {
+    background-image: url('../images/pattern-cubes-#{$mode}.png');
+    background-repeat: repeat;                              
+    background-position: top left;
+    background-color: $color;
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.45);
+  }
+
+  
+
+  #cloud {
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+    height: 750px;
+  
+  
+    h1 {
+      margin-top: 25px;
+      text-align: center;
+      font-weight: 100;
+      font-size: 34px;
+      color: $color-gray;
+  
+      
+      em {
+        font-weight: 300;
+        font-style: normal;
+      }
+      
+    }
+    
+    
+    .myquote {
+      /* Position the text above the background. */
+      position: absolute;
+      display: block;    
+      width: 300px;
+      left: 50%;
+      margin-left: -250px;
+      top: 100px;
+      
+      font-size: 13px; 
+      line-height: 25px;
+    }
+    
+    
+    .myname {                              
+      /* Position the text just bellow the quote */
+      position: absolute;
+      left: 50%;
+      margin-left: -85px;
+      top: 250px;
+      
+      font-family: $font-manuscript;
+      color: $color-base;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+
+    > img {
+      position: absolute;
+      display: block; 
+      left: 50%;
+      margin-left: -651px; 
+    }
+    
+    
+    @media (max-width: $screen-xsmall-max) {
+      height: auto;
+      padding: 20px 10px;
+      
+      h1 {
+        margin-top: 0;
+        margin-bottom: 25px;
+      }
+      
+      img, nav, #discover-blog, #goto-blog {
+        display: none;
+      }
+     
+      p, span {
+        display: block !important;
+        position: inherit !important;
+        width: auto !important;
+        margin: 0 !important;
+        top: 0 !important; left: 0 !important;
+        margin-bottom: 20px;
+      }
+      
+      span {
+        text-align: right;
+      }
+    
+    }
+    
+  }
+  
+
+  .part-introduction-picture {
+    position: relative; 
+    overflow: hidden;
+    height: 450px;
+    
+    
+    > div {
+    	position: relative;
+    	height: 200%;
+    	-webkit-transform: translateZ(0);-webkit-backface-visibility: hidden;-webkit-perspective: 1000;
+    }
+    
+    p {
+    	margin: 0;
+    }
+      
+    
+    @media (max-width: $screen-xsmall-max) { 
+        height: 250px !important;
+        background-position: center center;
+    }
+    
+    @media (min-width: $screen-small-min) and (max-width: $screen-small-max) { 
+        height: 350px !important;
+    }
+    
+  }  
+  
+        
+  .part-introduction-text {
+    padding: 90px 70px;
+    color: white;
+    
+    
+    h3 {
+      font-size: 50px;
+      display: inline-block;
+      margin: 0 35px 20px 0;
+      font-weight: 100;
+      
+      &:before {
+        display: inline-block;
+        margin-right: 15px;        
+        content: ''; // we will use the background property instead to use a sprite
+      }                                   
+      
+    }
+    &#imreadinit-introduction-text    h3:before { @include icon-read-white;    }
+    &#imwatchinit-introduction-text   h3:before { @include icon-watch-white;   }
+    &#imtellinit-introduction-text    h3:before { @include icon-tell-white;    }
+    &#iminspectinit-introduction-text h3:before { @include icon-inspect-black; }
+    
+    
+    
+    
+    h4 {
+      display: inline-block;
+      font-family: $font-manuscript;
+      font-size: 26px;
+      opacity: 0;  
+    }
+    &.active h4 {
+      opacity: 1;
+      transition-property: opacity;
+      transition-duration: 1s;
+      transition-delay: 0.5s;  
+    }
+    
+    
+    p {
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 35px;
+      margin-right: 475px;
+      text-indent: 35px;
+      margin-bottom: 30px;
+    }
+    
+    
+    .latest-posts {
+      float: right;
+      margin-left: 75px;
+      width: 400px;
+      
+      /* Draw an rounded transparent black background */
+      padding: 15px;
+      border-radius: 20px;
+      background-color: rgba(0, 0, 0, 0.2); 
+      
+      
+      > span {
+        font-weight: 100;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-size: 20px;
+        margin-bottom: 20px;
+      }    
+    
+      
+      li {
+        padding: 10px 0;
+        
+        
+        a {
+          color: white; 
+          font-family: $font-manuscript;
+          font-size: 18px;
+        }
+      }
+            
+      
+      .more {
+        display: block;
+        width: 50px;
+        height: 50px;
+        margin: 0 auto;
+        border-radius: 50%;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 50px;
+        font-weight: 900;
+        position: relative;
+        
+        
+        a {
+          color: white;
+          text-decoration: none;
+          position: absolute;
+          top: -10px;
+          left: 11px;
+          text-shadow: 2px 2px rgba(0,0,0,0.5);   
+        }
+        
+      }
+      
+    }
+      
+    
+    &#imreadinit-introduction-text {
+      @include background-pattern-cubes($color-background-read, light);
+      
+      .more {
+        background-color: $color-background-read;
+      }
+    }               
+    &#imwatchinit-introduction-text {
+      @include background-pattern-cubes($color-background-watch, light);
+      
+      .more {
+        background-color: $color-background-watch;
+      }
+    }
+    &#imtellinit-introduction-text {
+      @include background-pattern-cubes($color-background-tell, light);
+      
+      .more {
+        background-color: $color-background-tell;
+      }
+    }
+    &#iminspectinit-introduction-text {
+      @include background-pattern-cubes($color-background-inspect, dark);
+      color: black;
+      
+      .more {
+        background-color: $color-background-inspect;
+      }
+    }  
+      
+      
+    /* We hide latest posts when the screen is too small */  
+    @media (max-width: $screen-medium-max) { 
+   
+      h3 {
+        font-size: 30px;
+      }
+      h4 {
+        font-size: 24px;
+      }
+      p {
+        font-size: 16px;
+        margin-right: 0;
+      } 
+      .latest-posts {
+        display: none !important; // '!important' is required because JQuery set style="display: block" on the tag directly
+      }
+    
+    }
+    
+    /* And we decrease the padding when the screen is narrower */
+    @media (max-width: $screen-xsmall-max) {
+      padding: 25px 10px;
+    }
+    
+  }     
+
+  
+  
+  /* Follow me */
+  
+  #follow-me {
+    height: 500px;
+    position: relative;
+    background: $gradient-gray;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.25);
+  
+  
+    #follow-me-on-twitter {
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100px;
+      text-align: center;
+    }
+    
+    
+    #follow-me-on-linkedin, #follow-me-on-viadeo {
+      display: inline-block;
+      position: absolute;
+      top: 250px;
+      border-radius: 60px; /* Pictures are displayed 120x120 */
+      box-shadow: 3px 3px 4px rgba(0,0,0,0.3);
+    }
+    
+    
+    #follow-me-on-linkedin img, #follow-me-on-viadeo img {
+      width: 120px;
+      height: 120px;
+    } 
+    
+     
+    #follow-me-on-linkedin {
+      left: 20%;
+    }
+    
+    
+    #follow-me-on-viadeo {
+      right: 20%;
+    }
+    
+    
+    #follow-me-stripes-top {
+      position: absolute;
+      top: 15px;
+      background-position: left;
+    }
+    
+    
+    #follow-me-stripes-bottom {
+      position: absolute;
+      bottom: 15px;
+      background-position: right;
+    }
+    
+    
+    > span {
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 90px;
+      text-align: center;
+      font-family: $font-manuscript;
+      font-size: 26px;
+      color: white;
+    }
+    
+    
+    @media (max-width: $screen-xsmall-max) {
+      
+      .follow-me-on img {
+        width: 80px !important;
+        height: 80px !important;
+      }
+      
+      
+      #follow-me-on-twitter {
+        top: 140px;
+      }
+      
+    }
+   
+  }
+
+
+  
+  /* Footer */
+  
+  footer {
+
+    $footer-height: 350px;
+    $go-to-width: 150px;
+    $logo-width: 45px; 
+    $logo-height: 35px;
+    $shadow-initial-radius: 25px;
+    $shadow-initial-diameter: $shadow-initial-radius * 2;
+    $shadow-target-radius: 75px;
+    $shadow-target-diameter: $shadow-target-radius * 2;
+  
+  
+    position: relative;
+    width: 100%;
+    height: $footer-height;
+    background: url(../images/pattern-diamonds.png) repeat top left;
+    background-color: $color-base;
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.45);
+    text-align: center;
+    padding: 45px 0;
+    overflow: hidden;
+    
+    
+    @media (max-width: $screen-small-max) {
+      display: none;
+    }
+    
+    
+    img {
+      width: 80%;
+      max-width: 400px;
+      opacity: 0;
+    }   
+    
+    > span {
+      display: block;
+      width: 150px;
+      margin: 50px auto 0;
+      text-align: center;
+      border: 1px solid white;
+      color: white;
+      padding: 3px 5px;
+      font-size: 18px;
+      font-weight: 500;
+      border-radius: 3px;
+      box-shadow: 0px 0px 1px 1px white;
+    }
+    
+ 
+    
+  
+    .go-to-page {
+      display: block;
+      position: absolute;
+      top: $footer-height;
+      width: $go-to-width;
+      height: 70px;
+      text-align: center;
+      color: white;
+      text-shadow: 1px 1px 1px black;
+      
+      
+      > div {
+        position: relative;
+        height: 100%;
+        width: 100%;
+      }
+      
+    }
+    
+    
+    .go-to-page .text {
+      position: absolute;  
+      display: block;
+      bottom: 0; 
+      width: 100%;
+      z-index: 10;
+    }
+    
+    .go-to-page .icon {
+      position: absolute;
+      left: 50%;
+      margin-left: (-$logo-width / 2) !important;
+      z-index: 10;
+    }
+    
+    .go-to-page .shadow {
+        position: absolute;
+        display: block;
+        left: 50%;
+        margin-left: (-$logo-width / 2) - (($shadow-initial-diameter - $logo-width) / 2);
+        margin-top:                     - (($shadow-initial-diameter - $logo-height) / 2) + 15px;
+        width: $shadow-initial-diameter;
+        height: $shadow-initial-diameter;
+        border-radius: 50%;
+        opacity: 0;
+        background-color: darken($color-base, 25%);
+        z-index: 5;
+        
+        transition: all 1.5s;
+    }
+       
+    .go-to-page:hover .shadow {
+        margin-left: (-$logo-width / 2) - (($shadow-target-diameter - $logo-width) / 2);
+        margin-top:                     - (($shadow-target-diameter - $logo-height) / 2) + 15px;
+        width: $shadow-target-diameter;
+        height: $shadow-target-diameter;
+        opacity: 1;
+        
+        transition: all 0.5s;
+    }  
+    
+    .go-to-read {
+      @extend .go-to-page;
+
+      left: 50%;
+      margin-left: -250px - $go-to-width;
+      
+      .icon {
+        @include icon-read-white;
+      }
+        
+    }
+    
+    
+    .go-to-watch {
+      @extend .go-to-page;
+     
+      left: 50%;
+      margin-left: -25px - $go-to-width;
+      
+      .icon {
+        @include icon-watch-white;
+      } 
+      
+    }
+    
+      
+    .go-to-tell {
+      @extend .go-to-page;
+      
+      left: 50%;
+      margin-left: 25px; 
+      
+      .icon {
+        @include icon-tell-white;
+      }
+      
+    }
+      
+    
+    .go-to-inspect {
+      @extend .go-to-page;
+      
+      left: 50%;
+      margin-left: 250px; 
+      
+      .icon {
+        @include icon-inspect-white;
+      }
+      
+    }
+    
+    
+
+    
+    &.active {     
+
+      
+      img {
+        opacity: 1;
+        transition: opacity 2s; 
+      }
+      .go-to-read {
+        top: 220px !important;
+        transition: top 0.5s 0.3s;
+      }
+      .go-to-watch {
+        top: 220px !important;
+        transition: top 0.5s 0.5s;
+      }
+      .go-to-tell {
+        top: 220px !important;
+        transition: top 0.5s 0.7s;
+      }
+      .go-to-inspect {
+        top: 220px !important;
+        transition: top 0.5s 0.9s;
+      }  
+ 
+
+    }
+
+  }
+ 
+}
+
+
+
+
+
+
+

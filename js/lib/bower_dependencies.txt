@@ -1,0 +1,9 @@
+'bower_components/modernizr/modernizr.js',
+'bower_components/masonry/dist/masonry.pkgd.js',
+'bower_components/imagesloaded/imagesloaded.pkgd.js',
+'bower_components/classie/classie.js',
+'bower_components/gsap/src/uncompressed/TweenMax.js',
+'bower_components/ScrollMagic/js/jquery.scrollmagic.js',
+'bower_components/jquery-scrollspy/scrollspy.js',
+'bower_components/jquery-easteregg/jquery.easteregg.js',
+
