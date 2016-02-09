@@ -1,7 +1,7 @@
 <header id="main-header">
   <hr class="logos-strip" alt="Une liste de logos célèbres représentant des langages, des frameworks, des éditeurs, ...">
-  <img id="logo-main" src="images/logo.png" />
-  <span id="me-name">Julien Sobczak</span>
+  <!--<img id="logo-main" src="{{ '/images/logo.png' | prepend: site.baseurl }}" />
+  <span id="me-name">Julien Sobczak</span>-->
 </header>
 <nav id="main-menu" class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
@@ -14,7 +14,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a id="brand" class="navbar-brand" href="#"><img src="images/logo-medium.png" /></a>
+      <a id="brand" class="navbar-brand" href="#"><img src="{{ '/images/logo-medium.png' | prepend: site.baseurl }}" /></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -22,16 +22,16 @@
          id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active">
-          <a href="#" id="read-menu-link">I'm <em>read</em>in' I.T.</a>
+          <a href="{{ '/categories/read.html' | prepend: site.baseurl }}" id="read-menu-link">I'm <em>read</em>in' I.T.</a>
         </li>
         <li>
-          <a href="#" id="watch-menu-link">I'm <em>watch</em>in' I.T.</a>
+          <a href="{{ '/categories/watch.html' | prepend: site.baseurl }}" id="watch-menu-link">I'm <em>watch</em>in' I.T.</a>
         </li>
         <li>
-          <a href="#" id="tell-menu-link">I'm <em>tell</em>in' I.T.</a>
+          <a href="{{ '/categories/tell.html' | prepend: site.baseurl }}" id="tell-menu-link">I'm <em>tell</em>in' I.T.</a>
         </li>
         <li>
-          <a href="#" id="inspect-menu-link">I'm <em>inspect</em>in' I.T.</a>
+          <a href="{{ '/categories/inspect.html' | prepend: site.baseurl }}" id="inspect-menu-link">I'm <em>inspect</em>in' I.T.</a>
         </li>
       </ul>
       <form class="navbar-form navbar-right" role="search" method="GET" action="http://www.google.com/search">
@@ -52,7 +52,10 @@
   <!-- /.container-fluid -->
 </nav>
 
+
 <!--
+ TODO remove this code if uncessary
+
 <header class="site-header">
 
   <div class="wrapper">

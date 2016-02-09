@@ -1,0 +1,493 @@
+---
+layout: default
+---
+
+<!-- body id="archive" -->
+
+<div id="blog-content" style="text-align: center;">
+
+  {% if page.category == 'read' %}
+    <h3>I'm readin' I.T.</h3>
+  {% elsif page.category == 'watch' %}
+    <h3>I'm watchin' I.T.</h3>
+  {% elsif page.category == 'tell' %}
+    <h3>I'm tellin' I.T.</h3>
+  {% elsif page.category == 'inspect' %}
+    <h3>I'm inspectin' I.T.</h3>
+  {% endif %}
+
+
+  <!--
+    TODO replace static data with:
+
+    <div>
+
+      <h1>Posts</h1>
+
+      <ul>
+        {% for post in site.posts %}
+          <li>
+            <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+
+            <h2>
+              <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+            </h2>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <p class="rss-subscribe">subscribe <a href="{{ '/feed.xml' | prepend: site.baseurl }}">via RSS</a></p>
+
+    </div>
+  -->
+
+
+  <div id="post-list-container" style="text-align: center;">
+    <ul class="post-list" id="post-list">
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Building Microservices</h2>
+            <h3>Sam Newman</h3>
+            <h4>20 mars 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/03/building-microservices.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1403186979l/22512931.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-17-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/03/building-microservices.html#more" title="Building Microservices">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Leading Change</h2>
+            <h3>John P. Kotter</h3>
+            <h4>13 mars 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/03/leading-change.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1388206294l/51370.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-15-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/03/leading-change.html#more" title="Leading Change">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>The Phoenix Project: A Novel About IT, DevOps, and Helping Your Business Win</h2>
+            <h3>Gene Kim, Kevin Behr, George Spafford</h3>
+            <h4>1 mars 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/02/the-phoenix-project-novel-about-it.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1361113128l/17255186.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-16-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/02/the-phoenix-project-novel-about-it.html#more" title="The Phoenix Project: A Novel About IT, DevOps, and Helping Your Business Win">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Programming 3D Applications with HTML5 and WebGL</h2>
+            <h3>Tony Parisi</h3>
+            <h4>16 février 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/02/programming-3d-applications-with-html5.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1389672369l/17623624.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-15-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/02/programming-3d-applications-with-html5.html#more" title="Programming 3D Applications with HTML5 and WebGL">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Fluent Forever: How to Learn Any Language Fast and Never Forget It</h2>
+            <h3>Gabriel Wyner</h3>
+            <h4>10 février 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/02/fluent-forever-how-to-learn-any.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1387702551l/19661852.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-17-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/02/fluent-forever-how-to-learn-any.html#more" title="Fluent Forever: How to Learn Any Language Fast and Never Forget It">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Becoming a Better Programmer: A Handbook for People Who Care about Code</h2>
+            <h3>Pete Goodliffe</h3>
+            <h4>3 février 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/02/becoming-better-programmer-handbook-for.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1412531585l/22512921.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-14-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/02/becoming-better-programmer-handbook-for.html#more" title="Becoming a Better Programmer: A Handbook for People Who Care about Code">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>How to Make People Like You in 90 Seconds or Less</h2>
+            <h3>Nicholas Boothman</h3>
+            <h4>20 janvier 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/01/how-to-make-people-like-you-in-90.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1388456218l/181727.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-12-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/01/how-to-make-people-like-you-in-90.html#more" title="How to Make People Like You in 90 Seconds or Less">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Java 8 Lambdas: Pragmatic Functional Programming</h2>
+            <h3>Richard Warburton</h3>
+            <h4>14 janvier 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/01/java-8-lambdas-pragmatic-functional.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1389672495l/18669408.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-16-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/01/java-8-lambdas-pragmatic-functional.html#more" title="Java 8 Lambdas: Pragmatic Functional Programming">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Triple Your Reading Speed, 4th Edition</h2>
+            <h3>Wade E. Cutler</h3>
+            <h4>12 janvier 2015</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2015/01/triple-your-reading-speed-4th-edition.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1348396617l/160074.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-16-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2015/01/java-8-lambdas-pragmatic-functional.html#more" title="Java 8 Lambdas: Pragmatic Functional Programming">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>SCJP Sun Certified Programmer for Java 6 Study Guide</h2>
+            <h3>Kathy Sierra, Bert Bates</h3>
+            <h4>29 décembre 2014</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/12/scjp-sun-certified-programmer-for-java.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1369818986l/2593099.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-17-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/12/scjp-sun-certified-programmer-for-java.html#more" title="SCJP Sun Certified Programmer for Java 6 Study Guide">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Introduction to Algorithms, 3rd Edition</h2>
+            <h3>Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein</h3>
+            <h4>11 décembre 2014</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/12/introduction-to-algorithms-3rd-edition.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1387741681l/108986.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-17-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/12/introduction-to-algorithms-3rd-edition.html#more" title="Introduction to Algorithms, 3rd Edition">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Fluent in 3 Months: How Anyone at Any Age Can Learn to Speak Any Language from Anywhere in the World</h2>
+            <h3>Benny Lewis</h3>
+            <h4>20 novembre 2014</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/11/fluent-in-3-months-how-anyone-at-any.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1398786029l/18085519.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-16-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/11/fluent-in-3-months-how-anyone-at-any.html#more" title="Fluent in 3 Months: How Anyone at Any Age Can Learn to Speak Any Language from Anywhere in the World">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Liferay in Action</h2>
+            <h3>Rich Sezov</h3>
+            <h4>14 novembre 2014</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/11/liferay-in-action.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="https://d.gr-assets.com/books/1347791796l/9640165.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-10-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/11/liferay-in-action.html#more" title="Liferay in Action">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Good Math: A Geek's Guide to the Beauty of Numbers, Logic, and Computation</h2>
+            <h3>Mark C. Chu-Carroll</h3>
+            <h4>1 novembre 2014</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/10/good-math-geeks-guide-to-beauty-of_79.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1358955957l/17280814.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-15-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/10/good-math-geeks-guide-to-beauty-of_79.html#more" title="Good Math: A Geek's Guide to the Beauty of Numbers, Logic, and Computation">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>The Healthy Programmer</h2>
+            <h3>Joe Kutner</h3>
+            <h4>31 octobre 2014</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/10/the-healthy-programmer.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="https://d.gr-assets.com/books/1378769898l/18473842.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-14-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/10/the-healthy-programmer.html#more" title="The Healthy Programmer">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Java SE 8 for the Really Impatient</h2>
+            <h3>Cay S. Horstmann</h3>
+            <h4>14 janv. 2014</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/09/java-se-8-for-really-impatient.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1387767521l/17573570.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-16-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/09/java-se-8-for-really-impatient.html#more" title="Java SE 8 for the Really Impatient">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>The Lean Startup</h2>
+            <h3>Eric Ries</h3>
+            <h4>13 sept. 2011</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/09/the-lean-startup-how-todays.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1333576876l/10127019.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-17-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/09/the-lean-startup-how-todays.html#more" title="The Lean Startup: How Today's Entrepreneurs Use Continuous Innovation to Create Radically Successful Businesses">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>tmux: Productive Mouse-Free Development</h2>
+            <h3>Brian P. Hogan</h3>
+            <h4>29 févr. 2012</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/09/tmux-productive-mouse-free-development.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1330628877l/13506825.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-10-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/09/tmux-productive-mouse-free-development.html#more" title="tmux: Productive Mouse-Free Development">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Java Puzzlers: Traps, Pitfalls, and Corner Cases</h2>
+            <h3>Joshua Bloch, Neal Gafter</h3>
+            <h4>01 sept. 2005</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/09/java-puzzlers-traps-pitfalls-and-corner.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1348585328l/127931.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-18-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/09/java-puzzlers-traps-pitfalls-and-corner.html#more" title="Java Puzzlers: Traps, Pitfalls, and Corner Cases">Lire le post complet</a>
+        </div>
+      </li>
+      <li>
+        <div class="post-preview post-read-preview">
+          <div class="title">
+            <h2>Pragmatic Guide to Git</h2>
+            <h3>Travis Swicegood</h3>
+            <h4>22 nov. 2010</h4>
+            <nav>
+              <a href="http://www.imlovinit.fr/2014/09/pragmatic-guide-to-git.html"><span data-hover="Lire">Lire</span></a>
+            </nav>
+          </div>
+          <div class="image">
+            <img src="http://d.gr-assets.com/books/1348576641l/9586547.jpg">
+          </div>
+          <div class="more">
+            <span class="note note-10-20"></span>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+        <div class="jump-link">
+          <a href="http://www.imlovinit.fr/2014/09/pragmatic-guide-to-git.html#more" title="Pragmatic Guide to Git">Lire le post complet</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+{% include labels.html %}
+

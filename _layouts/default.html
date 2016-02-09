@@ -3,18 +3,17 @@
 
   {% include head.html %}
 
-  <body>
+  <body id="index">
+
+    {% include loader.html %}
 
     {% include header.html %}
 
-    <div class="page-content">
-      <div class="wrapper">
-        {{ content }}
-      </div>
-    </div>
+    <div>{{ content }}</div>
 
     {% include footer.html %}
+    {% include libraries.html %}
+    {% include easter-egg.html %}
 
   </body>
-
 </html>
