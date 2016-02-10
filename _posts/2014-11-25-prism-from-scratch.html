@@ -1,0 +1,325 @@
+---
+layout: post
+title: Implementing Prism from Scratch
+date: '2014-11-25T22:24:00.000+01:00'
+author: Julien
+tags:
+- I'm inspectin' I.T.
+- JavaScript
+- Web
+modified_time: '2014-12-18T11:12:10.072+01:00'
+blogger_id: tag:blogger.com,1999:blog-7154101540029081002.post-8372055363961188715
+blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
+---
+
+
+<article class="post-inspect language-javascript">
+
+  <h1>Implementing Prism from Scratch</h1>
+  <h2>Julien Sobczak</h2>
+
+  <div class="post-content">
+
+    <blockquote>
+      <p>"Many thanks to Lea Verou, et al., for Prism.js!" - <em>Brendan Eich, créateur of JavaScript</em></p>
+    </blockquote>
+
+    <p class="intro">De nombreuses librairies JavaScript proposent depuis bien longtemps la coloration syntaxique de
+      code. Mais c’est une librairie récente, puisque datant de 2013, qui tire le mieux son épingle du jeu en ayant déjà
+      été adoptée par des sites comme Mozilla. Cette librairie s’appelle Prism et est l’oeuvre de Lea Verou, à qui on
+      doit également la librairie
+      <a href="http://www.imlovinit.fr/2014/11/prefix-free-from-scratch.html">-prefix-free</a> et le Code Playground
+      <a href="http://dabblet.com/" target="_tab">Dabblet</a>. Avec Prism, notre code n’aura jamais été aussi joli. Peu
+      de thèmes mais une qualité et un rendu remarquable. Le plus surprenant survient quand on inspecte le source de la
+      librairie : seulement 400 lignes de JavaScript (là où Google Prettify et SyntaxHighlighter avoisinent les 2000
+      lignes).</p>
+    <p class="intro">Comment Prism réalise-t-il ce tour de force ? C’est ce que nous allons découvrir en recodant Prism
+      de zéro.</p>
+    <div class="licence"><p><a href="http://prismjs.com/" target="_tab">Prism</a> est publié sous
+      <a href="http://opensource.org/licenses/MIT">licence MIT</a>. Le code présenté dans cet article a été simplifié
+      pour des raisons évidentes et n’a pas pour vocation à être utilisé en dehors de ce contexte d’apprentissage. Cet
+      article est basé sur la dernière de Prism au moment de cet article.</p></div>
+    <h3>C’est parti</h3>
+    <p><a href="http://prismjs.com/extending.html" target="_tab">La documentation pour étendre Prism</a> nous donne un
+      premier regard sur le fonctionnement interne de la librairie. Très peu de fonctions sont nécessaires. Commençons
+      donc par dresser la structure générale :</p>
+    <pre data-line="7,27,31-32"><code>var Prism = (function() {<br/><br/> var self = {<br/><br/> languages : {}, //
+      Chaque langage support&eacute; vient ajouter sa d&eacute;finition ici <br/><br/> highlightAll : function() { <br/>
+      var elements = document.querySelectorAll('code[class*=&quot;language-&quot;]');<br/><br/> for (var i = 0, element;
+      element = elements[i++];) {<br/> self.highlightElement(element);<br/> }<br/> },<br/><br/> highlightElement :
+      function(element) { <br/> var language = element.className.match(/\blanguage-(?!\*)(\w+)\b/i)[1];<br/> var grammar
+      = self.languages[language];<br/><br/> // Set language on the parent, for styling<br/> var parent =
+      element.parentNode;<br/> if (/pre/i.test(parent.nodeName)) {<br/> parent.className = parent.className + '
+      language-' + language;<br/> }<br/><br/> var code = element.textContent;<br/><br/> element.innerHTML =
+      self.highlight(code, grammar, language);<br/> },<br/><br/> highlight : function(text, grammar, language) { <br/>
+      var tokens = self.tokenize(text, grammar);<br/> return self.Token.stringify(tokens, language); <br/> },<br/><br/>
+      tokenize : function(text, grammar) {<br/> // La fonction de plus bas niveau repr&eacute;sentant l&#x2019;analyseur
+      lexical<br/> }<br/> };<br/> <br/> return self;<br/><br/>})();<br/><br/>document.addEventListener('DOMContentLoaded',
+      Prism.highlightAll);</code></pre>
+    <dl class="source-explanations">
+      <dt>7</dt>
+      <dd>Point d&#x2019;entr&eacute;e. Recherche tous les codes source dans la page.</dd>
+      <dt>27</dt>
+      <dd>On remplace le contenu précédent par le contenu stylisé.</dd>
+      <dt>31</dt>
+      <dd>On découpe le code par tokens qui vont être colorisés à l'aide de classes CSS.</dd>
+    </dl>
+    <p>En lisant attentivement le code, on constate qu'il y a peu de difficultés. On recherche les balises <code>&lt;code&gt;</code>
+      avec une classe commençant par <code>language-</code>. On extrait leur contenu qui va être découpé en lexème comme
+      le ferait un compilateur. La différence est qu’un compilateur va bien plus loin en recréant un
+      <a href="http://fr.wikipedia.org/wiki/Arbre_syntaxique_abstrait">arbre syntaxique abstrait</a> dans le but de
+      générer le langage cible. Ici, rien de tout çà, on ne cherche même pas à valider que la syntaxe du langage est
+      respectée, on cherche juste des lexèmes (token) pour leur appliquer des classes CSS.</p>
+    <h3>L’analyseur lexical</h3>
+    <p>La fonction <code>tokenize</code> accepte deux paramètres :</p>
+    <ul>
+      <li><code>text</code> : le contenu de la balise <code>&lt;code/&gt;</code></li>
+      <li><code>grammar</code> : la définition du langage, souvent définie dans des fichiers séparés</li>
+    </ul>
+    <p>Prenons un exemple pour mieux illustrer le comportement de cette fonction :</p>
+    <pre class="language-markup"><code>// exemple.html<br/>&lt;pre&gt;&lt;code
+      class=&quot;language-javalite&quot;&gt;<br/>public class HelloWorld {<br/><br/> public static void main(String[]
+      args) {<br/> String test = &quot;Hello World!&quot;;<br/> System.out.println(test);<br/> }<br/>}<br/>&lt;/code&gt;&lt;/pre&gt;
+    </code></pre>
+    <pre><code>// prism-javalite.js<br/>Prism.languages.javalite = {<br/> 'keyword':
+      /\b(public|static|class|void)\b/g,<br/> 'string': /("|')(\\?.)*?\1/g,<br/> 'punctuation': /[{}[\];(),.:]/g<br/>};</code></pre>
+    <p>La variable <code>text</code> contient notre programme HelloWorld et <code>grammar</code> contient l’objet <code>Prism.languages.javalite</code>.
+    </p>
+    <p>La définition du langage reste très basique. Prism supporte bien plus d’options pour gérer de nombreux cas
+      particuliers que nous discuterons par la suite. Notre définition identifie 3 tokens avec à chaque fois une
+      expression régulière décrivant le format de chacun d’entre eux.</p>
+    <div class="tip"><p class="title">Token ou lexème ?</p>
+      <p>Le <a href="http://www.imlovinit.fr/2013/02/compilers-principles-techniques-and.html">Dragon Book</a> nous
+        apporte la réponse</p>
+      <p><em>A lexeme is a sequence of characters in the source program that matches the pattern for a token and is
+        identified by the lexical analyzer as an instance of that token.</em></p>
+      <p>Pour revenir à notre exemple, notre définition du langage Java est constitué de 3 tokens (ex :
+        <code>keyword</code>). Les chaînes de caractères <code>"public"</code> ou <code>"static"</code> sont deux
+        lexèmes du même token <code>keyword</code>.</p>
+      <p>Cette définition n'est pas reprise au sein du source de Prism où lexèmes et tokens sont confondus sous le même
+        terme de token.</p></div>
+    <p>Voici ce que nous retourne la fonction <code>tokenize</code> :</p>
+    <pre><code>[ <br/> &quot;\n&quot;, <br/> { type: &quot;keyword&quot;, content: &quot;public&quot;}, <br/> &quot;
+      &quot;, <br/> { type: &quot;keyword&quot;, content: &quot;class&quot;}, <br/> &quot; HelloWorld &quot;, <br/> {
+      type: &quot;punctuation&quot;, content: &quot;{&quot;}, <br/> &quot;\n\n&quot;, <br/> { type: &quot;keyword&quot;,
+      content: &quot;public&quot;},<br/> &quot; &quot;, <br/> { type: &quot;keyword&quot;, content: &quot;static&quot;},<br/>
+      &quot; &quot;, <br/> { type: &quot;keyword&quot;, content: &quot;void&quot;},<br/> &quot; main&quot;, <br/> {
+      type: &quot;punctuation&quot;, content: &quot;(&quot;},<br/> &quot;String&quot;, <br/> { type: &quot;punctuation&quot;,
+      content: &quot;[&quot;},<br/> { type: &quot;punctuation&quot;, content: &quot;]&quot;},<br/> &quot; args&quot;,
+      <br/> { type: &quot;punctuation&quot;, content: &quot;)&quot;},<br/> &quot; &quot;, <br/> { type: &quot;punctuation&quot;,
+      content: &quot;{&quot;},<br/> &quot;\n\t\tString test = &quot;, <br/> { type: &quot;string&quot;, content: &quot;\&quot;Hello
+      World!\&quot;&quot;},<br/> { type: &quot;punctuation&quot;, content: &quot;;&quot;},<br/> &quot;\n\t\tSystem&quot;,
+      <br/> { type: &quot;punctuation&quot;, content: &quot;.&quot;},<br/> &quot;out&quot;, <br/> { type: &quot;punctuation&quot;,
+      content: &quot;.&quot;},<br/> &quot;println&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;(&quot;},<br/>
+      &quot;test&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;)&quot;},<br/> { type: &quot;punctuation&quot;,
+      content: &quot;;&quot;},<br/> &quot;\n&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;}&quot;},<br/>
+      &quot;\n&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;}&quot;},<br/>
+      &quot;\n&quot;<br/>]</code></pre>
+    <p>On retrouve notre code source découpé en lexèmes. Pour chaque lexème ayant un token associé (mot-clé, ponctuation
+      ou chaîne de caractères), un objet <code>Token</code> est créé contenant la valeur du lexème et le nom du token :
+    </p>.
+    <pre><code>Token: function(type, content) {<br/> this.type = type;<br/> this.content = content;<br/>}</code></pre>
+    <p><em>Toujours obscur ? Pas d'inquiétude, nous reviendrons sur l'analyseur lexical dans la dernière partie de cet
+      article.</em></p>
+    <h3>La coloration syntaxique</h3>
+    <p>Une fois la liste de lexèmes en notre possession, il ne nous reste plus grand chose pour réaliser la coloration
+      syntaxique. C’est la méthode <code>Token.stringify</code> qui s’en charge :</p>
+    <pre><code>Token.stringify = function(o, language, parent) {<br/> if (typeof o == 'string') { // Lex&egrave;me sans
+      token associ&eacute; ?<br/> return o;<br/> }<br/><br/> if (Array.isArray(o)) { // Liste de lex&egrave;me <br/> //
+      =&gt; on construit le r&eacute;sultat de mani&egrave;re r&eacute;curvise<br/> return o.map(function(element)
+      {<br/> return Token.stringify(element, language, o);<br/> }).join('');<br/> }<br/><br/> var content =
+      Token.stringify(o.content, language, parent);<br/> var classes = [ 'token', o.type ];<br/><br/> return '&lt;span
+      class=&quot;' + classes.join(' ') + '&quot;&gt;' + content + '&lt;/span&gt;';<br/>};</code></pre>
+    <p>Cette méthode récursive est d’abord appelée avec le tableau complet. Pour chaque lexème sans token, la valeur est
+      conservée. Pour les autres, on décore chaque valeur par une balise <code>&lt;span/&gt</code> avec les classes
+      <code>token</code> et le nom du token (<code>keyword</code>, <code>punctuation</code>, <code>string</code>, ...).
+    </p>
+    <p>Quelques déclarations CSS est le tour est joué. La balise <code>&lt;pre&gt;</code> se chargeant quant à elle de
+      conserver l’espacement et les retours à la ligne.</p>
+    <pre class="language-css"><code>pre {<br/> font-family: Consolas, Monaco, 'Andale Mono', monospace;*<br/>
+      line-height: 1.5;<br/> color: black;<br/>}<br/>.token.punctuation {<br/> color: #999;<br/>}<br/>.token.string
+      {<br/> color: #690;<br/>}<br/>.token.keyword {<br/> color: #07a;<br/>}</code></pre>
+    <p>Voici à quoi ressemble notre HelloWorld avec ces styles :</p>
+    <iframe src="http://imlovinit-assets.appspot.com/posts/post-prism-from-scratch/demo-simple.html" width="100%" height="200px" style="border: none"></iframe>
+    <p>La dernière pièce manquante à notre puzzle reste toujours l’analyseur lexical.
+      <!-- ----------------------------------------- --><!-- -- L'analyseur lexical ------------------ -->
+      <!-- ----------------------------------------- -->
+    <h3>L'analyseur lexical (le retour)</h3>
+    <p>Commençons par une première version supportant la grammaire précédente.</p>
+    <pre><code>tokenize : function(text, grammar) {<br/> var strarr = [ text ];<br/><br/> tokenloop: for ( var token in
+      grammar) {<br/> if (!grammar.hasOwnProperty(token) || !grammar[token]) {<br/> continue;<br/> }<br/><br/> var
+      pattern = grammar[token];<br/><br/> for (var i = 0; i &lt; strarr.length; i++) { <br/><br/> var str =
+      strarr[i];<br/><br/> if (str instanceof self.Token) {<br/> continue;<br/> }<br/><br/> var match =
+      pattern.exec(str);<br/><br/> if (match) {<br/> var from = match.index - 1, <br/> match = match[0], <br/> len =
+      match.length, <br/> to = from + len, <br/> before = str.slice(0, from + 1), <br/> after = str.slice(to +
+      1);<br/><br/> var args = [ i, 1 ];<br/><br/> if (before) {<br/> args.push(before);<br/> }<br/><br/> var wrapped =
+      new self.Token(token, match);<br/><br/> args.push(wrapped);<br/><br/> if (after) {<br/> args.push(after);<br/>
+      }<br/><br/> Array.prototype.splice.apply(strarr, args);<br/> }<br/> }<br/> }<br/><br/> return strarr;<br/>}</code></pre>
+    <p>Au premier abord, la fonction peut paraître complexe mais son fonctionnement est assez simple. Pour chaque token
+      du langage, on itère sur la liste, qui initialement contient le code source complet, mais qui va, itération après
+      itération devenir notre liste de lexèmes.</p>
+    <p>Déroulons l’algorithme toujours sur notre exemple en ne considérant que le token <code>keyword</code> dont
+      l’expression régulière est pour rappel : <code>/\b(public|static|class|void)\b/g</code></p>
+    <pre><code>strarray = ['public class HelloWorld { … }'];<br/>i = 0 +-----------------------------+</code></pre>
+    <p><code>'public class HelloWorld { … }'</code> satisfait-il notre expression ? <strong>Oui</strong></p>
+    <p>On remplace alors l’élément du tableau par 3 éléments :</p>
+    <ul>
+      <li>la chaine avant la correspondance : chaine vide ici donc aucun élément à ajouter
+      <li>le lexème identifié : <code>public</code>
+      <li>la chaine après la correspondance : <code>' class HelloWorld { … }'</code></li>
+    </ul>
+    <pre><code>strarray = [Token, ' class HelloWorld { … }'];<br/>i = 1 +-----------------------+</code></pre>
+    <p><code>' class HelloWorld { … }'</code> satisfait-il notre expression ? <strong>Oui</strong></p>
+    <p>Idem, on remplace l’élément par 3 éléments :</p>
+    <ul>
+      <li>la chaine avant la correspondance : le caractère espacement ' '.</li>
+      <li>le lexème identifié : <code>class</code></li>
+      <li>la chaine après la correspondance : <code>' HelloWorld { … }'</code></li>
+    </ul>
+    <pre><code>strarray = [Token, ' ', Token, ' HelloWorld { … }'];<br/>i = 2 +---+</code></pre>
+    <p>Il s’agit d’un lexème déjà identifié, on continue.</p>
+    <pre><code>strarray = [Token, ' ', Token, ' HelloWorld { … }'];<br/>i = 3 +-----------------+</code></pre>
+    <p><code>' HelloWorld { … }'</code> satisfait-il notre expression ? <strong>Non</strong></p>
+    <p>Après plusieurs itérations, on atteint enfin la fin du tableau avant de recommencer avec le prochain token, et
+      ainsi de suite jusqu’à parcourir la grammaire complète.</p>
+    <div class="congratulations"><p class="title">Terminé !</p>
+      <p>Cela termine notre tour de Prism. <strong>Moins de 120 lignes auront été nécessaires</strong>.</p>
+      <p>Vous pouvez consulter le source complet de l’exemple
+        <a href="https://github.com/julien-sobczak/prism-from-scratch">ici</a>.</p></div>
+    <h3>Bonus : La réalité des langages</h3>
+    <p>Exprimer les tokens à l’aide d’expressions régulières est incontournable. Le
+      <a href="http://en.wikipedia.org/wiki/Lex_(software)" target="_tab">programme LEX</a>, créé en 1975 par Mike Lesk
+      et Eric Schmidt, ancien PDF de Google, fonctionnait déjà de la sorte. Malheureusement, les expressions régulières
+      ont des limitations, surtout que leur support dans certains langages comme JavaScript est limité.</p> <h4>Un
+    exemple : nom de classe en Java</h4>
+    <p>Une première proposition serait : <code>[a-z0-9_]+</code></p>
+    <p><strong>Problème</strong> : Cette expression régulière retourne également les noms variables et de constantes.
+    </p>
+    <p><strong>Solution</strong> :</p>
+    <p>On peut s’en sortir soit en supportant uniquement les conventions de nommages Java (Camel Case avec première
+      lettre en majuscule pour une classe) mais cela est trop restrictif pour une librairie comme Prism. La solution
+      retenue est différente. Un nom de classe en Java ne peut figurer qu’à certains endroits bien définis (ex : après
+      le mot clé <code>class</code>). L’idée est donc de rechercher les identifiants immédiatement précédé par un des
+      mots-clés. Peut-on faire çà avec une expression régulière ? La réponse est oui. (mais...)</p>
+    <div class="tip"><p class="title">lookbehind + lookahead = lookaround</p>
+      <p>Le Lookahead et le Lookbehind permettent d’exprimer des assertions sur ce qui doit précéder ou suivre la
+        correspondance trouvée par une expression régulière. Un exemple s’impose :</p>
+      <ul>
+        <li><code>java(?!script)</code> recherche les occurrences de <code>java</code> qui ne sont pas suivies de <code>script</code>
+          (java, javafx mais pas javascript). <br/>On parle de <strong>Negative Lookahead</strong><br/>.
+        </li>
+        <li><code>java(?=script)</code> recherche les occurrences de <code>java</code> suivies de <code>script</code>
+          (javascript mais pas java ou javafx). <br/>On parle de <strong>Positive Lookahead</strong><br/>.
+        </li>
+        <li><code>(?&lt;!java)script</code> recherche les occurrences de <code>script</code> qui ne sont pas précédées
+          de <code>java</code> (script, postscript mais pas javascript). <br/>On parle de <strong>Negative
+            Lookbehind</strong><br/>.
+        </li>
+        <li><code>(?&lt;=java)script</code> recherche les occurences de <code>script</code> précédées de
+          <code>java</code> (javascript mais pas postscript). <br/>On parle de <strong>Positive Lookbehind</strong><br/>.
+        </li>
+      </ul>
+      <p>Attention : L’expression régulière <code>(?&lt;=java)script</code> est différente de <code>javascript</code>.
+        Les caractères satisfaisant les lookarounds ne sont pas retournés dans la correspondance (le résultat est <code>script</code>
+        pour la première et <code>javascript</code> pour la seconde).</p></div>
+    <p>L’idée des lookarounds est assez facile à saisir. La difficulté est dans leur utilisation car les différences
+      entre les langages est assez marquée. Par exemple, de nombreux langages y compris Perl limitent les caractères
+      autorisés dans un lookbehind (pas de métacaractères ou autres, Perl doit être capable de déterminer de combien de
+      caractères il doit revenir en arrière). Vous trouverez plus d’informations
+      <a href="http://www.regular-expressions.info/lookaround.html" target="_tab">ici</a>.</p>
+    <p>Qu’en est-il en JavaScript ? La réponse ne va pas nous arranger : <strong>JavaScript ne supporte que les
+      lookaheads</strong>. Prism tente d’atténuer ce manque en proposant un support limité des Positive Lookbehinds :
+    </p>
+    <pre><code>// prism-javalite.js<br/>Prism.languages.javalite = {<br/> 'class-name&#x2019;: {<br/> pattern:
+      /(?:(class|interface|extends|implements|instanceof|new)\s+)[a-z0-9_]+/ig,<br/> lookbehind: true<br/> } <br/>};
+    </code></pre>
+    <p>Avec cette nouvelle définition, on recherche les identifiants précédés d'un des mot-clés définis. Côté
+      implémentation, si le lookbehind est activé, Prism retire la valeur du premier groupe capturé pour définir la
+      valeur du lexème.</p>
+    <p>Voici à nouveau la méthode <code>tokenize</code> avec les lignes modifiées mises en évidence :</p>
+    <pre data-line="10,26-28,30-31"><code>tokenize : function(text, grammar) {<br/> var strarr = [ text ];<br/><br/>
+      tokenloop: for ( var token in grammar) {<br/> if (!grammar.hasOwnProperty(token) || !grammar[token]) {<br/>
+      continue;<br/> }<br/><br/> var pattern = grammar[token],<br/> lookbehind = !!pattern.lookbehind, <br/>
+      lookbehindLength = 0;<br/><br/> pattern = pattern.pattern || pattern;<br/><br/> for (var i = 0; i &lt;
+      strarr.length; i++) { // Don&#x2019;t cache length as it changes during the loop<br/><br/> var str =
+      strarr[i];<br/><br/> if (str instanceof self.Token) {<br/> continue;<br/> }<br/><br/> var match =
+      pattern.exec(str);<br/><br/> if (match) {<br/> if (lookbehind) {<br/> lookbehindLength = match[1].length;<br/>
+      }<br/><br/> var from = match.index - 1 + lookbehindLength, <br/> match = match[0].slice(lookbehindLength), <br/>
+      len = match.length, <br/> to = from + len, <br/> before = str.slice(0, from + 1), <br/> after = str.slice(to + 1);<br/><br/>
+      var args = [ i, 1 ];<br/><br/> if (before) {<br/> args.push(before);<br/> }<br/><br/> var wrapped = new
+      self.Token(token, match);<br/><br/> args.push(wrapped);<br/><br/> if (after) {<br/> args.push(after);<br/>
+      }<br/><br/> Array.prototype.splice.apply(strarr, args);<br/> }<br/> }<br/> }<br/><br/> return strarr;<br/>}</code></pre>
+    <p><em>Note : L’expression régulière actuelle dans Prism ignore notamment les déclarations de variables ou les
+      casts.</em></p>
+    <p>Avec cette nouvelle fonctionnalité, on peut désormais envisager des exemples plus poussés comme celui-ci :</p>
+    <iframe src="http://imlovinit-assets.appspot.com/posts/post-prism-from-scratch/demo-advanced.html" width="100%" height="950px" style="border: none"></iframe>
+    <div class="tip"><p class="title">Quiz : Trouvez à quel token correspond l’expression régulière suivante ?</p>
+      <pre><code>/(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\r\n])+\/[gim]{0,3}(?=\s*($|[\r\n,.;})]))/g</code></pre>
+      <p><em>Indice : Cette expression a quelque chose de méta en elle.</em></p>
+      <p>Remarquez aussi l’utilisation de la solution lookbehind de Prism et le lookahead supporté par tous les
+        navigateurs.</p></div>
+    <p>Voici l’implémentation complète :</p>
+    <pre><code>var Prism = (function() {<br/><br/> var self = {<br/><br/> languages : {},<br/><br/> highlightAll :
+      function() {<br/> var elements = document.querySelectorAll('code[class*=&quot;language-&quot;]');<br/><br/> for
+      (var i = 0, element; element = elements[i++];) {<br/> self.highlightElement(element);<br/> }<br/> },<br/><br/>
+      highlightElement : function(element) {<br/> var language =
+      element.className.match(/\blanguage-(?!\*)(\w+)\b/i)[1];<br/> var grammar = self.languages[language];<br/><br/> //
+      Set language on the parent, for styling<br/> var parent = element.parentNode;<br/> if
+      (/pre/i.test(parent.nodeName)) {<br/> parent.className = parent.className + ' language-' + language;<br/>
+      }<br/><br/> var code = element.textContent;<br/><br/> element.innerHTML = self.highlight(code, grammar, language);<br/>
+      },<br/><br/> highlight : function(text, grammar, language) {<br/> var tokens = self.tokenize(text, grammar);<br/>
+      return self.Token.stringify(tokens, language);<br/> },<br/><br/> tokenize : function(text, grammar) {<br/> var
+      strarr = [ text ];<br/><br/> tokenloop: for ( var token in grammar) {<br/> if (!grammar.hasOwnProperty(token) ||
+      !grammar[token]) {<br/> continue;<br/> }<br/><br/> var pattern = grammar[token],<br/> lookbehind =
+      !!pattern.lookbehind, <br/> lookbehindLength = 0;<br/><br/> pattern = pattern.pattern || pattern;<br/><br/> for
+      (var i = 0; i &lt; strarr.length; i++) { // Don&#x2019;t cache length as it changes during the loop<br/><br/> var
+      str = strarr[i];<br/><br/> if (str instanceof self.Token) {<br/> continue;<br/> }<br/><br/> var match =
+      pattern.exec(str);<br/><br/> if (match) {<br/> if (lookbehind) {<br/> lookbehindLength = match[1].length;<br/>
+      }<br/><br/> var from = match.index - 1 + lookbehindLength, <br/> match = match[0].slice(lookbehindLength), <br/>
+      len = match.length, <br/> to = from + len, <br/> before = str.slice(0, from + 1), <br/> after = str.slice(to + 1);<br/><br/>
+      var args = [ i, 1 ];<br/><br/> if (before) {<br/> args.push(before);<br/> }<br/><br/> var wrapped = new
+      self.Token(token, match);<br/><br/> args.push(wrapped);<br/><br/> if (after) {<br/> args.push(after);<br/>
+      }<br/><br/> Array.prototype.splice.apply(strarr, args);<br/> }<br/> }<br/> }<br/><br/> return strarr;<br/> },<br/>
+      <br/> Token: function(type, content) {<br/> this.type = type;<br/> this.content = content;<br/> <br/>
+      self.Token.stringify = function(o, language, parent) {<br/> if (typeof o == 'string') {<br/> return o;<br/> }<br/><br/>
+      if (Array.isArray(o)) {<br/> return o.map(function(element) {<br/> return self.Token.stringify(element, language,
+      o);<br/> }).join('');<br/> }<br/><br/> var content = self.Token.stringify(o.content, language, parent);<br/> var
+      classes = [ 'token', o.type ];<br/><br/> return '&lt;span class=&quot;' + classes.join(' ') + '&quot;&gt;' +
+      content + '&lt;/span&gt;';<br/> };<br/> }<br/> };<br/> <br/> return self;<br/><br/>})();<br/><br/>document.addEventListener('DOMContentLoaded',
+      Prism.highlightAll);<br/><br/><br/>Prism.languages.java = {<br/> // C-like<br/> 'comment': {<br/> pattern:
+      /(^|[^\\])\/\*[\w\W]*?\*\//g,<br/> lookbehind: true<br/> },<br/> 'string': /(&quot;|')(\\?.)*?\1/g,<br/>
+      'class-name': {<br/> pattern:
+      /((?:(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/ig,<br/>
+      lookbehind: true<br/> },<br/> 'keyword':
+      /\b(if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/g,<br/>
+      'boolean': /\b(true|false)\b/g,<br/> 'function': {<br/> pattern: /[a-z0-9_]+\(/ig,<br/> },<br/> 'number':
+      /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?)\b/g,<br/> 'operator': /[-+]{1,2}|!|&lt;=?|&gt;=?|={1,3}|&amp;{1,2}|\|?\||\?|\*|\/|\~|\^|\%/g,<br/>
+      'ignore': /&amp;(lt|gt|amp);/gi,<br/> 'punctuation': /[{}[\];(),.:]/g,<br/> <br/> // Java Specific<br/> 'keyword':
+      /\b(abstract|continue|for|new|switch|assert|default|goto|package|synchronized|boolean|do|if|private|this|break|double|implements|protected|throw|byte|else|import|public|throws|case|enum|instanceof|return|transient|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|strictfp|volatile|const|float|native|super|while)\b/g,<br/>
+      'number': /\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp\-]+\b|\b\d*\.?\d+[e]?[\d]*[df]\b|\W\d*\.?\d+\b/gi,<br/> 'operator':
+      {<br/> pattern: /(^|[^\.])(?:\+=|\+\+?|-=|--?|!=?|&lt;{1,2}=?|&gt;{1,3}=?|==?|&amp;=|&amp;&amp;?|\|=|\|\|?|\?|\*=?|\/=?|%=?|\^=?|:|~)/gm,<br/>
+      lookbehind: true<br/> }<br/>};</code></pre>
+    <div class="experiment"><p class="title">A vous de forker</p>
+      <ul>
+        <li>Prism propose un système de "hooks" pour l’écriture de plugins. Pour comprendre son implémentation et
+          surtout comment les plugins l’exploitent, vous pouvez vous tourner vers
+          <a href="https://github.com/LeaVerou/prism/blob/gh-pages/components/prism-core.js">prism-core.js</a> et vers
+          le dossier <a href="https://github.com/LeaVerou/prism/tree/gh-pages/plugins">plugins</a>.
+        </li>
+        <li>Prism supporte l’intégration d’un langage au sein d’un autre (ex : du HTML contenant du JavaScript ou du
+          CSS). L’implémentation se révèle élégante, ne nécessitant que quelques dizaines de lignes. Pour en savoir plus
+          : <a href="https://github.com/LeaVerou/prism/blob/gh-pages/components/prism-core.js">prism-core.js</a>. Indice
+          : regarder du côté des propriétés <code>inside</code> et <code>rest</code>.
+        </li>
+      </ul>
+    </div>
+    <div class="remember"><p class="title">A Retenir</p>
+      <ul>
+        <li><strong>Connaître les expressions régulières</strong> est un sérieux atout pour un développeur.</li>
+        <li><strong>JavaScript ne supporte pas les lookbehinds</strong>.</li>
+        <li>Token != Lexème</li>
+      </ul>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</article>

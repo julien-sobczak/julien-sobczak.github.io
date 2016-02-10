@@ -1,0 +1,80 @@
+---
+layout: post
+title: Naked Objects
+date: '2013-10-02T09:00:00.001+02:00'
+author: Julien
+tags:
+- Architecture
+- DDD
+- I'm readin' I.T.
+modified_time: '2014-12-10T16:28:17.804+01:00'
+blogger_id: tag:blogger.com,1999:blog-7154101540029081002.post-4572274091556548123
+blogger_orig_url: http://www.imlovinit.fr/2013/10/naked-objects-pawson-thesis.html
+---
+
+
+<article class="post-read" itemscope='itemscope' itemtype='http://schema.org/Review'>
+
+  <meta itemprop="author" content="Julien Sobczak"/>
+  <meta itemprop="datePublished" content="2013-10-02"/>
+
+  <h1 itemprop="name">Naked Objects</h1>
+  <h2>Richard Pawson</h2>
+
+  <header>
+    <div class="preview"><select class="form-control">
+      <option value="">Voir sur ...</option>
+      <option value="http://downloads.nakedobjects.net/resources/Pawson%20thesis.pdf">Télécharger la thèse</option>
+    </select></div>
+    <div class="headline" itemprop="description"> Une thèse assez digeste sur une idée originale.</div>
+    <div class="evaluations" itemprop="reviewRating" itemscope='itemscope' itemtype="http://schema.org/Rating">
+      <span class="note-10-20"></span> <span class="roti-2"></span> <span class="time-6"></span>
+      <meta itemprop="worstRating" content="1"/>
+      <meta itemprop="ratingValue" content="10"/>
+      <meta itemprop="bestRating" content="20"/>
+    </div>
+    <div class="clearfix"></div>
+  </header>
+
+  <section class="informations" itemprop="itemReviewed" itemscope='itemscope' itemtype='http://schema.org/Book'>
+    <meta itemprop="name" content="Naked Objects"/>
+    <h4><span class="line"></span>Informations</h4>               <label>Date de publication</label>
+    <span itemprop="datePublished" content="2004-06-01">1 juin 2004</span> <label>Auteur</label>
+    <span itemprop="author">Richard Pawson</span> <label>Nb pages </label>
+    <span><span itemprop="numberOfPages">223</span> pages</span>
+  </section>
+
+  <section class="post-labels"><h4><span class="line"></span>Libellés</h4>
+    <ul class="labels">
+      <li><a href="/search/label/I'm%20readin'%20I.T.">
+        <div class="label">
+          <span class="label-icon label-im-readin-it-icon label-black-icon"></span><span class="label-text label-black-text">I'm readin' I.T.</span><span class="eclipse"></span>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <section class="comment" itemprop="reviewBody">
+    <h4><span class="line"></span>Commentaire</h4>
+    <p>Des entités, contenant uniquement des propriétés sans aucun comportement, manipulées par des services qui
+      viennent les modifier à travers les accesseurs, çà vous parle ? La réponse est tristement oui. Martin Fowler a
+      introduit le nom de "Anemic domain model" pour décrire cette situation. Richard Pawson part du même constat et
+      tente de comprendre les raisons qui ont conduit à en arriver là afin de proposer une approche nouvelle : les Naked
+      Objects. </p>
+    <p>Richard Pawson présente une approche où l'intégralité du code réside dans la couche domaine composée d'entités et
+      de value objects. L'interface découle ensuite de ces objets et c'est là qu'un framework comme Apache Isis prend
+      tout son sens. Je ne vais pas rentrer dans les détails mais pour donner une brève idée, il faut imaginer chaque
+      entité représentée par une icône et chacune de ses méthodes devient une entrée du menu contextuel de l'icône. Les
+      entités contiennent la logique métier comme le préconise une approche DDD. Cette génération des IHMs est assez
+      surprenante mais je reste perplexe quant à son utilité. D'autres livres comme
+      <a href="http://www.imlovinit.fr/2013/08/about-face-3-essentials-of-interaction.html">About Face 3</a> me laisse
+      penser que cela ne peut pas être la solution. La thèse le souligne d'ailleurs en détaillant les conditions
+      favorables à cette approche et présente quelques projets où l'approche a été conduite avec succès. Des études ont
+      été menées sur les personnes impliqués sur ces projets (utilisateurs, développeur, etc) et les résultats sont très
+      positifs. A vous de vous faire votre propre avis. </p>
+    <p>Terminons en ajoutant que la préface est écrite par Trygve Reenskaug, à l'origine du pattern MVC et que Richard
+      Pawson a co-écrit peu de temps après un livre homonyme sur le sujet.</p>
+    <p class="me">Julien Sobczak</p>
+  </section>
+
+</article>
