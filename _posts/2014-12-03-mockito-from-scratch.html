@@ -1,5 +1,13 @@
 ---
 layout: post
+title: 'Implementing Mockito from Scratch'
+author: 'Julien Sobczak'
+category: inspect
+tags:
+---
+
+---
+layout: post
 title: Implementing Mockito from Scratch
 date: '2014-12-03T22:26:00.001+01:00'
 author: Julien
@@ -40,7 +48,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       <a href="http://martinfowler.com/eaaCatalog/registry.html" target="_tab">registry</a>. Pour limiter les appels, on
       décide de mettre en place un simple cache :</p>
     <pre><code>public class RegistryCacheDecorator implements Registry<br/>{<br/><br/> private Registry
-      decoratedRegistry;<br/> private Map&lt;String, Object&gt; cache = new HashMap&lt;String, Object&gt;();<br/><br/>
+      decoratedRegistry;<br/> private Map<String, Object> cache = new HashMap<String, Object>();<br/><br/>
       public RegistryCacheDecorator(Registry registry) {<br/> this.decoratedRegistry = registry;<br/> }<br/><br/> public
       Object lookup(String name) {<br/> if (!cache.containsKey(name)) {<br/> cache.put(name,
       decoratedRegistry.lookup(name));<br/> }<br/> return cache.get(name);<br/> }<br/><br/>}</code></pre>
@@ -53,8 +61,8 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       registry;<br/><br/> @Before<br/> public void before() {<br/> registry = mock(Registry.class);<br/><br/> decorator
       = new RegistryCacheDecorator(registry);<br/> }<br/><br/> @Test<br/> public void
       registryShouldOnlyBeCalledOnceForTheSameName() {<br/> // Given<br/>
-      when(registry.lookup(anyString())).thenReturn(new BasicDataSource()); <br/><br/> // When<br/> decorator.lookup(&quot;datasource&quot;);<br/>
-      decorator.lookup(&quot;datasource&quot;);<br/><br/> // Then<br/> verify(registry, times(1)).lookup(&quot;datasource&quot;);<br/>
+      when(registry.lookup(anyString())).thenReturn(new BasicDataSource()); <br/><br/> // When<br/> decorator.lookup("datasource");<br/>
+      decorator.lookup("datasource");<br/><br/> // Then<br/> verify(registry, times(1)).lookup("datasource");<br/>
       }<br/>}</code></pre>
     <dl class="source-explanations">
       <dt>11</dt>
@@ -72,15 +80,15 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
     <h3>C’est parti !</h3>
     <p>Suite à la suppression des imports, notre code ne compile plus. On commence donc par définir la signature des
       méthodes manquantes :</p>
-    <pre><code>public class Mockito<br/>{<br/><br/> public static &lt;T&gt; T mock(Class&lt;T&gt; classToMock) {<br/>
-      return null; // impl&eacute;ment&eacute;e dans la [partie &quot;mock&quot;](#mockito-from-scratch-mock)<br/>
-      }<br/><br/> public static &lt;T&gt; OngoingStubbing&lt;T&gt; when(T methodCall) {<br/> return null; // impl&eacute;ment&eacute;e
-      dans la [partie &quot;when&quot;](#mockito-from-scratch-when) <br/> }<br/><br/> public static &lt;T&gt; T verify(T
-      mock, Object aDefinir) {<br/> return mock; // impl&eacute;ment&eacute;e dans la [partie &quot;verify&quot;](#mockito-from-scratch-verify)<br/>
+    <pre><code>public class Mockito<br/>{<br/><br/> public static <T> T mock(Class<T> classToMock) {<br/>
+      return null; // implémentée dans la [partie "mock"](#mockito-from-scratch-mock)<br/>
+      }<br/><br/> public static <T> OngoingStubbing<T> when(T methodCall) {<br/> return null; // implémentée
+      dans la [partie "when"](#mockito-from-scratch-when) <br/> }<br/><br/> public static <T> T verify(T
+      mock, Object aDefinir) {<br/> return mock; // implémentée dans la [partie "verify"](#mockito-from-scratch-verify)<br/>
       }<br/><br/>}</code></pre>
     <p>Notre code ne compile toujours pas à cause de la référence à <code>OngoingStubbing</code>. Le code suivant
       devrait corriger le problème :</p>
-    <pre><code>public interface OngoingStubbing&lt;T&gt;<br/>{<br/> OngoingStubbing&lt;T&gt; thenReturn(T value);<br/>}</code></pre>
+    <pre><code>public interface OngoingStubbing<T><br/>{<br/> OngoingStubbing<T> thenReturn(T value);<br/>}</code></pre>
     <p>Vous pouvez pour le moment ignorer cette interface, nous y reviendrons en temps voulu.</p>
     <h3 id="mockito-from-scratch-mock"><code>mock</code> : La création d’un mock</h3>
     <p>Créer un mock revient à créer un proxy, c’est-à-dire un objet qui se présente comme n’importe quel instance d’une
@@ -94,7 +102,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
     </p>
     <p>Bien que reposant sur cglib, Mockito cherche à s’en abstraire à l’aide deux interfaces : <code>MockMaker</code>
       et <code>MockHandler</code>.</p>
-    <pre><code>public interface MockMaker {<br/><br/> &lt;T&gt; T createMock(Class&lt;T&gt; classToMock, MockHandler
+    <pre><code>public interface MockMaker {<br/><br/> <T> T createMock(Class<T> classToMock, MockHandler
       handler);<br/>}</code></pre>
     <p>Une implémentation de <code>MockMaker</code> est responsable d’instancier un proxy de manière à ce que chaque
       appel de méthodes soit délégué à la classe <code>MockHandler</code> :</p>
@@ -115,17 +123,17 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
     <pre><code>import org.mockito.cglib.core.CodeGenerationException;<br/>import org.mockito.cglib.proxy.Callback;<br/>import
       org.mockito.cglib.proxy.Enhancer;<br/>import org.mockito.cglib.proxy.Factory;<br/>import
       org.mockito.cglib.proxy.MethodInterceptor;<br/>import org.mockito.exceptions.base.MockitoException;<br/>import
-      org.objenesis.ObjenesisStd;<br/><br/>public class CglibMockMaker implements MockMaker {<br/><br/> public &lt;T&gt;
-      T createMock(Class&lt;T&gt; mockedType, MockHandler handler) {<br/><br/> try {<br/> MethodInterceptor interceptor
-      = new MethodInterceptorFilter(handler);<br/><br/> Class&lt;Factory&gt; proxyClass =
+      org.objenesis.ObjenesisStd;<br/><br/>public class CglibMockMaker implements MockMaker {<br/><br/> public <T>
+      T createMock(Class<T> mockedType, MockHandler handler) {<br/><br/> try {<br/> MethodInterceptor interceptor
+      = new MethodInterceptorFilter(handler);<br/><br/> Class<Factory> proxyClass =
       createProxyClass(mockedType);<br/> Object proxyInstance = createProxy(proxyClass, interceptor);<br/> return
       mockedType.cast(proxyInstance);<br/> } catch (ClassCastException cce) {<br/> throw new MockitoException(<br/>
-      &quot;Exception occurred while creating the mockito proxy&quot;, cce);<br/> }<br/><br/> }<br/> <br/> public Class&lt;Factory&gt;
-      createProxyClass(Class&lt;?&gt; mockedType) {<br/> Enhancer enhancer = new Enhancer();<br/>
+      "Exception occurred while creating the mockito proxy", cce);<br/> }<br/><br/> }<br/> <br/> public Class<Factory>
+      createProxyClass(Class<?> mockedType) {<br/> Enhancer enhancer = new Enhancer();<br/>
       enhancer.setUseFactory(true);<br/> enhancer.setSuperclass(mockedType);<br/> enhancer.setCallbackTypes(new
       Class[]{MethodInterceptor.class});<br/> <br/> try {<br/> return enhancer.createClass(); <br/> } catch
-      (CodeGenerationException e) {<br/> throw new MockitoException(<br/> &quot;Mockito cannot mock this class: &quot; +
-      mockedType);<br/> }<br/> }<br/> <br/> private Object createProxy(Class&lt;Factory&gt; proxyClass,
+      (CodeGenerationException e) {<br/> throw new MockitoException(<br/> "Mockito cannot mock this class: " +
+      mockedType);<br/> }<br/> }<br/> <br/> private Object createProxy(Class<Factory> proxyClass,
       MethodInterceptor interceptor) {<br/> ObjenesisStd objenesis = new ObjenesisStd();<br/> Factory proxy =
       objenesis.newInstance(proxyClass);<br/> proxy.setCallbacks(new Callback[] {interceptor});<br/> return proxy;<br/>
       }<br/><br/>}</code></pre>
@@ -149,7 +157,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
     <pre><code>return enhancer.createClass();</code></pre>
     <p>- Le moyen le plus simple pour créer une instance à partir d’un objet <code>Class</code> est la méthode <code>newInstance</code>
       :</p>
-    <pre><code>Class&lt;T&gt; cls = ...:<br/>return cls.newInstance();</code></pre>
+    <pre><code>Class<T> cls = ...:<br/>return cls.newInstance();</code></pre>
     <p>Cette méthode s’appuie sur un constructeur par défaut. Cette restriction généralement acceptable peut poser
       quelques problèmes dans notre cas.</p>
     <p>Imaginons que la classe à mocker hérite d’une autre classe :</p>
@@ -217,17 +225,17 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
     <p>Commençons par nous pencher sur cette fameuse variable globale, véritable boussole pour savoir à tout moment où
       nous nous trouvons. Cette variable est en réalité une instance de la classe <code>MockingProgress</code> :</p>
     <pre><code>public class MockingProgress<br/>{<br/><br/> /** Variable globale */<br/> public static MockingProgress
-      INSTANCE = new MockingProgress();<br/><br/> private final List&lt;Matcher&gt; matcherStack = new ArrayList&lt;Matcher&gt;();<br/>
-      private OngoingStubbing ongoingStubbing;<br/><br/><br/> /** Appel&eacute;e &agrave; chaque ArgumentMatcher
+      INSTANCE = new MockingProgress();<br/><br/> private final List<Matcher> matcherStack = new ArrayList<Matcher>();<br/>
+      private OngoingStubbing ongoingStubbing;<br/><br/><br/> /** Appelée à chaque ArgumentMatcher
       (anyString, eq, ...) */<br/> public void reportMatcher(Matcher matcher) {<br/> matcherStack.add(matcher);<br/>
-      }<br/> <br/> /** Appel&eacute;e lors de l'ex&eacute;cution du mock dans le when */<br/> public void
+      }<br/> <br/> /** Appelée lors de l'exécution du mock dans le when */<br/> public void
       reportOngoingStubbing(OngoingStubbing ongoingStubbing) {<br/> this.ongoingStubbing = ongoingStubbing;<br/>
-      }<br/><br/> /** Appel&eacute;e par la m&eacute;thode when pour confirmer le stubbing */<br/> public void
-      stubbingStarted() {<br/><br/> }<br/> <br/> /** Retourne les ArgumentMatchers m&eacute;moris&eacute;s. */<br/>
-      public List&lt;Matcher&gt; pullMatchers() {<br/> if (matcherStack.isEmpty()) {<br/> return
-      Collections.emptyList();<br/> }<br/> <br/> List&lt;Matcher&gt; matchers = new ArrayList&lt;Matcher&gt;(matcherStack);<br/>
-      matcherStack.clear();<br/> return matchers;<br/> }<br/> <br/> /** <br/> * Appel&eacute; par le when pour r&eacute;cup&eacute;rer
-      l'instance <br/> * &agrave; retourner pour chainer les m&eacute;thodes. <br/> */<br/> public OngoingStubbing
+      }<br/><br/> /** Appelée par la méthode when pour confirmer le stubbing */<br/> public void
+      stubbingStarted() {<br/><br/> }<br/> <br/> /** Retourne les ArgumentMatchers mémorisés. */<br/>
+      public List<Matcher> pullMatchers() {<br/> if (matcherStack.isEmpty()) {<br/> return
+      Collections.emptyList();<br/> }<br/> <br/> List<Matcher> matchers = new ArrayList<Matcher>(matcherStack);<br/>
+      matcherStack.clear();<br/> return matchers;<br/> }<br/> <br/> /** <br/> * Appelé par le when pour récupérer
+      l'instance <br/> * à retourner pour chainer les méthodes. <br/> */<br/> public OngoingStubbing
       pullOngoingStubbing() {<br/> OngoingStubbing temp = ongoingStubbing;<br/> ongoingStubbing = null;<br/> return
       temp;<br/> } <br/><br/>}</code></pre>
     <p>Cette classe sera modifiée lorsque nous attaquerons la dernière partie. Son code peut dérouter mais son principe
@@ -236,22 +244,22 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
     <p>Son fonctionnement deviendra plus clair à travers les prochaines classes.</p>
     <p>Revenons à quelque chose de plus simple pour le moment : les <code>ArgumentMatcher</code>, basés sur l’excellente
       librairie <a href="http://hamcrest.org/" target="_tab">Hamcrest</a> :</p>
-    <pre><code>import org.hamcrest.BaseMatcher;<br/><br/>public abstract class ArgumentMatcher&lt;T&gt; extends
-      BaseMatcher&lt;T&gt; { <br/><br/> public abstract boolean matches(Object argument);<br/><br/>}</code></pre>
+    <pre><code>import org.hamcrest.BaseMatcher;<br/><br/>public abstract class ArgumentMatcher<T> extends
+      BaseMatcher<T> { <br/><br/> public abstract boolean matches(Object argument);<br/><br/>}</code></pre>
     <p>Mockito propose de nombreux matchers. Pour notre exemple, seuls deux seront nécessaires :</p>
-    <pre><code>public class Any&lt;T&gt; extends ArgumentMatcher&lt;T&gt; {<br/><br/> @Override<br/> public boolean
-      matches(Object actual) {<br/> return true; // n&#x2019;importe quelle valeur autoris&eacute;e<br/> }<br/><br/>
-      public void describeTo(Description description) {<br/> description.appendText(&quot;&lt;any&gt;&quot;);<br/>
-      }<br/>}<br/><br/>public class Equals&lt;T&gt; extends ArgumentMatcher&lt;T&gt; {<br/><br/> private final Object
+    <pre><code>public class Any<T> extends ArgumentMatcher<T> {<br/><br/> @Override<br/> public boolean
+      matches(Object actual) {<br/> return true; // n&#x2019;importe quelle valeur autorisée<br/> }<br/><br/>
+      public void describeTo(Description description) {<br/> description.appendText("<any>");<br/>
+      }<br/>}<br/><br/>public class Equals<T> extends ArgumentMatcher<T> {<br/><br/> private final Object
       wanted;<br/><br/> public Equals(Object wanted) {<br/> this.wanted = wanted;<br/> }<br/> <br/> @Override<br/>
       public boolean matches(Object actual) {<br/> return wanted == actual;<br/> }<br/><br/> public void
-      describeTo(Description description) {<br/> description.appendText(&quot;&lt;eq&gt;&quot;);<br/>
+      describeTo(Description description) {<br/> description.appendText("<eq>");<br/>
       }<br/>}</code></pre>
     <p>Leur utilisation passe forcément par une méthode factory qui a double emploi : communiquer leur usage et
       retourner le type adapté pour que notre code compile (Note : instancier directement un matcher à la place du
       <code>anyString()</code> ne compilerait pas) :</p>
     <pre><code>public class Matchers<br/>{<br/><br/> public static String anyString() {<br/>
-      MockingProgress.INSTANCE.reportMatcher(new Any());<br/> return &quot;&quot;;<br/> }<br/> <br/> public static &lt;T&gt;
+      MockingProgress.INSTANCE.reportMatcher(new Any());<br/> return "";<br/> }<br/> <br/> public static <T>
       T eq(T value) {<br/> MockingProgress.INSTANCE.reportMatcher(new Equals(value));<br/> return value;<br/> }<br/>
       <br/>}</code></pre>
     <p>Avant de définitivement passer aux choses sérieuses, nous allons introduire la classe
@@ -261,20 +269,20 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       <code>Matchers</code> que nous venons de voir (<code>anyString</code> retourne par exemple une chaine vide). Voici
       le code de cette classe :</p>
     <pre data-line="16"><code>public class InvocationMatcher {<br/><br/> private final Invocation invocation;<br/>
-      private final List&lt;Matcher&gt; matchers;<br/><br/> public InvocationMatcher(Invocation invocation, List&lt;Matcher&gt;
+      private final List<Matcher> matchers;<br/><br/> public InvocationMatcher(Invocation invocation, List<Matcher>
       matchers) {<br/> this.invocation = invocation;<br/> if (matchers.isEmpty()) {<br/> this.matchers =
       argumentsToMatchers(invocation.getArguments());<br/> } else {<br/> this.matchers = matchers;<br/> }<br/> }<br/>
-      <br/> public static List&lt;Matcher&gt; argumentsToMatchers(Object[] arguments) {<br/> List&lt;Matcher&gt;
-      matchers = new ArrayList&lt;Matcher&gt;(arguments.length);<br/> for (Object arg : arguments) {<br/>
+      <br/> public static List<Matcher> argumentsToMatchers(Object[] arguments) {<br/> List<Matcher>
+      matchers = new ArrayList<Matcher>(arguments.length);<br/> for (Object arg : arguments) {<br/>
       matchers.add(new Equals(arg));<br/> }<br/> return matchers;<br/> }<br/> <br/> public Invocation getInvocation()
-      {<br/> return this.invocation;<br/> }<br/> <br/> public List&lt;Matcher&gt; getMatchers() {<br/> return
+      {<br/> return this.invocation;<br/> }<br/> <br/> public List<Matcher> getMatchers() {<br/> return
       this.matchers;<br/> }<br/> <br/> public boolean matches(Invocation actual) {<br/> return invocation.getMock() ==
-      actual.getMock()<br/> &amp;&amp; hasSameMethod(actual)<br/> &amp;&amp; hasMatchingArguments(this, actual);<br/>
+      actual.getMock()<br/> && hasSameMethod(actual)<br/> && hasMatchingArguments(this, actual);<br/>
       }<br/><br/> private boolean hasSameMethod(Invocation candidate) {<br/> Method m1 =
       this.getInvocation().getMethod();<br/> Method m2 = candidate.getMethod();<br/> return m1.equals(m2);<br/>
       }<br/><br/> private boolean hasMatchingArguments(InvocationMatcher invocationMatcher, <br/> Invocation actual)
       {<br/> Object[] actualArgs = actual.getArguments();<br/> if (actualArgs.length !=
-      invocationMatcher.getMatchers().size()) {<br/> return false;<br/> }<br/> for (int i = 0; i &lt; actualArgs.length;
+      invocationMatcher.getMatchers().size()) {<br/> return false;<br/> }<br/> for (int i = 0; i < actualArgs.length;
       i++) {<br/> if (!invocationMatcher.getMatchers().get(i).matches(actualArgs[i])) {<br/> return false;<br/> }<br/> }<br/>
       return true;<br/> }<br/><br/>}</code></pre>
     <dl class="source-explanations">
@@ -291,15 +299,15 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       invocations "stubbées", c’est-à-dire les invocations à l’aide du <code>when</code> permettant de programmer notre
       mock mais aussi l’ensemble des invocations réelles durant l’exécution du test, celles qui vont servir à valider
       nos affirmations (<code>verify</code>).</p>
-    <pre data-line="4,5,6,8"><code>public class InvocationContainer<br/>{<br/><br/> private final Map&lt;InvocationMatcher,
-      Answer&gt; stubbed = new HashMap&lt;InvocationMatcher, Answer&gt;();<br/> private InvocationMatcher
-      invocationForStubbing;<br/> private LinkedList&lt;Invocation&gt; registeredInvocations = new LinkedList&lt;Invocation&gt;();<br/><br/>
+    <pre data-line="4,5,6,8"><code>public class InvocationContainer<br/>{<br/><br/> private final Map<InvocationMatcher,
+      Answer> stubbed = new HashMap<InvocationMatcher, Answer>();<br/> private InvocationMatcher
+      invocationForStubbing;<br/> private LinkedList<Invocation> registeredInvocations = new LinkedList<Invocation>();<br/><br/>
       public void setInvocationForPotentialStubbing(InvocationMatcher invocationMatcher) {<br/>
       registeredInvocations.add(invocationMatcher.getInvocation());<br/> invocationForStubbing = invocationMatcher;<br/>
       }<br/><br/> public void addAnswer(Answer answer) {<br/> registeredInvocations.removeLast();<br/>
-      stubbed.put(invocationForStubbing, answer);<br/> invocationForStubbing = null;<br/> }<br/> <br/> public List&lt;Invocation&gt;
+      stubbed.put(invocationForStubbing, answer);<br/> invocationForStubbing = null;<br/> }<br/> <br/> public List<Invocation>
       getInvocations() {<br/> return registeredInvocations;<br/> }<br/><br/> public Answer findAnswerFor(Invocation
-      invocation) {<br/> for (Entry&lt;InvocationMatcher, Answer&gt; eachEntry : stubbed.entrySet()) {<br/>
+      invocation) {<br/> for (Entry<InvocationMatcher, Answer> eachEntry : stubbed.entrySet()) {<br/>
       InvocationMatcher eachInvocationMatcher = eachEntry.getKey();<br/> Answer eachAnswer = eachEntry.getValue();<br/>
       if (eachInvocationMatcher.matches(invocation)) {<br/> return eachAnswer;<br/> }<br/> }<br/><br/> return null;<br/>
       }<br/> <br/>}</code></pre>
@@ -325,33 +333,33 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
     </dl>
     <p>Les réponses sont représentées par l’interface <code>Answer</code>. Elles peuvent correspondre à une valeur de
       retour (<code>thenReturn</code>), à une exception à lancer (<code>thenThrow</code>), etc.</p>
-    <pre><code>public interface Answer&lt;T&gt; {<br/> T answer(Invocation invocation) throws Throwable;<br/>}<br/><br/>public
-      class Returns implements Answer&lt;Object&gt; {<br/><br/> private final Object value;<br/><br/> public
+    <pre><code>public interface Answer<T> {<br/> T answer(Invocation invocation) throws Throwable;<br/>}<br/><br/>public
+      class Returns implements Answer<Object> {<br/><br/> private final Object value;<br/><br/> public
       Returns(Object value) {<br/> this.value = value;<br/> }<br/><br/> public Object answer(Invocation invocation)
-      throws Throwable {<br/> return value;<br/> }<br/><br/>}<br/><br/>public class ThrowsException implements Answer&lt;Object&gt;
+      throws Throwable {<br/> return value;<br/> }<br/><br/>}<br/><br/>public class ThrowsException implements Answer<Object>
       {<br/><br/> private final Throwable throwable;<br/><br/> public ThrowsException(Throwable throwable) {<br/>
       this.throwable = throwable;<br/> }<br/><br/> public Object answer(Invocation invocation) throws Throwable {<br/>
       throw throwable;<br/> }<br/><br/>}</code></pre>
     <p>L’enregistrement des réponses se fait par une des premières classes introduites dans cet article (çà remonte…).
       Il s’agit de la classe <code>OngoingStubbing</code> retournée par la méthode <code>when</code>. Voici son contenu
       modifié :</p>
-    <pre><code>public static class OngoingStubbing&lt;T&gt;<br/>{<br/><br/> private final InvocationContainer
+    <pre><code>public static class OngoingStubbing<T><br/>{<br/><br/> private final InvocationContainer
       invocationContainer;<br/><br/> public OngoingStubbing(InvocationContainer invocationContainer) {<br/>
-      this.invocationContainer = invocationContainer;<br/> }<br/><br/> public OngoingStubbing&lt;T&gt; thenReturn(T
-      value) {<br/> return thenAnswer(new Returns(value));<br/> }<br/><br/> public OngoingStubbing&lt;T&gt;
+      this.invocationContainer = invocationContainer;<br/> }<br/><br/> public OngoingStubbing<T> thenReturn(T
+      value) {<br/> return thenAnswer(new Returns(value));<br/> }<br/><br/> public OngoingStubbing<T>
       thenThrow(Throwable throwable) {<br/> return thenAnswer(new ThrowsException(throwable));<br/> }<br/><br/> public
-      OngoingStubbing&lt;T&gt; thenAnswer(Answer&lt;?&gt; answer) {<br/> invocationContainer.addAnswer(answer);<br/>
+      OngoingStubbing<T> thenAnswer(Answer<?> answer) {<br/> invocationContainer.addAnswer(answer);<br/>
       return this;<br/> }<br/>}</code></pre>
     <p>Cette deuxième partie touche à sa fin. Reste à assembler toutes les briques ensemble. C’est le rôle de la classe
       déjà introduite <code>MockHandler</code>, appelée à chaque appel de méthode sur notre mock :</p>
-    <pre data-line="8,13,16,26"><code>public class MockHandlerImpl&lt;T&gt; implements MockHandler<br/>{<br/><br/>
+    <pre data-line="8,13,16,26"><code>public class MockHandlerImpl<T> implements MockHandler<br/>{<br/><br/>
       private MockingProgress mockingProgress = MockingProgress.INSTANCE;<br/> private InvocationContainer
       invocationContainer;<br/><br/> public MockHandlerImpl() {<br/> this.invocationContainer = new
       InvocationContainer();<br/> }<br/><br/> public Object handle(Invocation invocation) throws Throwable {<br/> <br/>
-      List&lt;Matcher&gt; lastMatchers = mockingProgress.pullMatchers();<br/> InvocationMatcher invocationWithMatchers =
+      List<Matcher> lastMatchers = mockingProgress.pullMatchers();<br/> InvocationMatcher invocationWithMatchers =
       new InvocationMatcher(invocation, lastMatchers);<br/> <br/>
-      invocationContainer.setInvocationForPotentialStubbing(invocationWithMatchers);<br/> OngoingStubbing&lt;T&gt;
-      ongoingStubbing = new OngoingStubbing&lt;T&gt;(invocationContainer);<br/>
+      invocationContainer.setInvocationForPotentialStubbing(invocationWithMatchers);<br/> OngoingStubbing<T>
+      ongoingStubbing = new OngoingStubbing<T>(invocationContainer);<br/>
       mockingProgress.reportOngoingStubbing(ongoingStubbing);<br/> <br/> // look for existing answer for this invocation<br/>
       Answer answer = invocationContainer.findAnswerFor(invocation);<br/> <br/> if (answer == null) { // when?<br/>
       return null;<br/> } else { // called by the test<br/> return answer.answer(invocation);<br/> }<br/>
@@ -369,7 +377,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       <dd>Si une réponse a déjà été enregistrée, on la retourne.</dd>
     </dl>
     <p>N’oublions pas également de revoir notre implémentation initiale du <code>when</code> :</p>
-    <pre><code>public class Mockito<br/>{<br/><br/> // ...<br/><br/> public static &lt;T&gt; OngoingStubbing&lt;T&gt;
+    <pre><code>public class Mockito<br/>{<br/><br/> // ...<br/><br/> public static <T> OngoingStubbing<T>
       when(T methodCall) {<br/> mockingProgress.stubbingStarted();<br/> return
       mockingProgress.pullOngoingStubbing();<br/> }<br/> <br/>}</code></pre>
     <h3 id="mockito-from-scratch-verify"><code>verify</code></h3>
@@ -396,18 +404,18 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       Times(int wantedNumberOfInvocations) {<br/> this.wantedCount = wantedNumberOfInvocations;<br/> }<br/><br/> public
       void verify(VerificationData data) {<br/> int actualCount = 0;<br/> for (Invocation eachInvocation :
       data.getAllInvocations()) {<br/> if (data.getWanted().matches(eachInvocation)) {<br/> actualCount++;<br/> }<br/> }<br/>
-      if (actualCount != wantedCount) {<br/> throw new MockitoAssertionError(<br/> &quot;Actual: &quot; + actualCount +
-      &quot;, expected: &quot; + wantedCount); <br/> }<br/> }<br/><br/>}</code></pre>
+      if (actualCount != wantedCount) {<br/> throw new MockitoAssertionError(<br/> "Actual: " + actualCount +
+      ", expected: " + wantedCount); <br/> }<br/> }<br/><br/>}</code></pre>
     <p>La vérification est aisée grâce à l’objet <code>VerificationData</code> qui regroupe toutes les invocations
       réelles et l’invocation "stubbée" (celle du <code>verify</code>). Il suffit de rechercher toutes celles
       correspondantes, et de comparer avec le nombre attendu..</p>
     <pre><code>public class VerificationData<br/>{<br/><br/> private final InvocationMatcher wanted;<br/> private final
       InvocationContainer invocations;<br/><br/> public VerificationData(InvocationContainer invocations,
       InvocationMatcher wanted) {<br/> this.invocations = invocations;<br/> this.wanted = wanted;<br/> }<br/><br/>
-      public List&lt;Invocation&gt; getAllInvocations() {<br/> return invocations.getInvocations();<br/> }<br/><br/>
+      public List<Invocation> getAllInvocations() {<br/> return invocations.getInvocations();<br/> }<br/><br/>
       public InvocationMatcher getWanted() {<br/> return wanted;<br/> }<br/>}</code></pre>
     <p>Il nous faut également revoir notre implémentation initiale de la méthode <code>verify</code> :</p>
-    <pre><code>public class Mockito<br/>{<br/><br/> // &#x2026; <br/><br/> public static &lt;T&gt; T verify(T mock,
+    <pre><code>public class Mockito<br/>{<br/><br/> // &#x2026; <br/><br/> public static <T> T verify(T mock,
       VerificationMode mode) {<br/> mockingProgress.verificationStarted(mode);<br/> return mock;<br/>
       }<br/><br/>}</code></pre>
     <p>Ainsi que du <code>MockingProgress</code> :</p>
@@ -417,17 +425,17 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       VerificationMode temp = verificationMode;<br/> verificationMode = null;<br/> return temp;<br/>
       }<br/>}</code></pre>
     <p>Sans oublier la classe centrale <code>MockHandler</code> qui se complexifie à nouveau :</p>
-    <pre data-line="13,18-22,38-40"><code>public static class MockHandlerImpl&lt;T&gt; implements MockHandler<br/>{<br/><br/>
+    <pre data-line="13,18-22,38-40"><code>public static class MockHandlerImpl<T> implements MockHandler<br/>{<br/><br/>
       private MockingProgress mockingProgress = MockingProgress.INSTANCE;<br/> private InvocationContainer
       invocationContainer;<br/><br/> public MockHandlerImpl() {<br/> this.invocationContainer = new
       InvocationContainer();<br/> }<br/><br/> public Object handle(Invocation invocation) throws Throwable {<br/> <br/>
-      VerificationMode verificationMode = mockingProgress.pullVerificationMode();<br/> <br/> List&lt;Matcher&gt;
+      VerificationMode verificationMode = mockingProgress.pullVerificationMode();<br/> <br/> List<Matcher>
       lastMatchers = mockingProgress.pullMatchers();<br/> InvocationMatcher invocationWithMatchers = new
       InvocationMatcher(invocation, lastMatchers);<br/> <br/> if (verificationMode != null) { // verify?<br/>
       VerificationData data = createVerificationData(invocationContainer, invocationWithMatchers);<br/>
       verificationMode.verify(data);<br/> return null;<br/> } <br/><br/>
-      invocationContainer.setInvocationForPotentialStubbing(invocationWithMatchers);<br/> OngoingStubbing&lt;T&gt;
-      ongoingStubbing = new OngoingStubbing&lt;T&gt;(invocationContainer);<br/>
+      invocationContainer.setInvocationForPotentialStubbing(invocationWithMatchers);<br/> OngoingStubbing<T>
+      ongoingStubbing = new OngoingStubbing<T>(invocationContainer);<br/>
       mockingProgress.reportOngoingStubbing(ongoingStubbing);<br/> <br/> // look for existing answer for this invocation<br/>
       Answer answer = invocationContainer.findAnswerFor(invocation);<br/> <br/> if (answer == null) { // when?<br/>
       return null;<br/> } else { // called by the test<br/> return answer.answer(invocation);<br/> }<br/> }<br/> <br/>
@@ -443,8 +451,8 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       <code>MockHandler</code>. La seule classe à synchroniser est la classe <code>MockingProgress</code>, servant de
       variable statique pour supporter l’API mockito. Avec l’aide de la classe Java <code>ThreadLocal</code>, sa
       synchronisation est presque transparente :</p>
-    <pre><code>public class ThreadSafeMockingProgress {<br/> <br/> private static final ThreadLocal&lt;MockingProgress&gt;
-      mockingProgress = <br/> new ThreadLocal&lt;MockingProgress&gt;();<br/><br/> static MockingProgress threadSafely()
+    <pre><code>public class ThreadSafeMockingProgress {<br/> <br/> private static final ThreadLocal<MockingProgress>
+      mockingProgress = <br/> new ThreadLocal<MockingProgress>();<br/><br/> static MockingProgress threadSafely()
       {<br/> if (mockingProgress.get() == null) {<br/> mockingProgress.set(new MockingProgress());<br/> }<br/> return
       mockingProgress.get();<br/> }<br/><br/> // ... <br/> <br/> public void verificationStarted(VerificationMode
       verify) {<br/> threadSafely().verificationStarted(verify);<br/> }<br/><br/> public VerificationMode
@@ -461,22 +469,22 @@ blogger_orig_url: http://www.imlovinit.fr/2014/12/mockito-from-scratch.html
       qui regroupe l’ensemble des erreurs possibles. Pour chaque erreur, une méthode spécifique est proposée. Voici un
       extrait de cette classe :</p>
     <pre><code>package org.mockito.exceptions;<br/><br/>public class Reporter {<br/><br/> public void
-      incorrectUseOfApi() {<br/> throw new MockitoException(join(<br/> &quot;Incorrect use of API detected
-      here:&quot;,<br/> new LocationImpl(),<br/> &quot;&quot;,<br/> &quot;You probably stored a reference to
-      OngoingStubbing ...&quot;,<br/> &quot;Examples of correct usage:&quot;,<br/> &quot;
-      when(mock.isOk()).thenReturn(true).thenThrow(exception);&quot;,<br/> &quot; when(mock.isOk()).thenReturn(true,
-      false).thenThrow(exception);&quot;,<br/> &quot;&quot;<br/> ));<br/> }<br/><br/> public void
-      notAMockPassedToWhenMethod() {<br/> throw new NotAMockException(join(<br/> &quot;Argument passed to when() is not
-      a mock!&quot;,<br/> &quot;Example of correct stubbing:&quot;,<br/> &quot; doThrow(new
-      RuntimeException()).when(mock).someMethod();&quot;<br/> ));<br/> }<br/><br/> public void invalidUseOfMatchers(int
-      expectedMatchersCount, <br/> List&lt;LocalizedMatcher&gt; recordedMatchers) {<br/> throw new
-      InvalidUseOfMatchersException(join(<br/> &quot;Invalid use of argument matchers!&quot;,<br/> expectedMatchersCount
-      + &quot; matchers expected, &quot; + recordedMatchers.size() + <br/> &quot; recorded:&quot; +
-      locationsOf(recordedMatchers),<br/> &quot;&quot;,<br/> &quot;This exception may occur if matchers are combined
-      with raw values:&quot;,<br/> &quot; //incorrect:&quot;,<br/> &quot; someMethod(anyObject(), \&quot;raw String\&quot;);&quot;,<br/>
-      &quot;When using matchers, all arguments have to be provided by matchers.&quot;,<br/> &quot;For
-      example:&quot;,<br/> &quot; //correct:&quot;,<br/> &quot; someMethod(anyObject(), eq(\&quot;String by matcher\&quot;));&quot;,<br/>
-      &quot;&quot;,<br/> &quot;For more info see javadoc for Matchers class.&quot;,<br/> &quot;&quot;<br/> ));<br/>
+      incorrectUseOfApi() {<br/> throw new MockitoException(join(<br/> "Incorrect use of API detected
+      here:",<br/> new LocationImpl(),<br/> "",<br/> "You probably stored a reference to
+      OngoingStubbing ...",<br/> "Examples of correct usage:",<br/> "
+      when(mock.isOk()).thenReturn(true).thenThrow(exception);",<br/> " when(mock.isOk()).thenReturn(true,
+      false).thenThrow(exception);",<br/> ""<br/> ));<br/> }<br/><br/> public void
+      notAMockPassedToWhenMethod() {<br/> throw new NotAMockException(join(<br/> "Argument passed to when() is not
+      a mock!",<br/> "Example of correct stubbing:",<br/> " doThrow(new
+      RuntimeException()).when(mock).someMethod();"<br/> ));<br/> }<br/><br/> public void invalidUseOfMatchers(int
+      expectedMatchersCount, <br/> List<LocalizedMatcher> recordedMatchers) {<br/> throw new
+      InvalidUseOfMatchersException(join(<br/> "Invalid use of argument matchers!",<br/> expectedMatchersCount
+      + " matchers expected, " + recordedMatchers.size() + <br/> " recorded:" +
+      locationsOf(recordedMatchers),<br/> "",<br/> "This exception may occur if matchers are combined
+      with raw values:",<br/> " //incorrect:",<br/> " someMethod(anyObject(), \"raw String\");",<br/>
+      "When using matchers, all arguments have to be provided by matchers.",<br/> "For
+      example:",<br/> " //correct:",<br/> " someMethod(anyObject(), eq(\"String by matcher\"));",<br/>
+      "",<br/> "For more info see javadoc for Matchers class.",<br/> ""<br/> ));<br/>
       }<br/><br/> // &#x2026;<br/>}</code></pre>
     <p>L’avantage de cette approche est de rendre facile la personnalisation des messages en un endroit unique,
       garantissant une cohérence globale sur les messages affichés à l'utilisateur. Pour l’utiliser :</p>

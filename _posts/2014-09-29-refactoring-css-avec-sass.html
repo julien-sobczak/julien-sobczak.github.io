@@ -1,5 +1,13 @@
 ---
 layout: post
+title: 'Refactoring CSS avec Sass'
+author: 'Julien Sobczak'
+category: tell
+tags:
+---
+
+---
+layout: post
 title: Refactoring CSS avec Sass
 date: '2014-09-29T22:52:00.000+02:00'
 author: Julien
@@ -256,11 +264,11 @@ blogger_orig_url: http://www.imlovinit.fr/2014/09/refactoring-css-avec-sass.html
     <h4 id="RFCSS-introduce-inheritance">Introduce Inheritance</h4>
     <p><em>Un élément possède deux classes sont l'un est plus spécifique que l'autre.</em></p>
     <p><strong>Étendre la classe spécifique de la classe générale.</strong></p>
-    <pre><code class="language-markup">&lt;p class="error error-fatal"&gt;NullPointerException&lt;/p&gt;</code></pre>
+    <pre><code class="language-markup"><p class="error error-fatal">NullPointerException</p></code></pre>
     <pre><code class="language-css">.error {<br/> color: red;<br/>}<br/>.fatal-error {<br/> font-weight:
       bold;<br/>}</code></pre>
     <p>=></p>
-    <pre><code class="language-markup">&lt;p class="error-fatal"&gt;NullPointerException&lt;/p&gt;</code></pre>
+    <pre><code class="language-markup"><p class="error-fatal">NullPointerException</p></code></pre>
     <pre><code class="language-scss">.error {<br/> color: red;<br/>}<br/>.fatal-error {<br/> @extend error;<br/>
       font-weight: bold;<br/>}</code></pre>
     <h5>Motivations</h5>
@@ -288,12 +296,12 @@ blogger_orig_url: http://www.imlovinit.fr/2014/09/refactoring-css-avec-sass.html
       $note-size;<br/> height: $note-size;<br/> background-image: url(notes-sprite.png);<br/> background-color:
       blue;<br/> border-radius: 50%;<br/>}<br/><br/>.note-20 { background-position: 0 -50px; }<br/>.note-19 {
       background-position: 0 -100px; }<br/>/* ... */</code></pre>
-    <pre><code class="language-markup">&lt;span class="note note-20"&gt;&lt;/span&gt;</code></pre>
+    <pre><code class="language-markup"><span class="note note-20"></span></code></pre>
     <p>Comme pour notre premier exemple, la classe <code>note</code> est redondante et n'apporte aucune valeur d'un
       point de vue sémantique. Rendons la relation d'héritage explicite grâce à Sass.</p>
     <pre><code class="language-scss">.note {<br/> /* idem */<br/>}<br/><br/>.note-20 { @extend note;
       background-position: 0 -50px; }<br/>.note-19 { @extend note; background-position: 0 -100px; }<br/>/* ... */</code></pre>
-    <pre><code class="language-markup">&lt;span class="note-20"&gt;&lt;/span&gt;</code></pre>
+    <pre><code class="language-markup"><span class="note-20"></span></code></pre>
     <h4 id="RFCSS-extract-file">Extract File</h4>
     <p><em>La taille d'une feuille de style nuit à sa maintenabilité</em></p>
     <p><strong>Décomposer la feuille de style en plusieurs de manière à ce que chaque modification entraîne des
@@ -326,14 +334,14 @@ blogger_orig_url: http://www.imlovinit.fr/2014/09/refactoring-css-avec-sass.html
     </ul>
     <h5>Exemples</h5>  <h6>Exemple : Uniformisation</h6>
     <p>Voici la situation actuelle :</p>
-    <pre><code class="language-markup">&lt;!-- index.html --&gt;<br/>&lt;link rel="stylesheet" href="reset.css"&gt;<br/>&lt;link
-      rel="stylesheet" href="style.css"&gt;</code></pre>
+    <pre><code class="language-markup"><!-- index.html --><br/><link rel="stylesheet" href="reset.css"><br/><link
+      rel="stylesheet" href="style.css"></code></pre>
     <pre><code class="language-scss">// style.css<br/>@import 'layout.css';<br/><br/>body {<br/> /*
       ...*/<br/>}<br/><br/>// layout.css<br/>header { /* ... */ }<br/>section { /* ... */ }<br/>footer { /* ... */
       }</code></pre>
     <p>Sass nous permet d'uniformiser tout cela, tout en améliorant les temps de réponse de notre page.</p>
-    <pre><code class="language-markup">&lt;!-- index.html --&gt;<br/>&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
-      &lt;!-- Compiled stylesheet --&gt;</code></pre>
+    <pre><code class="language-markup"><!-- index.html --><br/><link rel="stylesheet" href="style.css">
+      <!-- Compiled stylesheet --></code></pre>
     <pre><code class="language-scss">// style.scss<br/>@import 'reset';<br/>@import 'layout';<br/><br/>body {<br/> /*
       ...*/<br/>}<br/><br/>// _reset.scss<br/>/* ... */<br/><br/>// _layout.scss<br/>header { /* ... */ }<br/>section {
       /* ... */ }<br/>footer { /* ... */ }</code></pre>
@@ -454,9 +462,9 @@ blogger_orig_url: http://www.imlovinit.fr/2014/09/refactoring-css-avec-sass.html
     <script async src="http://assets.codepen.io/assets/embed/ei.js"></script>
     <p>L'arrivée du sélecteur <code>nth-child</code> nous épargne l'ajout de nombreuses classes CSS sans valeur
       sémantique :</p>
-    <pre><code class="language-scss">tr {<br/><br/> &amp;:nth-child(2n) {<br/> td {<br/> background-color: #EEE;<br/>
-      <br/> &amp;:nth-child(2n) {<br/> background-color: #CCC; <br/> }<br/> } <br/> }<br/><br/> &amp;:nth-child(2n+1)
-      {<br/> td {<br/> background-color: #AAA;<br/><br/> &amp;:nth-child(2n) {<br/> background-color: #888; <br/> }<br/>
+    <pre><code class="language-scss">tr {<br/><br/> &:nth-child(2n) {<br/> td {<br/> background-color: #EEE;<br/>
+      <br/> &:nth-child(2n) {<br/> background-color: #CCC; <br/> }<br/> } <br/> }<br/><br/> &:nth-child(2n+1)
+      {<br/> td {<br/> background-color: #AAA;<br/><br/> &:nth-child(2n) {<br/> background-color: #888; <br/> }<br/>
       }<br/> }<br/>}</code></pre>
     <p>4 couleurs sont nécessaires pour parvenir au résultat escompté. Deux d'entre elles correspondent aux couleurs
       principales (celles à alterner). Les deux autres sont étroitement liées puisqu'elles représentent ces mêmes

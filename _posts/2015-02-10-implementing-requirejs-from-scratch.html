@@ -1,5 +1,13 @@
 ---
 layout: post
+title: 'Implementing RequireJS from Scratch'
+author: 'Julien Sobczak'
+category: inspect
+tags:
+---
+
+---
+layout: post
 title: Implementing RequireJS from Scratch
 date: '2015-02-10T22:15:00.000+01:00'
 author: Julien
@@ -52,13 +60,13 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
       facilite leur réorganisation). Vient ensuite les dépendances à charger, qui seront passées en argument du dernier
       paramètre : la fonction instanciant véritablement le module.</p>
     <p>Voici un exemple :</p>
-    <pre><code>define(<br/> // =&gt; module anonyme<br/> ['foo', 'bar'],<br/> function ( foo, bar ) {<br/> // Retourne
-      une valeur d&eacute;finissant le module.<br/> // C&#x2019;est cette valeur qui sera pass&eacute;e si d&#x2019;autres
-      modules en d&eacute;pendent.<br/> return {<br/> sayHello: function() {<br/> console.log('Hello
+    <pre><code>define(<br/> // => module anonyme<br/> ['foo', 'bar'],<br/> function ( foo, bar ) {<br/> // Retourne
+      une valeur définissant le module.<br/> // C&#x2019;est cette valeur qui sera passée si d&#x2019;autres
+      modules en dépendent.<br/> return {<br/> sayHello: function() {<br/> console.log('Hello
       World&#x2019;);<br/> }<br/> };<br/> }<br/>);</code></pre>
     <p><code>require</code> est plus souvent utilisée pour définir le point d’entrée (le premier fichier chargé par
       RequireJS) ou au sein même de la définition d’un module comme suit :</p>
-    <pre><code>define(function() {<br/> // Exemple inspir&eacute; de http://addyosmani.com/writing-modular-js/<br/> var
+    <pre><code>define(function() {<br/> // Exemple inspiré de http://addyosmani.com/writing-modular-js/<br/> var
       isReady = false, foobar;<br/> <br/> // require est 'inlined' <br/> require(['foo', 'bar'], function (foo, bar)
       {<br/> isReady = true;<br/> foobar = foo() + bar();<br/> });<br/> <br/> return {<br/> isReady: isReady,<br/>
       foobar: foobar<br/> };<br/>});</code></pre>
@@ -66,26 +74,26 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
       détail la librairie, la <a href="http://requirejs.org/docs/api.html">documentation de l’API</a> est fortement
       conseillée.</strong></p></div>
     <h3>Un premier exemple</h3>
-    <pre><code class="language-markup">&lt;!DOCTYPE html&gt;<br/>&lt;html&gt;<br/> &lt;head&gt;<br/> &lt;title&gt;My
-      Sample Project&lt;/title&gt;<br/> &lt;meta charset=&quot;utf-8&quot;&gt;<br/> &lt;script data-main=&quot;scripts/main&quot;
-      src=&quot;require.js&quot;&gt;&lt;/script&gt;<br/> &lt;/head&gt;<br/> &lt;body&gt;<br/> &lt;h1&gt;My Sample
-      Project&lt;/h1&gt;<br/> &lt;/body&gt;<br/>&lt;/html&gt;</code></pre>
+    <pre><code class="language-markup"><!DOCTYPE html><br/><html><br/> <head><br/> <title>My
+      Sample Project</title><br/> <meta charset="utf-8"><br/> <script data-main="scripts/main"
+      src="require.js"></script><br/> </head><br/> <body><br/> <h1>My Sample
+      Project</h1><br/> </body><br/></html></code></pre>
     <p>Au démarrage, RequireJS inspecte l’attribut spécial <code>data-main</code> pour savoir le premier module de
       l’application à charger. Il s’agit du fichier <code>main.js</code> présent dans le dossier <code>scripts</code> :
     </p>
-    <pre><code>require([&quot;helper/util&quot;], function(util) {<br/> // This function is called when
+    <pre><code>require(["helper/util"], function(util) {<br/> // This function is called when
       scripts/helper/util.js is loaded.<br/> // If util.js calls define(), then this function is not fired until<br/> //
-      util's dependencies have loaded, and the util argument will hold<br/> // the module value for &quot;helper/util&quot;.<br/>
-      <br/> var titles = document.getElementsByTagName('h1');<br/> for (var i = 0; i &lt; titles.length; i++) {<br/>
+      util's dependencies have loaded, and the util argument will hold<br/> // the module value for "helper/util".<br/>
+      <br/> var titles = document.getElementsByTagName('h1');<br/> for (var i = 0; i < titles.length; i++) {<br/>
       titles[i].textContent = util.toFunnyCase(titles[i].textContent);<br/> }<br/>});</code></pre>
     <p>Ce fichier contient en réalité un simple appel à la fonction <code>require</code> pour demander le chargement
       d’un autre module (<code>helper/util</code>) qui définit une fonction <code>toFunnyCase</code>. Le reste du code
       sert davantage de démonstration, parcourant chaque titre de la page HTML pour modifier le texte à l’aide de cette
       mystérieuse fonction.</p>
     <p>Il ne nous reste plus qu’à regarder ce dernier fichier <code>scripts/helper/util.js</code> :</p>
-    <pre><code>define({<br/> <br/> /**<br/> * Capitalize one letter every two letters. (Ex: &quot;Julien&quot; =&gt;
-      &quot;JuLiEn&quot;)<br/> *<br/> * @param {string} str The string to format<br/> */<br/> toFunnyCase: function(str)
-      {<br/> var result = '';<br/> var uppercase = true;<br/> <br/> for (var i = 0; i &lt; str.length; i++) {<br/>
+    <pre><code>define({<br/> <br/> /**<br/> * Capitalize one letter every two letters. (Ex: "Julien" =>
+      "JuLiEn")<br/> *<br/> * @param {string} str The string to format<br/> */<br/> toFunnyCase: function(str)
+      {<br/> var result = '';<br/> var uppercase = true;<br/> <br/> for (var i = 0; i < str.length; i++) {<br/>
       result += uppercase ? str[i].toUpperCase() : str[i].toLowerCase();<br/> uppercase = !uppercase;<br/> }<br/> <br/>
       return result;<br/> }<br/><br/>});</code></pre>
     <p>Il s’agit d’un module anonyme, sans aucune dépendance, définissant une unique fonction qui produit le résultat
@@ -116,10 +124,10 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
     </ul>
     <h3>C’est parti !</h3>
     <p>Commençons par modifier notre fichier de démonstration :</p>
-    <pre data-line="9"><code class="language-markup">&lt;!DOCTYPE html&gt;<br/>&lt;html&gt;<br/> &lt;head&gt;<br/> &lt;title&gt;My
-      Sample Project&lt;/title&gt;<br/> <br/> &lt;meta charset=&quot;utf-8&quot;&gt;<br/><br/> &lt;script src=&quot;scripts/jquery-2.1.3.js&quot;&gt;&lt;/script&gt;<br/>
-      &lt;script data-main=&quot;scripts/main&quot; src=&quot;scripts/require.lite.js&quot;&gt;&lt;/script&gt;<br/> &lt;/head&gt;<br/>
-      &lt;body&gt;<br/> &lt;h1&gt;My Sample Project&lt;/h1&gt;<br/>&lt;/html&gt;<br/></code></pre>
+    <pre data-line="9"><code class="language-markup"><!DOCTYPE html><br/><html><br/> <head><br/> <title>My
+      Sample Project</title><br/> <br/> <meta charset="utf-8"><br/><br/> <script src="scripts/jquery-2.1.3.js"></script><br/>
+      <script data-main="scripts/main" src="scripts/require.lite.js"></script><br/> </head><br/>
+      <body><br/> <h1>My Sample Project</h1><br/></html><br/></code></pre>
     <p>Pas de grande surprise. On a remplacé la librairie RequireJS par un nouveau fichier <code>require.lite.js</code>
       que l’on va compléter tout au long de cet article.</p>
     <p>Notons également la présence de jQuery, pas indispensable mais qui va nous éviter de recoder certaines méthodes
@@ -141,11 +149,11 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
       véritablement au coeur de RequireJS et de ses modules.</p>  <h4>Le Module</h4>
     <p>RequireJS repose fortement sur l’objet <code>Module</code> dont voici son constructeur :</p>
     <pre data-line="7,8,12-14,16"><code>var requireCounter = 0;<br/><br/>function Module(id) {<br/> this.id = id;<br/>
-      <br/> this.depIds = []; // D&eacute;pendances du module<br/> this.depExports = []; // R&eacute;sultat des d&eacute;pendances<br/>
-      this.depCount = 0; // Compteur indiquant le nombre de d&eacute;pendances<br/> // n&#x2019;&eacute;tant pas encore
-      charg&eacute;es<br/><br/> // Pas d&#x2019;id =&gt; il s&#x2019;agit d&#x2019;un appel &agrave; require =&gt; on g&eacute;n&egrave;re
+      <br/> this.depIds = []; // Dépendances du module<br/> this.depExports = []; // Résultat des dépendances<br/>
+      this.depCount = 0; // Compteur indiquant le nombre de dépendances<br/> // n&#x2019;étant pas encore
+      chargées<br/><br/> // Pas d&#x2019;id => il s&#x2019;agit d&#x2019;un appel à require => on génère
       un nouvel id<br/> if (!this.id) {<br/> this.id = '_@r' + (requireCounter += 1);<br/> }<br/><br/> this.events = {};
-      // event =&gt; [listeners] <br/><br/> this.url = baseUrl + this.id + '.js';<br/>};</code></pre>
+      // event => [listeners] <br/><br/> this.url = baseUrl + this.id + '.js';<br/>};</code></pre>
     <dl class="source-explanations">
       <dt>7</dt>
       <dd><code>depExports</code> va contenir les arguments qui seront passés au callback d’instanciation du module. A
@@ -175,13 +183,13 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
       <code>init</code> que la magie commence à opérer, et plus particulièrement lors de l’appel à la méthode <code>enable</code>.
     </p>
     <pre data-line="29,33,40,42-46,52,56"><code>Module.prototype = {<br/> <br/> /*<br/> * Initialise le nouveau
-      module.<br/> * <br/> * @param depIds D&eacute;pendances du module<br/> * @param factory Callback d&#x2019;instanciation<br/>
-      * @param enabled Demande l'activation imm&eacute;diate <br/> * (comme dans le cas d'un require),<br/> */ <br/>
+      module.<br/> * <br/> * @param depIds Dépendances du module<br/> * @param factory Callback d&#x2019;instanciation<br/>
+      * @param enabled Demande l'activation immédiate <br/> * (comme dans le cas d'un require),<br/> */ <br/>
       init: function (depIds, factory, enabled) {<br/> if (this.inited) {<br/> return;<br/> }<br/> <br/> this.enabled =
       this.enabled || enabled;<br/> this.factory = factory;<br/> this.depIds = depIds || [];<br/><br/> // Indique que ce
-      module est en train d'&ecirc;tre initialis&eacute;<br/> this.inited = true;<br/><br/> if (this.enabled) {<br/>
+      module est en train d'être initialisé<br/> this.inited = true;<br/><br/> if (this.enabled) {<br/>
       this.enable();<br/> }<br/> },<br/><br/> enable: function () {<br/> this.enabled = true;<br/><br/> // Active chaque
-      d&eacute;pendance &agrave; leur tour<br/> var module = this;<br/> this.depIds.forEach(function (id, i) {<br/> var
+      dépendance à leur tour<br/> var module = this;<br/> this.depIds.forEach(function (id, i) {<br/> var
       mod;<br/><br/> if (!registry[id]) {<br/> mod = new Module(id);<br/> registry[id] = mod;<br/> <br/> module.depCount
       += 1;<br/><br/> mod.on('defined', function (depExports) {<br/> module.depCount -= 1;<br/> module.depExports[i] =
       depExports;<br/> module.check();<br/> });<br/> }<br/><br/> mod = registry[id];<br/><br/> if (!mod.enabled) {<br/>
@@ -214,7 +222,7 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
       * define it.<br/> */<br/> check: function () {<br/> if (!this.enabled) {<br/> return;<br/> }<br/><br/> if
       (!this.inited) {<br/> this.load();<br/> } else {<br/> this.define();<br/> }<br/> },<br/><br/> define: function() {<br/>
       var id = this.id,<br/> depExports = this.depExports,<br/> exports = this.exports,<br/> factory =
-      this.factory;<br/> <br/> if (this.depCount &lt; 1 &amp;&amp; !this.defined) {<br/> if (typeof factory === &quot;function&quot;)
+      this.factory;<br/> <br/> if (this.depCount < 1 && !this.defined) {<br/> if (typeof factory === "function")
       {<br/> factory.apply(exports, depExports);<br/> } else {<br/> // Just a literal value<br/> exports = factory;<br/>
       }<br/><br/> this.exports = exports;<br/><br/> this.defined = true;<br/> this.emit('defined', this.exports);<br/> }<br/>
       }<br/><br/>};</code></pre>
@@ -246,7 +254,7 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
       Cela provoque le chargement des dépendances de manière transitive.</p>     <h4>define</h4>
     <p>La méthode <code>define</code> n’est pas aussi simple, mais rien d’insurmontable.</p>
     <p>Prenons l’exemple de notre fichier <code>main.js</code>.</p>
-    <pre><code><br/>require([&quot;helper/util&quot;], function(util) {<br/> // ...<br/>});<br/></code></pre>
+    <pre><code><br/>require(["helper/util"], function(util) {<br/> // ...<br/>});<br/></code></pre>
     <p>Lors de l’exécution du script, nous venons de voir que la méthode <code>require</code> va déclencher le
       chargement des dépendances (méthode <code>enable</code>). Le script <code>util.js</code> s’exécute alors :</p>
     <pre><code><br/>define({<br/> // ...<br/>});<br/></code></pre>
@@ -280,9 +288,9 @@ blogger_orig_url: http://www.imlovinit.fr/2015/02/implementing-requirejs-from-sc
       node.addEventListener('load', function() {<br/> completeLoad(id);<br/> }, false);<br/> node.src = url;<br/><br/>
       head.appendChild(node);<br/><br/> return node;<br/>};<br/> <br/>/**<br/> * Complete a load event.<br/> * @param
       {String} id the id of the module to potentially complete.<br/> */<br/>function completeLoad(id) {<br/> /*<br/> *
-      On it&egrave;re parmi les modules (define) qui se sont enregist&eacute;s.<br/> * Si on trouve un module sans id ou
-      avec celui recherch&eacute;,<br/> * on proc&egrave;de &agrave; son initialisation.<br/> */<br/> <br/> var found,
-      args, module;<br/> <br/> while (!found &amp;&amp; defQueue.length) {<br/> args = defQueue.shift();<br/> if
+      On itère parmi les modules (define) qui se sont enregistés.<br/> * Si on trouve un module sans id ou
+      avec celui recherché,<br/> * on procède à son initialisation.<br/> */<br/> <br/> var found,
+      args, module;<br/> <br/> while (!found && defQueue.length) {<br/> args = defQueue.shift();<br/> if
       (args[0] === null) {<br/> args[0] = id;<br/> found = true;<br/> } else if (args[0] === id) {<br/> // Found
       matching define call for this script!<br/> found = true;<br/> }<br/><br/> if (found) {<br/> module =
       registry[args[0]];<br/> module.init(args[1], args[2]);<br/> }<br/> }<br/>};</code></pre>

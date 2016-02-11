@@ -1,5 +1,13 @@
 ---
 layout: post
+title: 'Implementing Prism from Scratch'
+author: 'Julien Sobczak'
+category: inspect
+tags:
+---
+
+---
+layout: post
 title: Implementing Prism from Scratch
 date: '2014-11-25T22:24:00.000+01:00'
 author: Julien
@@ -44,8 +52,8 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
       premier regard sur le fonctionnement interne de la librairie. Très peu de fonctions sont nécessaires. Commençons
       donc par dresser la structure générale :</p>
     <pre data-line="7,27,31-32"><code>var Prism = (function() {<br/><br/> var self = {<br/><br/> languages : {}, //
-      Chaque langage support&eacute; vient ajouter sa d&eacute;finition ici <br/><br/> highlightAll : function() { <br/>
-      var elements = document.querySelectorAll('code[class*=&quot;language-&quot;]');<br/><br/> for (var i = 0, element;
+      Chaque langage supporté vient ajouter sa définition ici <br/><br/> highlightAll : function() { <br/>
+      var elements = document.querySelectorAll('code[class*="language-"]');<br/><br/> for (var i = 0, element;
       element = elements[i++];) {<br/> self.highlightElement(element);<br/> }<br/> },<br/><br/> highlightElement :
       function(element) { <br/> var language = element.className.match(/\blanguage-(?!\*)(\w+)\b/i)[1];<br/> var grammar
       = self.languages[language];<br/><br/> // Set language on the parent, for styling<br/> var parent =
@@ -53,18 +61,18 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
       language-' + language;<br/> }<br/><br/> var code = element.textContent;<br/><br/> element.innerHTML =
       self.highlight(code, grammar, language);<br/> },<br/><br/> highlight : function(text, grammar, language) { <br/>
       var tokens = self.tokenize(text, grammar);<br/> return self.Token.stringify(tokens, language); <br/> },<br/><br/>
-      tokenize : function(text, grammar) {<br/> // La fonction de plus bas niveau repr&eacute;sentant l&#x2019;analyseur
+      tokenize : function(text, grammar) {<br/> // La fonction de plus bas niveau représentant l&#x2019;analyseur
       lexical<br/> }<br/> };<br/> <br/> return self;<br/><br/>})();<br/><br/>document.addEventListener('DOMContentLoaded',
       Prism.highlightAll);</code></pre>
     <dl class="source-explanations">
       <dt>7</dt>
-      <dd>Point d&#x2019;entr&eacute;e. Recherche tous les codes source dans la page.</dd>
+      <dd>Point d&#x2019;entrée. Recherche tous les codes source dans la page.</dd>
       <dt>27</dt>
       <dd>On remplace le contenu précédent par le contenu stylisé.</dd>
       <dt>31</dt>
       <dd>On découpe le code par tokens qui vont être colorisés à l'aide de classes CSS.</dd>
     </dl>
-    <p>En lisant attentivement le code, on constate qu'il y a peu de difficultés. On recherche les balises <code>&lt;code&gt;</code>
+    <p>En lisant attentivement le code, on constate qu'il y a peu de difficultés. On recherche les balises <code><code></code>
       avec une classe commençant par <code>language-</code>. On extrait leur contenu qui va être découpé en lexème comme
       le ferait un compilateur. La différence est qu’un compilateur va bien plus loin en recréant un
       <a href="http://fr.wikipedia.org/wiki/Arbre_syntaxique_abstrait">arbre syntaxique abstrait</a> dans le but de
@@ -73,13 +81,13 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
     <h3>L’analyseur lexical</h3>
     <p>La fonction <code>tokenize</code> accepte deux paramètres :</p>
     <ul>
-      <li><code>text</code> : le contenu de la balise <code>&lt;code/&gt;</code></li>
+      <li><code>text</code> : le contenu de la balise <code><code/></code></li>
       <li><code>grammar</code> : la définition du langage, souvent définie dans des fichiers séparés</li>
     </ul>
     <p>Prenons un exemple pour mieux illustrer le comportement de cette fonction :</p>
-    <pre class="language-markup"><code>// exemple.html<br/>&lt;pre&gt;&lt;code
-      class=&quot;language-javalite&quot;&gt;<br/>public class HelloWorld {<br/><br/> public static void main(String[]
-      args) {<br/> String test = &quot;Hello World!&quot;;<br/> System.out.println(test);<br/> }<br/>}<br/>&lt;/code&gt;&lt;/pre&gt;
+    <pre class="language-markup"><code>// exemple.html<br/><pre><code
+      class="language-javalite"><br/>public class HelloWorld {<br/><br/> public static void main(String[]
+      args) {<br/> String test = "Hello World!";<br/> System.out.println(test);<br/> }<br/>}<br/></code></pre>
     </code></pre>
     <pre><code>// prism-javalite.js<br/>Prism.languages.javalite = {<br/> 'keyword':
       /\b(public|static|class|void)\b/g,<br/> 'string': /("|')(\\?.)*?\1/g,<br/> 'punctuation': /[{}[\];(),.:]/g<br/>};</code></pre>
@@ -99,22 +107,22 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
       <p>Cette définition n'est pas reprise au sein du source de Prism où lexèmes et tokens sont confondus sous le même
         terme de token.</p></div>
     <p>Voici ce que nous retourne la fonction <code>tokenize</code> :</p>
-    <pre><code>[ <br/> &quot;\n&quot;, <br/> { type: &quot;keyword&quot;, content: &quot;public&quot;}, <br/> &quot;
-      &quot;, <br/> { type: &quot;keyword&quot;, content: &quot;class&quot;}, <br/> &quot; HelloWorld &quot;, <br/> {
-      type: &quot;punctuation&quot;, content: &quot;{&quot;}, <br/> &quot;\n\n&quot;, <br/> { type: &quot;keyword&quot;,
-      content: &quot;public&quot;},<br/> &quot; &quot;, <br/> { type: &quot;keyword&quot;, content: &quot;static&quot;},<br/>
-      &quot; &quot;, <br/> { type: &quot;keyword&quot;, content: &quot;void&quot;},<br/> &quot; main&quot;, <br/> {
-      type: &quot;punctuation&quot;, content: &quot;(&quot;},<br/> &quot;String&quot;, <br/> { type: &quot;punctuation&quot;,
-      content: &quot;[&quot;},<br/> { type: &quot;punctuation&quot;, content: &quot;]&quot;},<br/> &quot; args&quot;,
-      <br/> { type: &quot;punctuation&quot;, content: &quot;)&quot;},<br/> &quot; &quot;, <br/> { type: &quot;punctuation&quot;,
-      content: &quot;{&quot;},<br/> &quot;\n\t\tString test = &quot;, <br/> { type: &quot;string&quot;, content: &quot;\&quot;Hello
-      World!\&quot;&quot;},<br/> { type: &quot;punctuation&quot;, content: &quot;;&quot;},<br/> &quot;\n\t\tSystem&quot;,
-      <br/> { type: &quot;punctuation&quot;, content: &quot;.&quot;},<br/> &quot;out&quot;, <br/> { type: &quot;punctuation&quot;,
-      content: &quot;.&quot;},<br/> &quot;println&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;(&quot;},<br/>
-      &quot;test&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;)&quot;},<br/> { type: &quot;punctuation&quot;,
-      content: &quot;;&quot;},<br/> &quot;\n&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;}&quot;},<br/>
-      &quot;\n&quot;, <br/> { type: &quot;punctuation&quot;, content: &quot;}&quot;},<br/>
-      &quot;\n&quot;<br/>]</code></pre>
+    <pre><code>[ <br/> "\n", <br/> { type: "keyword", content: "public"}, <br/> "
+      ", <br/> { type: "keyword", content: "class"}, <br/> " HelloWorld ", <br/> {
+      type: "punctuation", content: "{"}, <br/> "\n\n", <br/> { type: "keyword",
+      content: "public"},<br/> " ", <br/> { type: "keyword", content: "static"},<br/>
+      " ", <br/> { type: "keyword", content: "void"},<br/> " main", <br/> {
+      type: "punctuation", content: "("},<br/> "String", <br/> { type: "punctuation",
+      content: "["},<br/> { type: "punctuation", content: "]"},<br/> " args",
+      <br/> { type: "punctuation", content: ")"},<br/> " ", <br/> { type: "punctuation",
+      content: "{"},<br/> "\n\t\tString test = ", <br/> { type: "string", content: "\"Hello
+      World!\""},<br/> { type: "punctuation", content: ";"},<br/> "\n\t\tSystem",
+      <br/> { type: "punctuation", content: "."},<br/> "out", <br/> { type: "punctuation",
+      content: "."},<br/> "println", <br/> { type: "punctuation", content: "("},<br/>
+      "test", <br/> { type: "punctuation", content: ")"},<br/> { type: "punctuation",
+      content: ";"},<br/> "\n", <br/> { type: "punctuation", content: "}"},<br/>
+      "\n", <br/> { type: "punctuation", content: "}"},<br/>
+      "\n"<br/>]</code></pre>
     <p>On retrouve notre code source découpé en lexèmes. Pour chaque lexème ayant un token associé (mot-clé, ponctuation
       ou chaîne de caractères), un objet <code>Token</code> est créé contenant la valeur du lexème et le nom du token :
     </p>.
@@ -124,17 +132,17 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
     <h3>La coloration syntaxique</h3>
     <p>Une fois la liste de lexèmes en notre possession, il ne nous reste plus grand chose pour réaliser la coloration
       syntaxique. C’est la méthode <code>Token.stringify</code> qui s’en charge :</p>
-    <pre><code>Token.stringify = function(o, language, parent) {<br/> if (typeof o == 'string') { // Lex&egrave;me sans
-      token associ&eacute; ?<br/> return o;<br/> }<br/><br/> if (Array.isArray(o)) { // Liste de lex&egrave;me <br/> //
-      =&gt; on construit le r&eacute;sultat de mani&egrave;re r&eacute;curvise<br/> return o.map(function(element)
+    <pre><code>Token.stringify = function(o, language, parent) {<br/> if (typeof o == 'string') { // Lexème sans
+      token associé ?<br/> return o;<br/> }<br/><br/> if (Array.isArray(o)) { // Liste de lexème <br/> //
+      => on construit le résultat de manière récurvise<br/> return o.map(function(element)
       {<br/> return Token.stringify(element, language, o);<br/> }).join('');<br/> }<br/><br/> var content =
-      Token.stringify(o.content, language, parent);<br/> var classes = [ 'token', o.type ];<br/><br/> return '&lt;span
-      class=&quot;' + classes.join(' ') + '&quot;&gt;' + content + '&lt;/span&gt;';<br/>};</code></pre>
+      Token.stringify(o.content, language, parent);<br/> var classes = [ 'token', o.type ];<br/><br/> return '<span
+      class="' + classes.join(' ') + '">' + content + '</span>';<br/>};</code></pre>
     <p>Cette méthode récursive est d’abord appelée avec le tableau complet. Pour chaque lexème sans token, la valeur est
-      conservée. Pour les autres, on décore chaque valeur par une balise <code>&lt;span/&gt</code> avec les classes
+      conservée. Pour les autres, on décore chaque valeur par une balise <code><span/&gt</code> avec les classes
       <code>token</code> et le nom du token (<code>keyword</code>, <code>punctuation</code>, <code>string</code>, ...).
     </p>
-    <p>Quelques déclarations CSS est le tour est joué. La balise <code>&lt;pre&gt;</code> se chargeant quant à elle de
+    <p>Quelques déclarations CSS est le tour est joué. La balise <code><pre></code> se chargeant quant à elle de
       conserver l’espacement et les retours à la ligne.</p>
     <pre class="language-css"><code>pre {<br/> font-family: Consolas, Monaco, 'Andale Mono', monospace;*<br/>
       line-height: 1.5;<br/> color: black;<br/>}<br/>.token.punctuation {<br/> color: #999;<br/>}<br/>.token.string
@@ -148,7 +156,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
     <p>Commençons par une première version supportant la grammaire précédente.</p>
     <pre><code>tokenize : function(text, grammar) {<br/> var strarr = [ text ];<br/><br/> tokenloop: for ( var token in
       grammar) {<br/> if (!grammar.hasOwnProperty(token) || !grammar[token]) {<br/> continue;<br/> }<br/><br/> var
-      pattern = grammar[token];<br/><br/> for (var i = 0; i &lt; strarr.length; i++) { <br/><br/> var str =
+      pattern = grammar[token];<br/><br/> for (var i = 0; i < strarr.length; i++) { <br/><br/> var str =
       strarr[i];<br/><br/> if (str instanceof self.Token) {<br/> continue;<br/> }<br/><br/> var match =
       pattern.exec(str);<br/><br/> if (match) {<br/> var from = match.index - 1, <br/> match = match[0], <br/> len =
       match.length, <br/> to = from + len, <br/> before = str.slice(0, from + 1), <br/> after = str.slice(to +
@@ -211,15 +219,15 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
         <li><code>java(?=script)</code> recherche les occurrences de <code>java</code> suivies de <code>script</code>
           (javascript mais pas java ou javafx). <br/>On parle de <strong>Positive Lookahead</strong><br/>.
         </li>
-        <li><code>(?&lt;!java)script</code> recherche les occurrences de <code>script</code> qui ne sont pas précédées
+        <li><code>(?<!java)script</code> recherche les occurrences de <code>script</code> qui ne sont pas précédées
           de <code>java</code> (script, postscript mais pas javascript). <br/>On parle de <strong>Negative
             Lookbehind</strong><br/>.
         </li>
-        <li><code>(?&lt;=java)script</code> recherche les occurences de <code>script</code> précédées de
+        <li><code>(?<=java)script</code> recherche les occurences de <code>script</code> précédées de
           <code>java</code> (javascript mais pas postscript). <br/>On parle de <strong>Positive Lookbehind</strong><br/>.
         </li>
       </ul>
-      <p>Attention : L’expression régulière <code>(?&lt;=java)script</code> est différente de <code>javascript</code>.
+      <p>Attention : L’expression régulière <code>(?<=java)script</code> est différente de <code>javascript</code>.
         Les caractères satisfaisant les lookarounds ne sont pas retournés dans la correspondance (le résultat est <code>script</code>
         pour la première et <code>javascript</code> pour la seconde).</p></div>
     <p>L’idée des lookarounds est assez facile à saisir. La difficulté est dans leur utilisation car les différences
@@ -240,7 +248,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
     <pre data-line="10,26-28,30-31"><code>tokenize : function(text, grammar) {<br/> var strarr = [ text ];<br/><br/>
       tokenloop: for ( var token in grammar) {<br/> if (!grammar.hasOwnProperty(token) || !grammar[token]) {<br/>
       continue;<br/> }<br/><br/> var pattern = grammar[token],<br/> lookbehind = !!pattern.lookbehind, <br/>
-      lookbehindLength = 0;<br/><br/> pattern = pattern.pattern || pattern;<br/><br/> for (var i = 0; i &lt;
+      lookbehindLength = 0;<br/><br/> pattern = pattern.pattern || pattern;<br/><br/> for (var i = 0; i <
       strarr.length; i++) { // Don&#x2019;t cache length as it changes during the loop<br/><br/> var str =
       strarr[i];<br/><br/> if (str instanceof self.Token) {<br/> continue;<br/> }<br/><br/> var match =
       pattern.exec(str);<br/><br/> if (match) {<br/> if (lookbehind) {<br/> lookbehindLength = match[1].length;<br/>
@@ -260,7 +268,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
         navigateurs.</p></div>
     <p>Voici l’implémentation complète :</p>
     <pre><code>var Prism = (function() {<br/><br/> var self = {<br/><br/> languages : {},<br/><br/> highlightAll :
-      function() {<br/> var elements = document.querySelectorAll('code[class*=&quot;language-&quot;]');<br/><br/> for
+      function() {<br/> var elements = document.querySelectorAll('code[class*="language-"]');<br/><br/> for
       (var i = 0, element; element = elements[i++];) {<br/> self.highlightElement(element);<br/> }<br/> },<br/><br/>
       highlightElement : function(element) {<br/> var language =
       element.className.match(/\blanguage-(?!\*)(\w+)\b/i)[1];<br/> var grammar = self.languages[language];<br/><br/> //
@@ -272,7 +280,7 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
       strarr = [ text ];<br/><br/> tokenloop: for ( var token in grammar) {<br/> if (!grammar.hasOwnProperty(token) ||
       !grammar[token]) {<br/> continue;<br/> }<br/><br/> var pattern = grammar[token],<br/> lookbehind =
       !!pattern.lookbehind, <br/> lookbehindLength = 0;<br/><br/> pattern = pattern.pattern || pattern;<br/><br/> for
-      (var i = 0; i &lt; strarr.length; i++) { // Don&#x2019;t cache length as it changes during the loop<br/><br/> var
+      (var i = 0; i < strarr.length; i++) { // Don&#x2019;t cache length as it changes during the loop<br/><br/> var
       str = strarr[i];<br/><br/> if (str instanceof self.Token) {<br/> continue;<br/> }<br/><br/> var match =
       pattern.exec(str);<br/><br/> if (match) {<br/> if (lookbehind) {<br/> lookbehindLength = match[1].length;<br/>
       }<br/><br/> var from = match.index - 1 + lookbehindLength, <br/> match = match[0].slice(lookbehindLength), <br/>
@@ -284,20 +292,20 @@ blogger_orig_url: http://www.imlovinit.fr/2014/11/prism-from-scratch.html
       self.Token.stringify = function(o, language, parent) {<br/> if (typeof o == 'string') {<br/> return o;<br/> }<br/><br/>
       if (Array.isArray(o)) {<br/> return o.map(function(element) {<br/> return self.Token.stringify(element, language,
       o);<br/> }).join('');<br/> }<br/><br/> var content = self.Token.stringify(o.content, language, parent);<br/> var
-      classes = [ 'token', o.type ];<br/><br/> return '&lt;span class=&quot;' + classes.join(' ') + '&quot;&gt;' +
-      content + '&lt;/span&gt;';<br/> };<br/> }<br/> };<br/> <br/> return self;<br/><br/>})();<br/><br/>document.addEventListener('DOMContentLoaded',
+      classes = [ 'token', o.type ];<br/><br/> return '<span class="' + classes.join(' ') + '">' +
+      content + '</span>';<br/> };<br/> }<br/> };<br/> <br/> return self;<br/><br/>})();<br/><br/>document.addEventListener('DOMContentLoaded',
       Prism.highlightAll);<br/><br/><br/>Prism.languages.java = {<br/> // C-like<br/> 'comment': {<br/> pattern:
-      /(^|[^\\])\/\*[\w\W]*?\*\//g,<br/> lookbehind: true<br/> },<br/> 'string': /(&quot;|')(\\?.)*?\1/g,<br/>
+      /(^|[^\\])\/\*[\w\W]*?\*\//g,<br/> lookbehind: true<br/> },<br/> 'string': /("|')(\\?.)*?\1/g,<br/>
       'class-name': {<br/> pattern:
       /((?:(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/ig,<br/>
       lookbehind: true<br/> },<br/> 'keyword':
       /\b(if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/g,<br/>
       'boolean': /\b(true|false)\b/g,<br/> 'function': {<br/> pattern: /[a-z0-9_]+\(/ig,<br/> },<br/> 'number':
-      /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?)\b/g,<br/> 'operator': /[-+]{1,2}|!|&lt;=?|&gt;=?|={1,3}|&amp;{1,2}|\|?\||\?|\*|\/|\~|\^|\%/g,<br/>
-      'ignore': /&amp;(lt|gt|amp);/gi,<br/> 'punctuation': /[{}[\];(),.:]/g,<br/> <br/> // Java Specific<br/> 'keyword':
+      /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee]-?\d+)?)\b/g,<br/> 'operator': /[-+]{1,2}|!|<=?|>=?|={1,3}|&{1,2}|\|?\||\?|\*|\/|\~|\^|\%/g,<br/>
+      'ignore': /&(lt|gt|amp);/gi,<br/> 'punctuation': /[{}[\];(),.:]/g,<br/> <br/> // Java Specific<br/> 'keyword':
       /\b(abstract|continue|for|new|switch|assert|default|goto|package|synchronized|boolean|do|if|private|this|break|double|implements|protected|throw|byte|else|import|public|throws|case|enum|instanceof|return|transient|catch|extends|int|short|try|char|final|interface|static|void|class|finally|long|strictfp|volatile|const|float|native|super|while)\b/g,<br/>
       'number': /\b0b[01]+\b|\b0x[\da-f]*\.?[\da-fp\-]+\b|\b\d*\.?\d+[e]?[\d]*[df]\b|\W\d*\.?\d+\b/gi,<br/> 'operator':
-      {<br/> pattern: /(^|[^\.])(?:\+=|\+\+?|-=|--?|!=?|&lt;{1,2}=?|&gt;{1,3}=?|==?|&amp;=|&amp;&amp;?|\|=|\|\|?|\?|\*=?|\/=?|%=?|\^=?|:|~)/gm,<br/>
+      {<br/> pattern: /(^|[^\.])(?:\+=|\+\+?|-=|--?|!=?|<{1,2}=?|>{1,3}=?|==?|&=|&&?|\|=|\|\|?|\?|\*=?|\/=?|%=?|\^=?|:|~)/gm,<br/>
       lookbehind: true<br/> }<br/>};</code></pre>
     <div class="experiment"><p class="title">A vous de forker</p>
       <ul>

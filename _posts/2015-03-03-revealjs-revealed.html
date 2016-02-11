@@ -1,5 +1,13 @@
 ---
 layout: post
+title: 'Reveal.js revealed'
+author: 'Julien Sobczak'
+category: inspect
+tags:
+---
+
+---
+layout: post
 title: Reveal.js revealed
 date: '2015-03-03T22:17:00.000+01:00'
 author: Julien
@@ -33,24 +41,24 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
 
     <h3>Un exemple</h3>
 
-    <pre><code class="language-markup">&lt;!doctype html&gt;<br/>&lt;html lang=&quot;en&quot;&gt;<br/><br/> &lt;head&gt;<br/>
-      &lt;meta charset=&quot;utf-8&quot;&gt;<br/><br/> &lt;title&gt;Implementing reveal.js from
-      scratch&lt;/title&gt;<br/><br/> &lt;link rel=&quot;stylesheet&quot; href=&quot;css/reveal.css&quot;&gt;<br/> &lt;link
-      rel=&quot;stylesheet&quot; href=&quot;css/theme/black.css&quot;&gt;<br/> &lt;/head&gt;<br/><br/> &lt;body&gt;<br/><br/>
-      &lt;div class=&quot;reveal slide&quot;&gt; &lt;!-- fade/slide/concave --&gt;<br/><br/> &lt;!-- Any section element
-      inside of this container is displayed as a slide --&gt;<br/> &lt;div class=&quot;slides&quot;&gt;<br/> &lt;section&gt;<br/>
-      &lt;h1&gt;Reveal.js&lt;/h1&gt;<br/> &lt;h3&gt;Implement the HTML Presentation Framework from
-      Scratch&lt;/h3&gt;<br/> &lt;p&gt;<br/> &lt;small&gt;<br/> Reveal.is was created by <br/> &lt;a href=&quot;http://hakim.se&quot;&gt;Hakim
-      El Hattab&lt;/a&gt; <br/> &lt;/small&gt;<br/> &lt;/p&gt; <br/> &lt;p&gt;<br/> &lt;!-- Exemple of internal link --&gt;<br/>
-      We will support link between slides, &lt;a href=&quot;#/2&quot;&gt;like this&lt;/a&gt;.<br/> &lt;/p&gt;<br/> &lt;/section&gt;<br/><br/>
-      &lt;!-- Example of nested vertical slides --&gt;<br/> &lt;section&gt;<br/> &lt;section&gt;<br/> &lt;h2&gt;Vertical
-      Slides are supported too !&lt;/h2&gt;<br/> &lt;p&gt;You could use &lt;em&gt;arrows&lt;/em&gt; to navigate through
-      all slides.&lt;/p&gt;<br/> &lt;/section&gt;<br/> &lt;section&gt;<br/> &lt;h2&gt;You could adjust the window size&lt;/h2&gt;<br/>
-      &lt;p&gt;Slides are automatically resized.&lt;/p&gt;<br/> &lt;/section&gt;<br/> &lt;/section&gt;<br/><br/> &lt;section&gt;<br/>
-      &lt;h2&gt;Finished!&lt;/h2&gt;<br/> &lt;p&gt;<br/> &lt;small&gt;<br/> Read the post: <br/> &lt;a href=&quot;http://www.imlovinit.com&quot;&gt;I'm
-      lovin' I.T.&lt;/a&gt;<br/> &lt;/small&gt;<br/> &lt;/p&gt;<br/> &lt;/section&gt;<br/> &lt;/div&gt;<br/> <br/> &lt;/div&gt;<br/><br/>
-      &lt;script src=&quot;/js/reveal.js&quot;&gt;&lt;/script&gt;<br/><br/> &lt;script&gt;<br/> <br/>
-      Reveal.initialize(); <br/> <br/> &lt;/script&gt;<br/><br/> &lt;/body&gt;<br/>&lt;/html&gt;</code></pre>
+    <pre><code class="language-markup"><!doctype html><br/><html lang="en"><br/><br/> <head><br/>
+      <meta charset="utf-8"><br/><br/> <title>Implementing reveal.js from
+      scratch</title><br/><br/> <link rel="stylesheet" href="css/reveal.css"><br/> <link
+      rel="stylesheet" href="css/theme/black.css"><br/> </head><br/><br/> <body><br/><br/>
+      <div class="reveal slide"> <!-- fade/slide/concave --><br/><br/> <!-- Any section element
+      inside of this container is displayed as a slide --><br/> <div class="slides"><br/> <section><br/>
+      <h1>Reveal.js</h1><br/> <h3>Implement the HTML Presentation Framework from
+      Scratch</h3><br/> <p><br/> <small><br/> Reveal.is was created by <br/> <a href="http://hakim.se">Hakim
+      El Hattab</a> <br/> </small><br/> </p> <br/> <p><br/> <!-- Exemple of internal link --><br/>
+      We will support link between slides, <a href="#/2">like this</a>.<br/> </p><br/> </section><br/><br/>
+      <!-- Example of nested vertical slides --><br/> <section><br/> <section><br/> <h2>Vertical
+      Slides are supported too !</h2><br/> <p>You could use <em>arrows</em> to navigate through
+      all slides.</p><br/> </section><br/> <section><br/> <h2>You could adjust the window size</h2><br/>
+      <p>Slides are automatically resized.</p><br/> </section><br/> </section><br/><br/> <section><br/>
+      <h2>Finished!</h2><br/> <p><br/> <small><br/> Read the post: <br/> <a href="http://www.imlovinit.com">I'm
+      lovin' I.T.</a><br/> </small><br/> </p><br/> </section><br/> </div><br/> <br/> </div><br/><br/>
+      <script src="/js/reveal.js"></script><br/><br/> <script><br/> <br/>
+      Reveal.initialize(); <br/> <br/> </script><br/><br/> </body><br/></html></code></pre>
     <p>Voici le résultat de notre première présentation :</p>
     <iframe src="http://imlovinit-assets.appspot.com/posts/post-reveal-from-scratch/example.html" style="width: 100%; min-height: 400px"></iframe>
     <p>Cette simple présentation ne reflète nullement les possibilités de l’outil. La liste des
@@ -62,8 +70,8 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
     <p>L’initialisation de Reveal débute lors de l’appel à la méthode <code>Reveal.initialize()</code>. Commençons donc
       par définir le squelette de notre script que nous allons renommer au passage <code>reveal.lite.js</code>.</p>
     <pre data-line="7-9,12-13,25"><code class="language-javascript">var Reveal;<br/><br/>(function() {<br/><br/> 'use
-      strict';<br/><br/> var SLIDES_SELECTOR = '.slides section',<br/> HORIZONTAL_SLIDES_SELECTOR = '.slides&gt;section',<br/>
-      VERTICAL_SLIDES_SELECTOR = '.slides&gt;section.present&gt;section',<br/><br/> // The horizontal and vertical index
+      strict';<br/><br/> var SLIDES_SELECTOR = '.slides section',<br/> HORIZONTAL_SLIDES_SELECTOR = '.slides>section',<br/>
+      VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',<br/><br/> // The horizontal and vertical index
       of the currently active slide<br/> indexh,<br/> indexv,<br/><br/> // Cached references to DOM elements<br/> dom =
       {};<br/><br/> function initialize() {<br/><br/> // Cache references to elements<br/> dom.wrapper =
       document.querySelector( '.reveal' );<br/> dom.slides = document.querySelector( '.reveal .slides' );<br/> <br/> //
@@ -120,11 +128,11 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
       if it was out of<br/> * bounds.<br/> */<br/>function updateSlides( selector, index ) {<br/><br/> // Select all
       slides and convert the NodeList result to<br/> // an array<br/> var slides = [].slice.call(
       dom.wrapper.querySelectorAll( selector ) ),<br/> slidesLength = slides.length;<br/><br/> if( slidesLength ) {<br/><br/>
-      for( var i = 0; i &lt; slidesLength; i++ ) {<br/> var element = slides[i];<br/><br/> element.classList.remove(
+      for( var i = 0; i < slidesLength; i++ ) {<br/> var element = slides[i];<br/><br/> element.classList.remove(
       'past' );<br/> element.classList.remove( 'present' );<br/> element.classList.remove( 'future' );<br/><br/> // If
       this element contains vertical slides<br/> if( element.querySelector( 'section' ) ) {<br/> element.classList.add(
-      'stack' );<br/> }<br/><br/> if( i &lt; index ) {<br/> // Any element previous to index is given the 'past'
-      class<br/> element.classList.add( 'past' );<br/> }<br/> else if( i &gt; index ) {<br/> // Any element subsequent
+      'stack' );<br/> }<br/><br/> if( i < index ) {<br/> // Any element previous to index is given the 'past'
+      class<br/> element.classList.add( 'past' );<br/> }<br/> else if( i > index ) {<br/> // Any element subsequent
       to index is given the 'future' class<br/> element.classList.add( 'future' );<br/> }<br/> }<br/><br/> // Mark the
       current slide as present<br/> slides[index].classList.add( 'present' );<br/> }<br/> else {<br/> // Since there are
       no slides we can't be anywhere beyond the<br/> // zeroth index<br/> index = 0;<br/> }<br/><br/> return index;<br/><br/>}</pre>
@@ -217,8 +225,8 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
       for navigation.<br/> *<br/> * @return {Object} containing four booleans: left/right/up/down<br/> */<br/>function
       availableRoutes() {<br/><br/> var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR
       ),<br/> verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );<br/><br/> var routes = {<br/>
-      left: indexh &gt; 0,<br/> right: indexh &lt; horizontalSlides.length - 1,<br/> up: indexv &gt; 0,<br/> down:
-      indexv &lt; verticalSlides.length - 1<br/> };<br/><br/> return routes;<br/><br/>}<br/><br/>function navigateLeft()
+      left: indexh > 0,<br/> right: indexh < horizontalSlides.length - 1,<br/> up: indexv > 0,<br/> down:
+      indexv < verticalSlides.length - 1<br/> };<br/><br/> return routes;<br/><br/>}<br/><br/>function navigateLeft()
       {<br/><br/> if( availableRoutes().left ) {<br/> slide( indexh - 1 );<br/> }<br/><br/>}<br/><br/>function
       navigateRight() {<br/><br/> if( availableRoutes().right ) {<br/> slide( indexh + 1 );<br/> }<br/><br/>}<br/><br/>function
       navigateUp() {<br/><br/> if( availableRoutes().up ) {<br/> slide( indexh, indexv - 1 );<br/>
@@ -242,9 +250,9 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
       Pour les slides verticales, c’est le même principe mais sur l’axe vertical. Les diaporamas apparaissent en bas de
       l’écran pendant que le précédent disparait disparait par le haut. Niveau CSS, voici à quoi cela ressemble :</p>
     <pre data-line="2,5,8,11,14"><code class="language-css">.reveal.slide section {<br/> transition: all 800ms
-      ease-in-out; }<br/><br/>.reveal.slide .slides &gt; section.past {<br/> transform: translate(-150%, 0); }<br/><br/>.reveal.slide
-      .slides &gt; section.future {<br/> transform: translate(150%, 0); }<br/><br/>.reveal.slide .slides &gt; section
-      &gt; section.past {<br/> transform: translate(0, -150%); }<br/><br/>.reveal .slides &gt; section &gt;
+      ease-in-out; }<br/><br/>.reveal.slide .slides > section.past {<br/> transform: translate(-150%, 0); }<br/><br/>.reveal.slide
+      .slides > section.future {<br/> transform: translate(150%, 0); }<br/><br/>.reveal.slide .slides > section
+      > section.past {<br/> transform: translate(0, -150%); }<br/><br/>.reveal .slides > section >
       section.future {<br/> transform: translate(0, 150%); }</code></pre>
     <dl class="source-explanations">
       <dt>2</dt>
@@ -259,10 +267,10 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
     <pre><code class="language-css">.reveal .slides {<br/> /* ... */<br/> text-align: center;<br/> perspective:
       600px;<br/> perspective-origin: 50% 40%; }<br/><br/>.reveal.concave section {<br/> transform-style:
       preserve-3d;<br/> transition: all 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }<br/><br/>.reveal.concave .slides
-      &gt; section.past {<br/> transform: translate3d(-100%, 0, 0) rotateY(90deg) }<br/><br/>.reveal.concave .slides
-      &gt; section.future {<br/> transform: translate3d(100%, 0, 0) rotateY(-90deg) }<br/><br/>.reveal.concave .slides
-      &gt; section &gt; section.past {<br/> transform: translate3d(0, -80%, 0) rotateX(-70deg) }<br/><br/>.reveal.concave
-      .slides &gt; section &gt; section.future {<br/> transform: translate3d(0, 80%, 0) rotateX(70deg) }</code></pre>
+      > section.past {<br/> transform: translate3d(-100%, 0, 0) rotateY(90deg) }<br/><br/>.reveal.concave .slides
+      > section.future {<br/> transform: translate3d(100%, 0, 0) rotateY(-90deg) }<br/><br/>.reveal.concave .slides
+      > section > section.past {<br/> transform: translate3d(0, -80%, 0) rotateX(-70deg) }<br/><br/>.reveal.concave
+      .slides > section > section.future {<br/> transform: translate3d(0, 80%, 0) rotateX(70deg) }</code></pre>
     <div class="tip"><p class="title">Zoom sur la fonction <code>cubier-bezier</code></p>
       <p>La propriété CSS <code>transition</code> propose de spécifier ce qu’on appelle une
         <a href="https://developer.mozilla.org/fr/docs/Web/CSS/timing-function">fonction de timing</a> (ou easing
@@ -282,8 +290,8 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
     <p>Techniquement, tout repose sur le hash (ce qui suit le caractère <code>#</code> dans l’URL) pour identifier la
       slide cible. Par exemple <code>#/1/2</code> représente la deuxième slide verticale de la première slide
       horizontable. Lors du clic sur un lien, on modifie le hash comme suit :</p>
-    <pre><code class="language-markup">&lt;p&gt;<br/> &lt;!-- Exemple of internal link --&gt;<br/> We will support link
-      between slides, &lt;a href=&quot;#/2&quot;&gt;like this&lt;/a&gt;.<br/>&lt;/p&gt;</code></pre>
+    <pre><code class="language-markup"><p><br/> <!-- Exemple of internal link --><br/> We will support link
+      between slides, <a href="#/2">like this</a>.<br/></p></code></pre>
     <p>Côté JavaScript, on va donc écouter les changements grâce à l’événement <code>hashchange</code>, extraire la
       destination, et tout simplement, réutiliser la méthode <code>slide</code> pour naviguer dans le diaporama :</p>
     <pre data-line="6,28"><code class="language-javascript">/**<br/> * Binds all event listeners.<br/> */<br/>function
@@ -322,7 +330,7 @@ blogger_orig_url: http://www.imlovinit.fr/2015/03/revealjs-revealed.html
       facilement avec les loaders actuels. Comme souvent en JavaScript, on inspecte les objets présents pour détecter
       les fonctionnalités supportées. Voici à quoi cela ressemble :</p>
     <pre data-line="1,4-7,10,13"><code class="language-javascript">(function( root, factory ) {<br/> if( typeof define
-      === 'function' &amp;&amp; define.amd ) {<br/> // AMD. Register as an anonymous module.<br/> define( function()
+      === 'function' && define.amd ) {<br/> // AMD. Register as an anonymous module.<br/> define( function()
       {<br/> root.Reveal = factory();<br/> return root.Reveal;<br/> } );<br/> } else if( typeof exports === 'object' ) {<br/>
       // Node.<br/> module.exports = factory();<br/> } else {<br/> // Browser globals.<br/> root.Reveal =
       factory();<br/> }<br/>}( this, function() {<br/><br/> var Reveal;<br/> // ... (All code presented in this
