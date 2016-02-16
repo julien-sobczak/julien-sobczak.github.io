@@ -2,263 +2,60 @@
 layout: default
 ---
 
-<!-- body id="archive" -->
 
 <div id="blog-content" style="text-align: center;">
 
   <h3 id="tag-{{page.tag}}">{{page.tag_name}}</h3>
 
-  <!--
-    TODO replace static data with:
-
-    <div>
-
-      <h1>Posts</h1>
-
-      <ul>
-        {% for post in site.posts %}
-          <li>
-            <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-            <h2>
-              <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-            </h2>
-          </li>
-        {% endfor %}
-      </ul>
-
-      <p class="rss-subscribe">subscribe <a href="{{ '/feed.xml' | prepend: site.baseurl }}">via RSS</a></p>
-
-    </div>
-  -->
-
-
   <div id="post-list-container" style="text-align: center;">
     <ul class="post-list" id="post-list">
+
+      {% for post in site.posts %}
+
+      {% if post.tags contains page.tag %}
+
       <li>
-        <div class="post-preview post-read-preview">
+        <div class="post-preview post-{{post.categories}}-preview">
+
           <div class="title">
-            <h2>Building Microservices</h2>
-            <h3>Sam Newman</h3>
-            <h4>20 mars 2015</h4>
+            <h2>{{ post.title }}</h2>
+            {% if post.categories == 'read' %}
+            <h3>{{ post.read_authors }}</h3>
+            {% elsif post.categories == 'watch' %}
+            <h3>{{ post.watch_speakers }}</h3>
+            {% endif %}
+            <h4>{{ post.date | date: "%b %-d, %Y" }}</h4>
             <nav>
-              <a href="http://www.imlovinit.fr/2015/03/building-microservices.html"><span data-hover="Lire">Lire</span></a>
+              <a href="{{ post.url | prepend: site.baseurl }}"><span>Read</span></a>
             </nav>
           </div>
+
+          {% if post.image %}
           <div class="image">
-            <img src="http://d.gr-assets.com/books/1403186979l/22512931.jpg">
+            <img src="{{ post.image }}">
           </div>
+          {% endif %}
+
+          {% if post.categories == 'read' %}
           <div class="more">
-            <span class="note note-17-20"></span>
+            <span class="note note-{{ post.read_note }}-20"></span>
           </div>
+          {% elsif post.categories == 'watch' %}
+          <div class="more">
+            <span class="note note-{{ post.watch_note }}-5"></span>
+          </div>
+          {% endif %}
+
         </div>
         <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2015/03/building-microservices.html#more" title="Building Microservices">Lire le post complet</a>
-        </div>
       </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>Leading Change</h2>
-            <h3>John P. Kotter</h3>
-            <h4>13 mars 2015</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2015/03/leading-change.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1388206294l/51370.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-15-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2015/03/leading-change.html#more" title="Leading Change">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>How to Make People Like You in 90 Seconds or Less</h2>
-            <h3>Nicholas Boothman</h3>
-            <h4>20 janvier 2015</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2015/01/how-to-make-people-like-you-in-90.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1388456218l/181727.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-12-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2015/01/how-to-make-people-like-you-in-90.html#more" title="How to Make People Like You in 90 Seconds or Less">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>Java 8 Lambdas: Pragmatic Functional Programming</h2>
-            <h3>Richard Warburton</h3>
-            <h4>14 janvier 2015</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2015/01/java-8-lambdas-pragmatic-functional.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1389672495l/18669408.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-16-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2015/01/java-8-lambdas-pragmatic-functional.html#more" title="Java 8 Lambdas: Pragmatic Functional Programming">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>Triple Your Reading Speed, 4th Edition</h2>
-            <h3>Wade E. Cutler</h3>
-            <h4>12 janvier 2015</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2015/01/triple-your-reading-speed-4th-edition.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1348396617l/160074.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-16-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2015/01/java-8-lambdas-pragmatic-functional.html#more" title="Java 8 Lambdas: Pragmatic Functional Programming">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>SCJP Sun Certified Programmer for Java 6 Study Guide</h2>
-            <h3>Kathy Sierra, Bert Bates</h3>
-            <h4>29 décembre 2014</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2014/12/scjp-sun-certified-programmer-for-java.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1369818986l/2593099.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-17-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2014/12/scjp-sun-certified-programmer-for-java.html#more" title="SCJP Sun Certified Programmer for Java 6 Study Guide">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>Introduction to Algorithms, 3rd Edition</h2>
-            <h3>Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein</h3>
-            <h4>11 décembre 2014</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2014/12/introduction-to-algorithms-3rd-edition.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1387741681l/108986.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-17-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2014/12/introduction-to-algorithms-3rd-edition.html#more" title="Introduction to Algorithms, 3rd Edition">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>Fluent in 3 Months: How Anyone at Any Age Can Learn to Speak Any Language from Anywhere in the World</h2>
-            <h3>Benny Lewis</h3>
-            <h4>20 novembre 2014</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2014/11/fluent-in-3-months-how-anyone-at-any.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1398786029l/18085519.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-16-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2014/11/fluent-in-3-months-how-anyone-at-any.html#more" title="Fluent in 3 Months: How Anyone at Any Age Can Learn to Speak Any Language from Anywhere in the World">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>Liferay in Action</h2>
-            <h3>Rich Sezov</h3>
-            <h4>14 novembre 2014</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2014/11/liferay-in-action.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="https://d.gr-assets.com/books/1347791796l/9640165.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-10-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2014/11/liferay-in-action.html#more" title="Liferay in Action">Lire le post complet</a>
-        </div>
-      </li>
-      <li>
-        <div class="post-preview post-read-preview">
-          <div class="title">
-            <h2>Good Math: A Geek's Guide to the Beauty of Numbers, Logic, and Computation</h2>
-            <h3>Mark C. Chu-Carroll</h3>
-            <h4>1 novembre 2014</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2014/10/good-math-geeks-guide-to-beauty-of_79.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          <div class="image">
-            <img src="http://d.gr-assets.com/books/1358955957l/17280814.jpg">
-          </div>
-          <div class="more">
-            <span class="note note-15-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div class="jump-link">
-          <a href="http://www.imlovinit.fr/2014/10/good-math-geeks-guide-to-beauty-of_79.html#more" title="Good Math: A Geek's Guide to the Beauty of Numbers, Logic, and Computation">Lire le post complet</a>
-        </div>
-      </li>
+
+      {% endif %}
+
+      {% endfor %}
+
     </ul>
   </div>
 
 </div>
-
-{% include labels.html %}
 

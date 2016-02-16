@@ -2,8 +2,6 @@
 layout: default
 ---
 
-<!-- body id="archive" -->
-
 <div id="blog-content" style="text-align: center;">
 
   {% if page.category == 'read' %}
@@ -20,27 +18,47 @@ layout: default
     <ul class="post-list" id="post-list">
 
       {% for post in site.posts %}
-      <li>
-        <div class="post-preview post-{{category}}-preview">
-          <div class="title">
-            <h2>{{ post.title }}</h2>
-            <h3>{{ post.read_authors }}</h3>
-            <h4>{{ post.date | date: "%b %-d, %Y" }}</h4>
-            <nav>
-              <a href="http://www.imlovinit.fr/2015/03/building-microservices.html"><span data-hover="Lire">Lire</span></a>
-            </nav>
-          </div>
-          {% if page.image %}
-          <div class="image">
-            <img src="{{ page.image }}">
-          </div>
-          {% endif %}
-          <div class="more">
-            <span class="note note-{{ post.read_note }}-20"></span>
-          </div>
-        </div>
-        <div style="clear: both;"></div>
-      </li>
+
+        {% if post.categories contains page.category %}
+
+          <li>
+            <div class="post-preview post-{{post.categories}}-preview">
+
+              <div class="title">
+                <h2>{{ post.title }}</h2>
+                {% if post.categories == 'read' %}
+                <h3>{{ post.read_authors }}</h3>
+                {% elsif post.categories == 'watch' %}
+                <h3>{{ post.watch_speakers }}</h3>
+                {% endif %}
+                <h4>{{ post.date | date: "%b %-d, %Y" }}</h4>
+                <nav>
+                  <a href="{{ post.url | prepend: site.baseurl }}"><span>Read</span></a>
+                </nav>
+              </div>
+
+              {% if post.image %}
+              <div class="image">
+                <img src="{{ post.image }}">
+              </div>
+              {% endif %}
+
+              {% if post.categories == 'read' %}
+              <div class="more">
+                <span class="note note-{{ post.read_note }}-20"></span>
+              </div>
+              {% elsif post.categories == 'watch' %}
+              <div class="more">
+                <span class="note note-{{ post.watch_note }}-5"></span>
+              </div>
+              {% endif %}
+
+            </div>
+            <div style="clear: both;"></div>
+          </li>
+
+        {% endif %}
+
       {% endfor %}
 
     </ul>

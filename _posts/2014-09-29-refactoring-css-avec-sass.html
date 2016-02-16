@@ -3,7 +3,7 @@ layout: post
 title: 'Refactoring CSS avec Sass'
 author: 'Julien Sobczak'
 date: '2014-09-29T22:52:00.000+02:00'
-category: tell
+categories: tell
 tags:
 - refactoring
 - web
@@ -497,7 +497,7 @@ tags:
       background-position: 0 -300px; }<br/>li.category-inspect { background-position: 0 -400px; }<br/>// ...<br/></code></pre>
     <p>Pour cet exemple, nous allons définir une variable pour contenir la liste de nos catégories, avant d'itérer
       dessus pour générer l'ensemble des déclarations. Voici le résultat :</p>
-    <pre><code class="language-scss">ul {<br/> $categories: read, watch, tell, inspect;<br/> <br/> list-style-type:
+    <pre><code class="language-scss">ul {<br/> $categories:  read, watch, tell, inspect;<br/> <br/> list-style-type:
       none;<br/> <br/> <br/> li {<br/> display: inline-block;<br/> width: 70px;<br/> height: 60px;<br/>
       background-image: url(labels-sprite.png);<br/> }<br/><br/> $i: 0;<br/> @each $category in $categories {<br/>
       li.category-#{$category} { background-position: 0 (-100px * $i); } <br/> $i: $i + 1;<br/>
