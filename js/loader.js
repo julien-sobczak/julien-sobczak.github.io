@@ -7,8 +7,7 @@ $(document).ready(function() {
     }, 3000);
  
 });
-*/  
-
+*/
 
 $("body").imagesLoaded( function() {
   $('body').addClass('loaded');

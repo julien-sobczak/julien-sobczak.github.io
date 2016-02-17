@@ -39,7 +39,10 @@ layout: default
 
               {% if post.image %}
               <div class="image">
-                <img src="{{ post.image }}">
+                <img class="ignore" src="{{ post.image }}">
+                {% comment %}
+                  We excludes post image from the loader to avoid a long blank screen, waiting to download all 200+ book pictures...
+                {% endcomment %}
               </div>
               {% endif %}
 
