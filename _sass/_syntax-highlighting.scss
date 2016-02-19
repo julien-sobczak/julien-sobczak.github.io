@@ -1,8 +1,43 @@
+pre {
+  /* Cancel Bootstrap */
+  box-sizing: content-box;
+  word-wrap: normal;
+  border: none;
+  font-size: inherit;
+  line-height: inherit;
+  background-color: transparent;
+  color: inherit;
+}
+
+code {
+  /* Cancel Boostrap */
+  color: inherit;
+}
+
+pre code {
+  /* Cancel Bootstrap */
+  white-space: pre; /* Pre end-lines are conserved */
+}
+
+
+figure.highlight {
+  background: #fafbfc url('../images/blueprint-mozilla.png') top center;
+  border-left: 6px solid #558abb;
+  border-radius: 5px;
+}
+
+
+/* Never display background when code is managed by Rouge. */
+code[data-lang] {
+  background-color: transparent !important;
+  text-shadow: 0 1px white;
+}
+
+
 /**
  * Syntax highlighting styles
  */
 .highlight {
-    background: #fff;
 
     .highlighter-rouge & {
       background: #eef;
