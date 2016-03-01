@@ -774,8 +774,8 @@ function navigateDown() {
     Le site <a href="http://lea.verou.me/2011/09/a-better-tool-for-cubic-bezier-easing/">cubic-bezier.com</a>
     propose de créer facilement la <a href="http://cubic-bezier.com/#.26,.86,.44,.98">courbe voulue</a>, de manière
     très visuelle. Ce site est l’oeuvre de Lea Verou, à qui on doit également les librairies
-    <a href="http://www.imlovinit.fr/2014/11/prefix-free-from-scratch.html">-prefix-free</a> et
-    <a href="http://www.imlovinit.fr/2014/11/prism-from-scratch.html">prism</a>.
+    <a href="{% post_url 2014-11-06-prefix-free-from-scratch %}">-prefix-free</a> et
+    <a href="{% post_url 2014-11-25-prism-from-scratch %}">prism</a>.
   </p>
 </div>
 
@@ -883,7 +883,7 @@ function initialize() {
   <p>
     <strong>Bravo, vous venez de réaliser une version de Reveal opérationnelle en seulement 200 lignes de
     JavaScript, ainsi que 100 lignes de CSS</strong>. Le diaporama exemple est consultable
-    <a href="http://imlovinit-assets.appspot.com/posts/post-reveal-from-scratch/example.html">ici</a>, tout comme le
+    <a href="{{ '/posts_resources/2015-03-03-revealjs-revealed/example.html' | prepend: site.baseurl }}">ici</a>, tout comme le
     <a href="https://github.com/julien-sobczak/reveal-from-scratch">source complet</a>.
   </p>
 </div>
