@@ -2,35 +2,19 @@
 layout: default
 ---
 
-<!--
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-    <p class="post-meta"><time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>{% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}</p>
-  </header>
-
-  <div class="post-content" itemprop="articleBody">
-    {{ content }}
-  </div>
-
-</article>
--->
-
-
 <div id="blog-content">
 
   <article class="post-read" itemscope='itemscope' itemtype='http://schema.org/Review'>
 
     <meta itemprop="author" content="Julien Sobczak" />
-    <meta itemprop="datePublished" content="2014-04-18" />
+    <meta itemprop="datePublished" content="{{ page.date | date: '%Y-%m-%d' }}" />
 
-    <h1 itemprop="name">Designing Multi-Device Experiences</h1>
-    <h2>Michal Levin</h2>
+    <h1 itemprop="name">{{ page.title }}</h1>
+    <h2>{{ page.read_authors }}</h2>
 
     <header>
       <div class="preview">
-        <img src="images/3735293.jpg" width="150" class="book-cover" />
+        <img src="{{ page.image }}" width="150" class="book-cover" />
         <select class="form-control">
           <option value="">Voir sur ...</option>
           <option value="http://www.amazon.com">Amazon.com</option>
@@ -40,15 +24,15 @@ layout: default
       </div>
 
       <div class="headline" itemprop="description" >
-        Un parfait mélange de théorie et pratique. Des tas d'exemples qui nous font réfléchir. Les choses évoluent ŕ une telle vitesse que ne pas profiter de ce formidable livre aujourd'hui serait une regrettable erreur demain.
+        {{ page.read_headline }}
       </div>
 
       <div class="evaluations" itemprop="reviewRating" itemscope='itemscope' itemtype="http://schema.org/Rating">
-        <span class="note-18-20"></span>
+        <span class="note-{{ page.read_note }}-20"></span>
         <span class="roti-5"></span>
         <span class="time-12"></span>
         <meta itemprop="worstRating" content="1"  />
-        <meta itemprop="ratingValue" content="18" />
+        <meta itemprop="ratingValue" content="{{ page.read_note }}" />
         <meta itemprop="bestRating"  content="20" />
       </div>
 
@@ -57,13 +41,15 @@ layout: default
 
     <section class="informations" itemprop="itemReviewed" itemscope='itemscope' itemtype='http://schema.org/Book'>
 
-      <meta itemprop="name" content="Designing Multi-Device Experiences" />
-      <meta itemprop="image" content="images/3735293.jpg" />
+      <meta itemprop="name" content="{{ page.title }}" />
+      <meta itemprop="image" content="{{page.image }}" />
 
       <h4><span class="line"></span>Informations</h4>
 
       <label>Date de publication</label>
-      <span itemprop="datePublished" content="2014-03-15">15 mars 2014</span>
+      <span itemprop="datePublished" content="{{ page.read_date_published | date: '%Y-%m-%d' }}">
+        {{ page.read_date_published | date_to_string }}
+      </span>
 
       <label>Auteur</label>
       <span itemprop="author">Michal Levin</span>
@@ -84,175 +70,27 @@ layout: default
     <section class="post-labels">
       <h4><span class="line"></span>Libellés</h4>
       <ul class="labels">
-        <li><a href="#"><div class="label"><span class="label-icon label-im-readin-it-icon label-black-icon"></span><span class="label-text label-black-text">I'm readin' I.T.</span><span class="eclipse"></span></div></a></li>
-        <li><a href="#"><div class="label"><span class="label-icon label-ux-design-icon label-black-icon"></span><span class="label-text label-black-text">UX Design</span><span class="eclipse"></span></div></a></li>
-        <li><a href="#"><div class="label"><span class="label-icon label-popular-icon label-black-icon"></span><span class="label-text label-black-text">Popular</span><span class="eclipse"></span></div></a></li>
+        {% for tag in page.tags %}
+        <li>
+          <a href="{{ '/tags/' tag | prepend: site.baseurl }}">
+            <div class="label">
+              <span class="label-icon label-{{ tag }}-icon label-black-icon"></span>
+              <span class="label-text label-black-text">{{ tag }}</span>
+              <span class="eclipse"></span>
+            </div>
+          </a>
+        </li>
+        {% endfor %}
       </ul>
     </section>
 
     <section class="comment" itemprop="reviewBody">
       <h4><span class="line"></span>Commentaire</h4>
 
-      <p>2 mois ont passés depuis sa sortie et déjŕ 47 commentaires Amazon.com, tous 5 étoiles... Cela témoigne ŕ la fois de la qualité du livre et de l'importance de son sujet. Michal Levin commence d'ailleurs par nous exposer quelques chiffres. Un exemple, on comptait 25 millions de smartphones en 2008 et déjŕ 1,38 milliard en 2012. Le monde est en constante (r)évolution. Comment y faire face ?</p>
+      {{ content }}
 
-      <p>Michal Levin s'appuie sur ce qui existe de mieux aujourd'hui : des dizaines d'exemples réels proposant une expérience multi-devices sont présentées (Google Drive, Netflix, Amazon Kindle, Nike+, ...), toujours utilisés pour appuyer les idées de l'auteur autour des 3Cs : Consistent, Complementary, and Continuous approaches. C'est merveilleusement fait et tellement plaisant ŕ lire. Il sera difficile de poser ce livre avant de l'avoir achever.</p>
-
-      <p>Michal Levin, en abordant The Internet of Things, nous laisse également entrevoir notre avenir pour les prochaines années ŕ venir. Cela promet !</p>
-
-      <p>Designing Multi-Device Experiences n'apporte cependant pas toutes les réponses ŕ vos questions, tout simplement parce que personne ne les connait. Proposer une expérience multi-devices riche reste proche de l'expérimentation mais le meilleur d'y parvenir, comme le l'auteur le souligne, c'est de se concentrer sur l'utilisateur et ses besoins, car cela ne changera jamais.</p>
-
-      <p class="me">Julien Sobczak</p>
     </section>
 
   </article>
 
-
-
-  <article class="post-watch" itemscope='itemscope' itemtype='http://schema.org/Review'>
-
-    <meta itemprop="author" content="Julien Sobczak" />
-    <meta itemprop="datePublished" content="2014-04-18" />
-
-    <h1 itemprop="name">Git++</h1>
-    <h2>Hubert Sablonničre, Cyril Lakech</h2>
-
-    <header>
-      <div class="preview">
-        <img src="https://cdn.parleys.com/p/535a2846e4b03397a8eee892/XnY3aD1nAOV-ap06rE4pN2P.png" />
-        <select class="form-control">
-          <option value="">Voir sur ...</option>
-          <option value="http://www.amazon.com">Amazon.com</option>
-          <option value="http://www.amazon.fr">Amazon.fr</option>
-          <option value="http://www.goodreads.com">Goodreads.com</option>
-        </select>
-      </div>
-
-      <div class="headline" itemprop="description">
-        Intéressant.
-      </div>
-
-      <div class="evaluations" itemprop="reviewRating" itemscope='itemscope' itemtype="http://schema.org/Rating">
-        <span class="note-2-5"></span>
-        <span class="roti-4"></span>
-        <meta itemprop="worstRating" content="1"  />
-        <meta itemprop="ratingValue" content="2" />
-        <meta itemprop="bestRating"  content="5" />
-      </div>
-
-      <div class="clearfix"></div>
-    </header>
-
-    <section class="informations" itemprop="itemReviewed" itemscope='itemscope' itemtype='http://schema.org/Event'>
-      <h4><span class="line"></span>Informations</h4>
-
-      <meta itemprop="name" content="Git++" />
-      <meta itemprop="url" content="images/3735293.jpg" />
-      <meta itemprop="image" content="images/3735293.jpg" />
-      <meta itemprop="description" content="description" />
-
-      <label>Evénement</label>
-      <span itemprop="organizer">Devoxx France 2014</span>
-
-      <label>Date</label>
-      <span itemprop="startDate" content="2014-03-15">15 mars 2014</span>
-
-      <label>Speaker(s)</label>
-      <span itemprop="performer">Michal Levin</span>
-
-    </section>
-
-    <section class="post-labels">
-      <h4><span class="line"></span>Libellés</h4>
-      <ul class="labels">
-        <li><a href="#"><div class="label"><span class="label-icon label-im-watchin-it-icon label-black-icon"></span><span class="label-text label-black-text">I'm watchin' I.T.</span><span class="eclipse"></span></div></a></li>
-        <li><a href="#"><div class="label"><span class="label-icon label-ux-design-icon label-black-icon"></span><span class="label-text label-black-text">UX Design</span><span class="eclipse"></span></div></a></li>
-        <li><a href="#"><div class="label"><span class="label-icon label-popular-icon label-black-icon"></span><span class="label-text label-black-text">Popular</span><span class="eclipse"></span></div></a></li>
-      </ul>
-    </section>
-
-    <section class="comment" itemprop="reviewBody">
-      <h4><span class="line"></span>Commentaire</h4>
-
-      <p>2 mois ont passés depuis sa sortie et déjŕ 47 commentaires Amazon.com, tous 5 étoiles... Cela témoigne ŕ la fois de la qualité du livre et de l'importance de son sujet. Michal Levin commence d'ailleurs par nous exposer quelques chiffres. Un exemple, on comptait 25 millions de smartphones en 2008 et déjŕ 1,38 milliard en 2012. Le monde est en constante (r)évolution. Comment y faire face ?</p>
-
-      <p>Michal Levin s'appuie sur ce qui existe de mieux aujourd'hui : des dizaines d'exemples réels proposant une expérience multi-devices sont présentées (Google Drive, Netflix, Amazon Kindle, Nike+, ...), toujours utilisés pour appuyer les idées de l'auteur autour des 3Cs : Consistent, Complementary, and Continuous approaches. C'est merveilleusement fait et tellement plaisant ŕ lire. Il sera difficile de poser ce livre avant de l'avoir achever.</p>
-
-      <p>Michal Levin, en abordant The Internet of Things, nous laisse également entrevoir notre avenir pour les prochaines années ŕ venir. Cela promet !</p>
-
-      <p>Designing Multi-Device Experiences n'apporte cependant pas toutes les réponses ŕ vos questions, tout simplement parce que personne ne les connait. Proposer une expérience multi-devices riche reste proche de l'expérimentation mais le meilleur d'y parvenir, comme le l'auteur le souligne, c'est de se concentrer sur l'utilisateur et ses besoins, car cela ne changera jamais.</p>
-
-      <p class="me">Julien Sobczak</p>
-    </section>
-
-  </article>
-
-
-  <div id="blog-pager">
-
-    <nav>
-      <a href="#"><span data-hover="Article plus récent">Article plus récent</span></a>
-      <a href="#"><span data-hover="Accueil">Accueil</span></a>
-      <a href="#"><span data-hover="Article plus ancien">Article plus ancien</span></a>
-    </nav>
-
-  </div>
-
-
-
-  <div id="labels" class="labels">
-    <h2><span class="line"></span><a href="#" id="show-labels">Posts par <em>Libellés</em> <span class="more glyphicon glyphicon-chevron-down"></span></a></h2>
-    <ul class="labels">
-      <li><div class="label"><span class="sunshine"></span><a href="#im-readin-it"><span class="label-icon label-im-readin-it-icon label-white-icon"></span><span class="label-text">I'm readin' I.T.<span class="label-count">120</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#im-watchin-it"><span class="label-icon label-im-watchin-it-icon label-white-icon"></span><span class="label-text">I'm watchin' I.T.<span class="label-count">15</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#im-tellin-it"><span class="label-icon label-im-tellin-it-icon label-white-icon"></span><span class="label-text">I'm tellin' I.T.<span class="label-count">2</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#im-inspectin-it"><span class="label-icon label-im-inspectin-it-icon label-white-icon"></span><span class="label-text">I'm inspectin' I.T.<span class="label-count">5</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#html5"><span class="label-icon label-html5-icon label-white-icon"></span><span class="label-text">HTML5<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#agile"><span class="label-icon label-agile-icon label-white-icon"></span><span class="label-text">Agile<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#architecture"><span class="label-icon label-architecture-icon label-white-icon"></span><span class="label-text">Architecture<span class="label-count">2</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#classics"><span class="label-icon label-classics-icon label-white-icon"></span><span class="label-text">Classics<span class="label-count">15</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#big-data"><span class="label-icon label-big-data-icon label-white-icon"></span><span class="label-text">Big Data<span class="label-count">7</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#build"><span class="label-icon label-build-icon label-white-icon"></span><span class="label-text">Build<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#computer-science"><span class="label-icon label-computer-science-icon label-white-icon"></span><span class="label-text">Computer Science<span class="label-count">13</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#database"><span class="label-icon label-database-icon label-white-icon"></span><span class="label-text">Database<span class="label-count">8</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#ddd"><span class="label-icon label-ddd-icon label-white-icon"></span><span class="label-text">DDD<span class="label-count">5</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#design-patterns"><span class="label-icon label-design-patterns-icon label-white-icon"></span><span class="label-text">Design Patterns<span class="label-count">9</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#devops"><span class="label-icon label-devops-icon label-white-icon"></span><span class="label-text">Devops<span class="label-count">1</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#essays"><span class="label-icon label-essays-icon label-white-icon"></span><span class="label-text">Essays<span class="label-count">4</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#frameworks"><span class="label-icon label-frameworks-icon label-white-icon"></span><span class="label-text">Frameworks<span class="label-count">25</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#gaming"><span class="label-icon label-gaming-icon label-white-icon"></span><span class="label-text">Gaming<span class="label-count">4</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#hiring"><span class="label-icon label-hiring-icon label-white-icon"></span><span class="label-text">Hiring<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#java"><span class="label-icon label-java-icon label-white-icon"></span><span class="label-text">Java<span class="label-count">7</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#javascript"><span class="label-icon label-javascript-icon label-white-icon"></span><span class="label-text">JavaScript<span class="label-count">15</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#kid-programming"><span class="label-icon label-kid-programming-icon label-white-icon"></span><span class="label-text">Kid Programming<span class="label-count">12</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#languages"><span class="label-icon label-languages-icon label-white-icon"></span><span class="label-text">Languages<span class="label-count">15</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#management"><span class="label-icon label-management-icon label-white-icon"></span><span class="label-text">Management<span class="label-count">9</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#performance"><span class="label-icon label-performance-icon label-white-icon"></span><span class="label-text">Performance<span class="label-count">4</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#php"><span class="label-icon label-php-icon label-white-icon"></span><span class="label-text">PHP<span class="label-count">6</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#refactoring"><span class="label-icon label-refactoring-icon label-white-icon"></span><span class="label-text">Refactoring<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#soa"><span class="label-icon label-soa-icon label-white-icon"></span><span class="label-text">SOA<span class="label-count">11</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#testing"><span class="label-icon label-testing-icon label-white-icon"></span><span class="label-text">Testing<span class="label-count">6</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#ux-design"><span class="label-icon label-ux-design-icon label-white-icon"></span><span class="label-text">UX Design<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#web"><span class="label-icon label-web-icon label-white-icon"></span><span class="label-text">Web<span class="label-count">25</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#reversing"><span class="label-icon label-reversing-icon label-white-icon"></span><span class="label-text">Reversing<span class="label-count">1</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#bad-things"><span class="label-icon label-bad-things-icon label-white-icon"></span><span class="label-text">Bad Things<span class="label-count">6</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#clean-code"><span class="label-icon label-clean-code-icon label-white-icon"></span><span class="label-text">Clean Code<span class="label-count">4</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#design"><span class="label-icon label-design-icon label-white-icon"></span><span class="label-text">Design<span class="label-count">8</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#delivery"><span class="label-icon label-delivery-icon label-white-icon"></span><span class="label-text">Delivery<span class="label-count">2</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#popular"><span class="label-icon label-popular-icon label-white-icon"></span><span class="label-text">Popular<span class="label-count">15</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#productivity"><span class="label-icon label-productivity-icon label-white-icon"></span><span class="label-text">Productivity<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#tools"><span class="label-icon label-tools-icon label-white-icon"></span><span class="label-text">Tools<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#team"><span class="label-icon label-team-icon label-white-icon"></span><span class="label-text">Team<span class="label-count">2</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#requirements"><span class="label-icon label-requirements-icon label-white-icon"></span><span class="label-text">Requirements<span class="label-count">2</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#cloud"><span class="label-icon label-cloud-icon label-white-icon"></span><span class="label-text">Cloud<span class="label-count">1</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#tutorial"><span class="label-icon label-tutorial-icon label-white-icon"></span><span class="label-text">Tutorial<span class="label-count">6</span></span></a></span></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#learning"><span class="label-icon label-learning-icon label-white-icon"></span><span class="label-text">Learning<span class="label-count">8</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#blog"><span class="label-icon label-blog-icon label-white-icon"></span><span class="label-text">Blog<span class="label-count">3</span></span></a></div></li>
-      <li><div class="label"><span class="sunshine"></span><a href="#new"><span class="label-icon label-new-icon label-white-icon"></span><span class="label-text">Ruby<span class="label-count">1</span></span></a></div></li>
-    </ul>
-  </div>
-
-  <footer>
-    <div>
-      <img src="images/logo-blue.png" />
-    </div>
-  </footer>
+</div>
