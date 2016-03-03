@@ -14,12 +14,20 @@ layout: default
 
     <header>
       <div class="preview">
-        <img src="{{ page.image }}" width="150" class="book-cover" />
+        {% if page.image %}
+          <img src="{{ page.image }}" width="150" class="book-cover" />
+        {% endif %}
         <select class="form-control">
-          <option value="">Voir sur ...</option>
-          <option value="http://www.amazon.com">Amazon.com</option>
-          <option value="http://www.amazon.fr">Amazon.fr</option>
-          <option value="http://www.goodreads.com">Goodreads.com</option>
+          <option value="">Go to...</option>
+          {% if page.link_amazon %}
+            <option value="{{ page.link_amazon }}">Amazon.com</option>
+          {% endif %}
+          {% if page.link_goodreads %}
+            <option value="{{ page.link_goodreads }}">Goodreads.com</option>
+          {% endif %}
+          {% if page.link_document %}
+            <option value="{{ page.link_document }}">Original Document</option>
+          {% endif %}
         </select>
       </div>
 
@@ -44,17 +52,19 @@ layout: default
       <meta itemprop="name" content="{{ page.title }}" />
       <meta itemprop="image" content="{{page.image }}" />
 
-      <h4><span class="line"></span>Informations</h4>
+      <h4><span class="line"></span>General</h4>
 
-      <label>Date de publication</label>
+      {% if page.read_date_published %}
+      <label>Publication date</label>
       <span itemprop="datePublished" content="{{ page.read_date_published | date: '%Y-%m-%d' }}">
         {{ page.read_date_published | date_to_string }}
       </span>
+      {% endif %}
 
-      <label>Auteur</label>
+      <label>Author(s)</label>
       <span itemprop="author">Michal Levin</span>
 
-      <label>Editeur</label>
+      <label>Publisher</label>
       <span itemprop="publisher">O'Reilly</span>
 
       <label>Format</label>
@@ -63,16 +73,16 @@ layout: default
       <label>IBSN</label>
       <span itemprop="isbn">0321125215</span>
 
-      <label>Nb pages </label>
+      <label>Number of pages</label>
       <span><span itemprop="numberOfPages">365</span> pages</span>
     </section>
 
     <section class="post-labels">
-      <h4><span class="line"></span>Libellés</h4>
+      <h4><span class="line"></span>Tags</h4>
       <ul class="labels">
         {% for tag in page.tags %}
         <li>
-          <a href="{{ '/tags/' tag | prepend: site.baseurl }}">
+          <a href="{{ '/tags/' | append: tag | prepend: site.baseurl }}">
             <div class="label">
               <span class="label-icon label-{{ tag }}-icon label-black-icon"></span>
               <span class="label-text label-black-text">{{ tag }}</span>
@@ -85,7 +95,7 @@ layout: default
     </section>
 
     <section class="comment" itemprop="reviewBody">
-      <h4><span class="line"></span>Commentaire</h4>
+      <h4><span class="line"></span>Review</h4>
 
       {{ content }}
 
