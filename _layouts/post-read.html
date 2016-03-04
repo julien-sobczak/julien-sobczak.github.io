@@ -37,8 +37,8 @@ layout: default
 
       <div class="evaluations" itemprop="reviewRating" itemscope='itemscope' itemtype="http://schema.org/Rating">
         <span class="note-{{ page.read_note }}-20"></span>
-        <span class="roti-5"></span>
-        <span class="time-12"></span>
+        <span class="roti-{{ page.read_roti }}"></span>
+        <span class="time-{{ page.read_time }}"></span>
         <meta itemprop="worstRating" content="1"  />
         <meta itemprop="ratingValue" content="{{ page.read_note }}" />
         <meta itemprop="bestRating"  content="20" />
@@ -61,20 +61,31 @@ layout: default
       </span>
       {% endif %}
 
+      {% if page.read_authors %}
       <label>Author(s)</label>
-      <span itemprop="author">Michal Levin</span>
+      <span itemprop="author">{{ page.read_authors }}</span>
+      {% endif %}
 
+      {% if page.read_publisher %}
       <label>Publisher</label>
-      <span itemprop="publisher">O'Reilly</span>
+      <span itemprop="publisher">{{ page.read_publisher }}</span>
+      {% endif %}
 
+      {% if page.read_book_format %}
       <label>Format</label>
-      <span itemprop="bookFormat">Paperback</span>
+      <span itemprop="bookFormat">{{ page.read_book_format }}</span>
+      {% endif %}
 
+      {% if page.read_isbn %}
       <label>IBSN</label>
-      <span itemprop="isbn">0321125215</span>
+      <span itemprop="isbn">{{ page.read_isbn }}</span>
+      {% endif %}
 
+      {% if page.read_number_of_pages %}
       <label>Number of pages</label>
-      <span><span itemprop="numberOfPages">365</span> pages</span>
+      <span><span itemprop="numberOfPages">{{ page.read_number_of_pages }}</span> pages</span>
+      {% endif %}
+
     </section>
 
     <section class="post-labels">
