@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import codecs
 import urllib2
 import re
+from optparse import OptionParser
 from datetime import date, datetime
 
 class BookMetadata:
@@ -37,6 +38,9 @@ class GoodreadsMetadataExtractor:
         "November": "11",
         "December": "12",
     }
+
+    def __init__(self, follow_links = True):
+        self.follow_links = follow_links
 
     def extract(self, url):
         """
@@ -105,6 +109,9 @@ class GoodreadsMetadataExtractor:
 
 
     def _amazon(self, soup):
+
+        if not self.follow_links:
+            return None
 
         bookId = soup.find(id="book_id").get("value")
 
@@ -232,8 +239,9 @@ class GoodreadsMetadataExtractor:
 
 class BookReviewPost:
 
-    def __init__(self, metadata):
+    def __init__(self, metadata, publication_date):
         self.metadata = metadata
+        self.publication_date = publication_date
 
     def creates(self):
         result = ""
@@ -242,7 +250,7 @@ class BookReviewPost:
         result += "layout: post-read\n"
         result += "title: %s\n" % self.metadata.title
         result += "author: Julien Sobczak\n"
-        result += "date: '%s'\n" % date.today().isoformat()
+        result += "date: '%s'\n" % self.publication_date
         result += "categories: read\n"
         result += "tags:\n"
         result += "- ???\n"
@@ -274,15 +282,41 @@ class BookReviewPost:
         return result
 
 
+    def create(self):
+        content = self.creates()
 
-extractor = GoodreadsMetadataExtractor()
-f = codecs.open("goodreads.html", "r", "utf-8")
-page = f.read()
-f.close()
-metadata = extractor.extracts("https://www.goodreads.com/book/show/179133.Domain_Driven_Design?", page)
+        title = self.metadata.title.lower().replace(' ', '-').replace(',', '-').replace('_', '-').replace(':', '-')
+        filename = '../_posts/%s-%s.md' % (self.publication_date, title)
+        f = codecs.open(filename, encoding='utf-8', mode='w')
+        f.write(content)
+        f.close()
 
-post = BookReviewPost(metadata)
-print post.creates()
+        print "New post created: %s" % filename
+
+
+
+
+usage = "usage: %prog [options] url"
+parser = OptionParser(usage=usage)
+parser.add_option("-l", "--disable-follow", dest="follow_links", action="store_false", default=True,
+                  help="Do not follow links on Goodreads.com")
+parser.add_option("-d", "--date", dest="publication_date", metavar="YYYY-MM-DD", default=date.today().isoformat(),
+                  help="Set the publication date")
+
+(options, args) = parser.parse_args()
+
+# Process arguments
+if len(args) != 1:
+    parser.error("incorrect number of arguments")
+
+goodreads_url = args[0]
+
+
+extractor = GoodreadsMetadataExtractor(follow_links=options.follow_links)
+metadata = extractor.extract(goodreads_url)
+
+post = BookReviewPost(metadata, publication_date=options.publication_date)
+post.create()
 
 
 
