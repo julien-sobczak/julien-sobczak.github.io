@@ -167,4 +167,17 @@ layout: default
     <a href="#" class="go-to-inspect"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm inspectin' I.T.</span></div></a>
   </footer>
 
+  <ul class="post-list">
+    {% for post in site.posts %}
+    <li>
+      <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+
+      <h2>
+        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+      </h2>
+    </li>
+    {% endfor %}
+  </ul>
+
+
 </article>
