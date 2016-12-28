@@ -19,3 +19,10 @@ github_username:  jekyll
 
 # Build settings
 markdown: kramdown
+
+exclude:
+  - js
+  - images
+  - util
+  - post_resources
+
