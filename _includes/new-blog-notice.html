@@ -1,0 +1,30 @@
+<style>
+#important-notice {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  background-color: rgb(255, 195, 62);
+  font-size: 16px;
+}
+#important-notice-close {
+  margin-left: 20px;
+  padding: 5px 10px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+</style>
+
+<div id="important-notice">
+  <strong>This blog is no longer updated</strong>. Please check my new blog (in English) <a href="https://www.juliensobczak.com">here</a>.
+  <a id="important-notice-close">x</a>
+</div>
+
+<script>
+document.getElementById("important-notice-close").addEventListener("click", function() {
+  document.getElementById("important-notice").style.display = "none";
+});
+</script>
