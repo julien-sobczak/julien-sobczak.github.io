@@ -12,35 +12,6 @@ layout: default
     <img src="images/pictures/Chalkboard_quicksort_1600.jpg" />
   </div>
 
-<!--
-  <h2>Last post "I'm readin' I.T.</h2>
-  <ul>
-  {% for post in site.categories.read limit:4 %}
-      <li>{{ post.title }}</li>
-  {% endfor %}
-  </ul>
-
-  <h2>Last post "I'm watchin' I.T.</h2>
-  <ul>
-    {% for post in site.categories.watch limit:4 %}
-    <li>{{ post.title }}</li>
-    {% endfor %}
-  </ul>
-
-  <h2>Last post "I'm tellin' I.T.</h2>
-  <ul>
-    {% for post in site.categories.tell limit:4 %}
-    <li>{{ post.title }}</li>
-    {% endfor %}
-  </ul>
-
-  <h2>Last post "I'm inspectin' I.T.</h2>
-  <ul>
-    {% for post in site.categories.inspect limit:4 %}
-    <li>{{ post.title }}</li>
-    {% endfor %}
-  </ul>
-  -->
 
   <section id="cloud">
     <h1>Découvrir <em>Comprendre</em> Apprendre</h1>
@@ -52,7 +23,6 @@ layout: default
       Ce blog retrace mon parcours pour y arriver, en espérant transmettre ce goût d’apprendre qui s’est transformé en passion.
     </p>
     <span class="myname">Julien Sobczak</span>
-
   </section>
 
 
@@ -65,11 +35,11 @@ layout: default
       <nav class="latest-posts">
         <span>Derniers Posts</span>
         <ul>
-          <li><a href="#">Building Polyfills</a></li>
-          <li><a href="#">RESTful Web APIs</a></li>
-          <li><a href="#">Building Hypermedia APIs with Node and HTML5</a></li>
+        {% for post in site.categories.read limit:4 %}
+            <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
         </ul>
-        <div class="more"><a href="#">+</a></div>
+        <div class="more"><a href="{{ '/categories/read.html' | prepend: site.baseurl }}">+</a></div>
       </nav>
       <h3>I'm readin' I.T.</h3>
       <h4>Recommandations de livres</h4>
@@ -89,14 +59,14 @@ layout: default
       <nav class="latest-posts">
         <span>Derniers Posts</span>
         <ul>
-          <li><a href="#">Building Polyfills</a></li>
-          <li><a href="#">RESTful Web APIs</a></li>
-          <li><a href="#">Building Hypermedia APIs with Node and HTML5</a></li>
+          {% for post in site.categories.watch limit:4 %}
+          <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+          {% endfor %}
         </ul>
-        <div class="more"><a href="#">+</a></div>
+        <div class="more"><a href="{{ '/categories/watch.html' | prepend: site.baseurl }}">+</a></div>
       </nav>
       <h3>I'm watchin' I.T.</h3>
-      <h4>Conférences & Talks</h4>
+      <h4>Conférences &amp; Talks</h4>
       <p>Les livres restent indéniablement mon support préféré pour découvrir de nouvelles choses. Cela ne m’empêche pas d’assister à des conférences ou de profiter de l’oeil attentif des nombreuses caméras qui enregistrent les événements majeurs du monde entier. Varier ainsi les méthodes d’apprentissage ou de découverte est selon moi idéal pour mieux retenir, tout en étant complémentaire. Les conférences nous donnent l’envie de faire quelque chose de nouveau, les livres nous donnent la confiance de les entreprendre et l’expérience nous permet d'en tirer les enseignements.</p>
       <p>Par ailleurs, les conférences sont souvent le moyen le plus efficace de s’éveiller à des technologies ou techniques émergentes. Les livres n’arrivent qu’une fois un intérêt notable constaté et ne sont donc pas très adaptés pour surfer sur la vague grandissante qui s’abattra sur notre quotidien demain.</p>
       <div class="clearfix"></div>
@@ -113,14 +83,14 @@ layout: default
       <nav class="latest-posts">
         <span>Derniers Posts</span>
         <ul>
-          <li><a href="#">Building Polyfills</a></li>
-          <li><a href="#">RESTful Web APIs</a></li>
-          <li><a href="#">Building Hypermedia APIs with Node and HTML5</a></li>
+          {% for post in site.categories.tell limit:4 %}
+          <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+          {% endfor %}
         </ul>
-        <div class="more"><a href="#">+</a></div>
+        <div class="more"><a href="{{ '/categories/tell.html' | prepend: site.baseurl }}">+</a></div>
       </nav>
       <h3>I'm tellin' I.T.</h3>
-      <h4>Essais & Discussions</h4>
+      <h4>Essais &amp; Discussions</h4>
       <p class="quote">"Whenever I want to really learn about something, I write a book about it" - Martin Fowler.</p>
       <p>Cette phrase m’a interpellé la première fois que je l'ai entendu. Cette partie sera l'occasion pour moi de m'essayer à cet exercise délicat sur des sujets qui me tiennent à coeur.</p>
       <div class="clearfix"></div>
@@ -136,11 +106,11 @@ layout: default
       <nav class="latest-posts">
         <span>Derniers Posts</span>
         <ul>
-          <li><a href="#">Building Polyfills</a></li>
-          <li><a href="#">RESTful Web APIs</a></li>
-          <li><a href="#">Building Hypermedia APIs with Node and HTML5</a></li>
+          {% for post in site.categories.inspect limit:4 %}
+          <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+          {% endfor %}
         </ul>
-        <div class="more"><a href="#">+</a></div>
+        <div class="more"><a href="{{ '/categories/inspect.html' | prepend: site.baseurl }}">+</a></div>
       </nav>
       <h3>I'm inspectin' I.T.</h3>
       <h4>Analyse de code Open-Source</h4>
@@ -149,35 +119,13 @@ layout: default
     </div>
   </section>
 
-  <section id="follow-me">
-    <div id="follow-me-stripes-top" class="logos-strip"></div>
-    <span>Retrouvez moi sur</span>
-    <a href="#" id="follow-me-on-linkedin" class="follow-me-on"><img src="images/linkedin.png" /></a>
-    <a href="#" id="follow-me-on-twitter"  class="follow-me-on"><img src="images/twitter.png"  /></a>
-    <a href="#" id="follow-me-on-viadeo"   class="follow-me-on"><img src="images/viadeo.png"   /></a>
-    <div id="follow-me-stripes-bottom" class="logos-strip"></div>
-  </section>
-
   <footer>
     <img src="images/logo.png" />
     <span>Accéder à</span>
-    <a href="#" class="go-to-read"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm readin' I.T.</span></div></a>
-    <a href="#" class="go-to-watch"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm watchin' I.T.</span></div></a>
-    <a href="#" class="go-to-tell"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm tellin' I.T.</span></div></a>
-    <a href="#" class="go-to-inspect"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm inspectin' I.T.</span></div></a>
+    <a href="{{ '/categories/read.html' | prepend: site.baseurl }}" class="go-to-read"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm readin' I.T.</span></div></a>
+    <a href="{{ '/categories/watch.html' | prepend: site.baseurl }}" class="go-to-watch"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm watchin' I.T.</span></div></a>
+    <a href="{{ '/categories/tell.html' | prepend: site.baseurl }}" class="go-to-tell"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm tellin' I.T.</span></div></a>
+    <a href="{{ '/categories/inspect.html' | prepend: site.baseurl }}" class="go-to-inspect"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm inspectin' I.T.</span></div></a>
   </footer>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-    <li>
-      <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-      <h2>
-        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-      </h2>
-    </li>
-    {% endfor %}
-  </ul>
-
 
 </article>

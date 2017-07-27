@@ -1,7 +1,9 @@
 <header id="main-header">
   <hr class="logos-strip" alt="Une liste de logos célèbres représentant des langages, des frameworks, des éditeurs, ...">
-  <!--<img id="logo-main" src="{{ '/images/logo.png' | prepend: site.baseurl }}" />
-  <span id="me-name">Julien Sobczak</span>-->
+  <a href="{{ '/' | prepend: site.baseurl }}">
+    <img id="logo-main" src="{{ '/images/logo.png' | prepend: site.baseurl }}" />
+  </a>
+  <span id="me-name">Julien Sobczak</span>
 </header>
 <nav id="main-menu" class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
@@ -34,46 +36,8 @@
           <a href="{{ '/categories/inspect.html' | prepend: site.baseurl }}" id="inspect-menu-link">I'm <em>inspect</em>in' I.T.</a>
         </li>
       </ul>
-      <!--
-      TODO Remove definitively
-      <form class="navbar-form navbar-right" role="search" method="GET" action="http://www.google.com/search">
-        <div class="input-group add-on">
-          <input type="text" class="form-control" name="q" placeholder="Rechercher">
-          <input type="hidden" name="ie" value="UTF-8">
-          <input type="hidden" name="oe" value="UTF-8">
-          <input type="hidden" name="domains" value="mywebsite.io">
-          <input type="hidden" name="sitesearch" value="mywebsite.io">
-          <div class="input-group-btn">
-            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-          </div>
-        </div>
-      </form>
-      -->
     </div>
     <!-- /.navbar-collapse -->
   </div>
   <!-- /.container-fluid -->
 </nav>
-
-
-<!--
- TODO remove this code if uncessary
-
-<header class="site-header">
-
-  <div class="wrapper">
-
-    <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
-
-      <div class="trigger">
-        {% for my_page in site.pages %}
-          {% if my_page.title %}
-          <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
-          {% endif %}
-        {% endfor %}
-      </div>
-
-  </div>
-
-</header>
--->
