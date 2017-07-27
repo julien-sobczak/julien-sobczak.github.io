@@ -1,7 +1,7 @@
-@import url(http://fonts.googleapis.com/css?family=Lobster);
-@import url(http://fonts.googleapis.com/css?family=Pacifico);
-@import url(http://fonts.googleapis.com/css?family=Righteous);       
-@import url(http://fonts.googleapis.com/css?family=Dancing+Script);
+@import url(//fonts.googleapis.com/css?family=Lobster);
+@import url(//fonts.googleapis.com/css?family=Pacifico);
+@import url(//fonts.googleapis.com/css?family=Righteous);
+@import url(//fonts.googleapis.com/css?family=Dancing+Script);
 
 .post-list {
 	max-width: 90%;
@@ -82,7 +82,7 @@
     position: relative;
     width: 100%;
             filter: grayscale(100%) opacity(10%);
-       -moz-filter: grayscale(100%) opacity(10%);       
+       -moz-filter: grayscale(100%) opacity(10%);
     -webkit-filter: grayscale(100%) opacity(10%);
 }
 .post-preview:hover img {
@@ -102,7 +102,7 @@
 .post-preview .title {
   position: relative;
   padding: 10px 5px;
-  min-height: 100px;  
+  min-height: 100px;
 }
 .post-preview .title::after {
   content: '';
@@ -111,7 +111,7 @@
   height: 100px;
   position: absolute;
   bottom: 0px;
-  right: 0;   
+  right: 0;
 }
 ul.post-list li:nth-child(4n+0) .post-read-preview .title        { background-color: #EB5546; color: white;  }
 ul.post-list li:nth-child(4n+1) .post-read-preview .title        { background-color: #97BCB4; color: white;  }
@@ -157,7 +157,7 @@ ul.post-list li:nth-child(4n+3) .post-inspect-preview .title::after { background
   margin: 0;
   font-family: 'Lobster', cursive;
   z-index: 10; // to be above icon ::before
-} 
+}
 
 ul.post-list li:nth-child(4n+0) .post-preview .title h2 {
   font-family: 'Lobster', cursive;
@@ -197,7 +197,7 @@ ul.post-list li:nth-child(4n+3) .post-preview .title h2 {
 .post-preview .title nav {
   margin-top: 15px;
   margin-bottom: 25px;
-  margin-right: 80px; 
+  margin-right: 80px;
 }
 
 /* Effect 5: same word slide in */
@@ -210,8 +210,8 @@ ul.post-list li:nth-child(4n+3) .post-preview .title h2 {
   padding: 5px 25px;
   font-size: 15px;
   background: black;
-  box-sizing: border-box; 
-  color: white;  
+  box-sizing: border-box;
+  color: white;
 }
 
 .post-preview .title nav a span {
@@ -244,13 +244,13 @@ ul.post-list li:nth-child(4n+3) .post-preview .title h2 {
 
 
 
-.post-preview img { 
+.post-preview img {
     transition: all 0.2s linear;
 }
 
-.post-preview:hover img { 
+.post-preview:hover img {
     transform: scale(1.1);
-} 
+}
 
 .post-preview .more {
   background: white;
@@ -263,7 +263,7 @@ ul.post-list li:nth-child(4n+3) .post-preview .title h2 {
 .post-preview:hover .more {
   min-height: 30px;
   max-height: 50px;
-  transition: all 0.2s; 
+  transition: all 0.2s;
 }
 
 .post-preview .note {
@@ -275,8 +275,8 @@ ul.post-list li:nth-child(4n+3) .post-preview .title h2 {
   height: 20px;
 }
 
-/* Generate classes for each note out of 20 */  
-$i: 0;                       
+/* Generate classes for each note out of 20 */
+$i: 0;
 
 @for $i from 0 through 20 {
 
@@ -287,8 +287,8 @@ $i: 0;
 
 }
 
-/* Generate classes for each note out of 5 */  
-$i: 0;                       
+/* Generate classes for each note out of 5 */
+$i: 0;
 
 @for $i from 0 through 5 {
 
@@ -305,7 +305,7 @@ $i: 0;
 
 .jump-link {
   display: none;
-}       
+}
 
 .blog-feeds {
   display: none;
