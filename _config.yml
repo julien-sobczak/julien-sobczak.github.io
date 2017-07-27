@@ -1,7 +1,7 @@
 # Site settings
 title: "I'm Lovin' I.T. - Julien Sobczak"
 
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/blog-fr" # the subpath of your site, e.g. /blog
 url: "http://yourdomain.com" # the base hostname & protocol for your site
 
 # Account settings
