@@ -6,8 +6,6 @@ layout: default
 
   {% if page.category == 'read' %}
     <h3>I'm readin' I.T.</h3>
-  {% elsif page.category == 'watch' %}
-    <h3>I'm watchin' I.T.</h3>
   {% elsif page.category == 'tell' %}
     <h3>I'm tellin' I.T.</h3>
   {% elsif page.category == 'inspect' %}
@@ -28,8 +26,6 @@ layout: default
                 <h2>{{ post.title }}</h2>
                 {% if post.categories == 'read' %}
                 <h3>{{ post.read_authors }}</h3>
-                {% elsif post.categories == 'watch' %}
-                <h3>{{ post.watch_speakers }}</h3>
                 {% endif %}
                 <h4>{{ post.date | date: "%b %-d, %Y" }}</h4>
                 <nav>
@@ -49,10 +45,6 @@ layout: default
               {% if post.categories == 'read' %}
               <div class="more">
                 <span class="note note-{{ post.read_note }}-20"></span>
-              </div>
-              {% elsif post.categories == 'watch' %}
-              <div class="more">
-                <span class="note note-{{ post.watch_note }}-5"></span>
               </div>
               {% endif %}
 

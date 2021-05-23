@@ -50,30 +50,6 @@ layout: default
     </div>
   </section>
 
-  <section id="watch">
-    <div id="imwatchinit-introduction-picture" class="part-introduction-picture">
-      <div style="background: url(images/pictures/Cinema_2400.jpg) no-repeat center bottom; background-size: cover;"></div>
-    </div>
-
-    <div id="imwatchinit-introduction-text" class="part-introduction-text">
-      <nav class="latest-posts">
-        <span>Derniers Posts</span>
-        <ul>
-          {% for post in site.categories.watch limit:4 %}
-          <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-          {% endfor %}
-        </ul>
-        <div class="more"><a href="{{ '/categories/watch.html' | prepend: site.baseurl }}">+</a></div>
-      </nav>
-      <h3>I'm watchin' I.T.</h3>
-      <h4>Conférences &amp; Talks</h4>
-      <p>Les livres restent indéniablement mon support préféré pour découvrir de nouvelles choses. Cela ne m’empêche pas d’assister à des conférences ou de profiter de l’oeil attentif des nombreuses caméras qui enregistrent les événements majeurs du monde entier. Varier ainsi les méthodes d’apprentissage ou de découverte est selon moi idéal pour mieux retenir, tout en étant complémentaire. Les conférences nous donnent l’envie de faire quelque chose de nouveau, les livres nous donnent la confiance de les entreprendre et l’expérience nous permet d'en tirer les enseignements.</p>
-      <p>Par ailleurs, les conférences sont souvent le moyen le plus efficace de s’éveiller à des technologies ou techniques émergentes. Les livres n’arrivent qu’une fois un intérêt notable constaté et ne sont donc pas très adaptés pour surfer sur la vague grandissante qui s’abattra sur notre quotidien demain.</p>
-      <div class="clearfix"></div>
-    </div>
-  </section>
-
-
   <section id="tell">
     <div id="imtellinit-introduction-picture" class="part-introduction-picture">
       <div style="background: url(images/pictures/Pen_2400.jpg) no-repeat center bottom; background-size: cover;"></div>
@@ -123,7 +99,6 @@ layout: default
     <img src="images/logo.png" />
     <span>Accéder à</span>
     <a href="{{ '/categories/read.html' | prepend: site.baseurl }}" class="go-to-read"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm readin' I.T.</span></div></a>
-    <a href="{{ '/categories/watch.html' | prepend: site.baseurl }}" class="go-to-watch"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm watchin' I.T.</span></div></a>
     <a href="{{ '/categories/tell.html' | prepend: site.baseurl }}" class="go-to-tell"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm tellin' I.T.</span></div></a>
     <a href="{{ '/categories/inspect.html' | prepend: site.baseurl }}" class="go-to-inspect"><div><span class="shadow"></span><span class="icon"></span><span class="text">I'm inspectin' I.T.</span></div></a>
   </footer>

@@ -37,6 +37,3 @@ Ce processus itératif n'est pas sans rappeler les méthodologies agiles mais la
 *The Lean Startup* figure indéniablement parmi les publications majeures (plus de 600 commentaires Amazon !) mais cela n'est pas surprenant tant son potentiel est énorme. Le livre est remarquablement écrit. Un livre très personnel où Eric Ries relate ses précédents échecs qui l'ont conduit aux principes du Lean Startup. Les récits sont nombreux tout comme les références notamment au Toyota Production System, qui viennent renforcer les propos de l'auteur et montrer que bon nombre d'idées ne sont pas nouvelles et ont déjà fait leurs preuves.
 
 Si vous développez un produit qui répond à la définition précédente, que vous travaillez pour une grande entreprise ou dans une startup, vous devez impérativement être exposé aux idées d'Eric Ries. La réussite ne tient malheureusement pas qu'à une bonne idée.
-
-Toujours pas convaincu Regardez [cette présentation]({% post_url 2014-10-01-the-lean-startup %}) de l'auteur lors de la promotion de son livre dans les locaux de Google.
-

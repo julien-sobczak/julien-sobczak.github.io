@@ -6,21 +6,32 @@
   right: 0;
   padding: 10px;
   text-align: center;
-  background-color: rgb(255, 195, 62);
-  font-size: 16px;
-}
-#important-notice-close {
-  margin-left: 20px;
-  padding: 5px 10px;
   background-color: black;
   color: white;
+  font-size: 16px;
+  z-index: 999;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.7);
+}
+#important-notice a {
+  text-decoration: underline;
+  background-color: #4185f4;
+  padding: 0.75rem 1rem;
+  color: white;
+  margin: 0 1rem;
+}
+#important-notice-close {
+  padding: 5px 10px;
+  color: white;
   cursor: pointer;
+  background-color: transparent;
+  outline: none;
+  border: none;
 }
 </style>
 
 <div id="important-notice">
-  <strong>This blog is no longer updated</strong>. Please check my new blog (in English) <a href="https://www.juliensobczak.com">here</a>.
-  <a id="important-notice-close">x</a>
+  <strong>This blog is no longer updated</strong>. <a href="https://www.juliensobczak.com">Please check my new blog here.</a>
+  <button id="important-notice-close">x</button>
 </div>
 
 <script>
