@@ -6,3 +6,4 @@ _site
 /archives/
 /bower_components/
 /_posts.old/
+.jekyll-cache
