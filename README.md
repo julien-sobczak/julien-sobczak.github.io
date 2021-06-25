@@ -1,4 +1,4 @@
-# My Personnal Blog
+# My Personal Blog
 
 This blog (in French) is no longer active but still accessible: https://julien-sobczak.github.io/blog-fr/.
 
